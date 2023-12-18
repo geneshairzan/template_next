@@ -1,0 +1,53 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+* {
+  font-family: "Poppins", sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  overscroll-behavior: contain;
+}
+
+a {
+  text-decoration: none;
+  color: unset;
+}
+
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+/* .noscroll::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+}
+
+.noscroll::-webkit-scrollbar-track {
+    background: red;
+}
+
+.noscroll ::-webkit-scrollbar-thumb {
+    background: #888;
+}
+
+.noscroll ::-webkit-scrollbar-thumb:hover {
+    background: #555;
+} */
+
+.notouch {
+  /* pointer-events: none; */
+}
