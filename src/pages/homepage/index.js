@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Stack, Typography, Slide, Fade } from "@mui/material";
-import Gendev from "./gendev";
+import Gendev from "@/component/gendev";
 import UI from "@gh/ui";
 
 const scrolstep = 200;
