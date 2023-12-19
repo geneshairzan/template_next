@@ -6,7 +6,7 @@
     "dev": "next dev",
     "devs": "next dev  --experimental-https",
     "build": "next build",
-    "start": "next start",
+    "start": "next start -p 7000",
     "lint": "next lint"
   },
   "dependencies": {
