@@ -9,6 +9,7 @@ import Divider from "./divider";
 import Accordion from "./accordion";
 import Collapse from "./collapse";
 import Avatar from "./avatar";
+import Img from "./img";
 // import Share from "./share";
 
 const UI = {
@@ -28,6 +29,7 @@ const UI = {
   Modal,
   Accordion,
   Collapse,
+  Img,
   // Share,
 };
 

@@ -1,10 +1,30 @@
-import "@/assets/css/global.css";
-import Layout from "@/component/layout/main";
+import "../../public/assets/css/global.css";
+import Layout from "@/component/layout";
+import React, { useState, useEffect } from "react";
+
+import Context from "@context/app";
+import useauth from "@context/reducer/useauth";
+import useapp from "@context/reducer/useapp";
+import ThemeProvider from "@context/theme";
 
 export default function MyApp({ Component, pageProps }) {
+  const auth = useauth();
+  const app = useapp();
+
+  if (auth?.user == "loading") return;
+
   return (
-    <Layout>
-      <Component {...pageProps} />
-    </Layout>
+    <Context.Provider
+      value={{
+        auth,
+        app,
+      }}
+    >
+      <ThemeProvider>
+        <Layout>
+          <Component {...pageProps} />
+        </Layout>
+      </ThemeProvider>
+    </Context.Provider>
   );
 }

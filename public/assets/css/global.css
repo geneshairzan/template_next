@@ -30,24 +30,3 @@ a {
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
-
-/* .noscroll::-webkit-scrollbar {
-    width: 0;
-    height: 0;
-}
-
-.noscroll::-webkit-scrollbar-track {
-    background: red;
-}
-
-.noscroll ::-webkit-scrollbar-thumb {
-    background: #888;
-}
-
-.noscroll ::-webkit-scrollbar-thumb:hover {
-    background: #555;
-} */
-
-.notouch {
-  /* pointer-events: none; */
-}

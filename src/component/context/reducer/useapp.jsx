@@ -1,57 +1,29 @@
-import { useState } from "react";
-import { fetcher, fetcherMultipart } from "@/component/gh/form/fetcher";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 
-export default function App(props) {
-  let nav = useNavigate();
+export default function useAuth() {
+  const [data, setdata] = useState({ isLoading: false });
 
-  const [app, setappvalue] = useState({
-    theme: "light",
-    mobilescreenheight: window.innerHeight,
-    isLoading: false,
-    callback: null,
-  });
-
-  function setapp(target, value) {
-    setappvalue((prev) => ({ ...prev, [target]: value }));
+  async function get(target) {
+    return data[target];
   }
 
-  function fetcherCallback(props) {
-    setappvalue((prev) => ({ ...prev, ["callback"]: props }));
+  async function set(target, value) {
+    setdata({ ...data, [target]: value });
   }
 
-  async function fetch(props, callback = null) {
-    setapp("isLoading", true);
-    let res = await fetcher(props);
-    setapp("isLoading", false);
-    if (callback) {
-      if (res) {
-        fetcherCallback({ type: callback.type, message: callback.message });
-      }
-    }
-    return res;
+  async function setOnLoading() {
+    setdata({ ...data, isLoading: true });
   }
 
-  async function fetchMultipart(props, callback = null) {
-    setapp("isLoading", true);
-    let res = await fetcherMultipart(props);
-    setapp("isLoading", false);
-    if (callback) {
-      if (res) {
-        fetcherCallback({ type: callback.type, message: callback.message });
-      }
-    }
-    return res;
+  async function setOffLoading() {
+    setdata({ ...data, isLoading: false });
   }
 
   return {
-    app: {
-      ...app,
-      fetch,
-      fetchMultipart,
-      nav,
-      fetcherCallback,
-    },
-    setapp,
+    ...data,
+    set,
+    get,
+    setOnLoading,
+    setOffLoading,
   };
 }

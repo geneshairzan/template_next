@@ -5,7 +5,7 @@ import ShareIcon from "@mui/icons-material/Share";
 import ReactDOMServer from "react-dom/server";
 import Drawer from "@mui/material/Drawer";
 import InsertLinkIcon from "@mui/icons-material/InsertLink";
-import Context from "@context";
+import Context from "@context/app";
 
 import {
   // EmailShareButton,
