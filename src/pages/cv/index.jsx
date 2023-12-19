@@ -12,12 +12,12 @@ export default function App(props) {
     if (isprinted) {
       setisLoading(true);
       window.scrollTo(0, 0);
-      // print({
-      //   title: "Genesha CV " + new Date().getFullYear(),
-      // }).then((e) => {
-      //   setisLoading(false);
-      //   // setmobileDisplay("none");
-      // });
+      print({
+        title: "Genesha CV " + new Date().getFullYear(),
+      }).then((e) => {
+        setisLoading(false);
+        // setmobileDisplay("none");
+      });
     }
   }, [isprinted]);
 
