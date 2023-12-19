@@ -14,8 +14,9 @@ export default function CRecentProejct({ isPrinting = false }) {
           flexWrap: "wrap",
         }}
       >
-        {datas.map((d) => (
+        {datas.map((d, ix) => (
           <UI.Col
+            key={ix}
             width="50%"
             sx={{
               my: 0.5,
