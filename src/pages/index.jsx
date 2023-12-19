@@ -1,3 +1,3 @@
-export default function App(props) {
-  return <div>this is index</div>;
-}
+import Homepage from "./homepage";
+
+export default Homepage;

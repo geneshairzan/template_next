@@ -8,9 +8,11 @@ import Modal from "./modal";
 import Divider from "./divider";
 import Accordion from "./accordion";
 import Collapse from "./collapse";
+import Avatar from "./avatar";
 // import Share from "./share";
 
 const UI = {
+  Avatar,
   Grid,
   Divider,
   Stack,
