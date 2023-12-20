@@ -1,3 +1,5 @@
 import Homepage from "./homepage";
 
-export default Homepage;
+export default function App(params) {
+  return "GIP";
+}
