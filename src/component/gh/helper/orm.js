@@ -41,14 +41,18 @@ async function getschema(input) {
   return Prisma.dmmf.datamodel.models.find((model) => model.name.toLowerCase() == input)?.fields;
 }
 
+function getschemaname(input) {
+  return Prisma.dmmf.datamodel.models.find((d) => d.name.toLowerCase() == input.toLowerCase())?.name;
+}
+
 async function find(model, q = {}) {
-  return await prisma[model].findUnique({
+  return await prisma[getschemaname(model)].findUnique({
     where: q,
   });
 }
 
 async function findOrCreate(model, where = {}, create, update = {}) {
-  return await prisma[model].upsert({
+  return await prisma[getschemaname(model)].upsert({
     where: where,
     update: update,
     create: { ...where, ...create },
@@ -56,14 +60,15 @@ async function findOrCreate(model, where = {}, create, update = {}) {
 }
 
 async function get(model, where = {}) {
-  return await prisma[model].findMany({
+  // console.log("KOKOKOK", Prisma.dmmf.datamodel.models.find((d) => d.name == model).name);
+  return await prisma[getschemaname(model)].findMany({
     where: where,
   });
 }
 
 async function set(model, data) {
   if (data?.id) {
-    return await userPrisma[model].upsert({
+    return await userPrisma[getschemaname(model)].upsert({
       where: {
         id: data.id,
       },
@@ -71,7 +76,7 @@ async function set(model, data) {
       create: data,
     });
   } else {
-    return await userPrisma[model].create({
+    return await userPrisma[getschemaname(model)].create({
       data: data,
     });
   }

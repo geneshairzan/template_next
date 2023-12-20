@@ -43,21 +43,12 @@ export default function DesktopMenu({ onClick }) {
       <UI.Col>
         {!loc.pathname.includes("admin") && (
           <>
+            <RowMenuItem path="/status" label="Status" onClick={onClick} />
+            <RowMenuItem path="/productcategory" label="Product Category" onClick={onClick} />
             <RowMenuItem path="/product" label="Product" onClick={onClick} />
-            <RowMenuItem path="/about" label="About Us" onClick={onClick} />
-            <RowMenuItem path="/tnc" label="Terms & Condition" onClick={onClick} />
-            <RowMenuItem path="/privacypolicy" label="Privacy & Policy" onClick={onClick} />
           </>
         )}
-        {loc.pathname.includes("builder") &&
-          nav
-            ?.filter((v) => rolefilter(v, auth))
-            .map((d, ix) => (
-              <React.Fragment key={ix}>
-                {!d?.child && <RenderSingleMenu d={d} />}
-                {d?.child && <RenderMultiMenu d={d} onClick={setonOpen} open={onOpen == ix} ix={ix} />}
-              </React.Fragment>
-            ))}
+
         {loc.pathname.includes("admin") && (
           <UI.Col spacing={{ xs: 0, md: 1 }}>
             <UI.Col px={2} pb={2}>
@@ -94,18 +85,21 @@ export default function DesktopMenu({ onClick }) {
             </React.Fragment>
           ))}
       </UI.Col>
-      <UI.Row px={2}>
-        <UI.Button
-          variant="text"
+      <UI.Col>
+        <RowMenuItem path="/about" label="About Us" onClick={onClick} mt={2} />
+        <RowMenuItem path="/tnc" label="Terms & Condition" onClick={onClick} />
+        <RowMenuItem path="/privacypolicy" label="Privacy & Policy" onClick={onClick} />
+        <RowMenuItem
+          sx={{ mt: 1 }}
+          path="/privacypolicy"
+          label="Logout"
+          icon={<Icon.Logout />}
           onClick={() => {
             auth.signout();
             onClick();
           }}
-          startIcon={<Icon.Logout />}
-        >
-          Logout
-        </UI.Button>
-      </UI.Row>
+        />
+      </UI.Col>
     </UI.Col>
   );
 }
@@ -187,6 +181,7 @@ function RowMenuItem({ onClick, path, ...props }) {
       onClick={onClick}
       target={props.newTab && "_blank"}
       rel={props.newTab && "noopener noreferrer"}
+      sx={props.sx}
     >
       <UI.Row spacing={2} justifyContent="space-between" width="100%">
         <UI.Row spacing={2}>

@@ -6,7 +6,7 @@ const handler = async (r, res) => {
   let auth = await getUser(r);
   !auth && res.status(401).json("un autorized");
 
-  if (r.method === "POST") {
+  if (r.method == "POST") {
     let data = await prisma.set(r.query.model, r?.body);
     res.status(200).json(prisma.responseFilter(data));
   } else {

@@ -4,7 +4,7 @@ import P404 from "../pages/404";
 
 export default function AppMiddleware({ children }) {
   const router = useRouter();
-  const allowedModel = ["product", "/"];
+  const allowedModel = ["product", "productcategory", "status"];
 
   if (router.pathname != "/" && !allowedModel.includes(router.query?.model)) {
     return <P404 />;

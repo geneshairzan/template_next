@@ -68,7 +68,8 @@ model ProductCategory {
   updated_at DateTime  @updatedAt
   deleted_at DateTime?
 
-  status Status? @relation(fields: [status_id], references: [id])
+  status  Status?   @relation(fields: [status_id], references: [id])
+  Product Product[]
 }
 
 model Product {
@@ -77,11 +78,13 @@ model Product {
   desc            String?
   status_id       Int?    @default(1)
   organization_id Int?
+  category_id     Int?
 
   created_at DateTime  @default(now())
   updated_at DateTime  @updatedAt
   deleted_at DateTime?
 
-  status       Status?       @relation(fields: [status_id], references: [id])
-  organization Organization? @relation(fields: [organization_id], references: [id])
+  status       Status?          @relation(fields: [status_id], references: [id])
+  organization Organization?    @relation(fields: [organization_id], references: [id])
+  category     ProductCategory? @relation(fields: [category_id], references: [id])
 }

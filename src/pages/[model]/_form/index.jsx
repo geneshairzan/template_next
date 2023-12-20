@@ -47,6 +47,7 @@ export default function App({ refdata }) {
     return !d.name.includes("_id");
   }
 
+  console.log(schema.get());
   return (
     <UI.Col spacing={2}>
       <UI.Row alignItems="center" spacing={1}>
@@ -69,7 +70,7 @@ export default function App({ refdata }) {
 
             {d.kind == "object" && (
               <Form.Data
-                url={d.name}
+                url={d.type}
                 label={d.name}
                 name={d.name + "_id"}
                 data
