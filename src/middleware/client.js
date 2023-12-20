@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { redirect } from "next/navigation";
-import P404 from "../pages/__404";
+import P404 from "../pages/404";
 
 export default function AppMiddleware({ children }) {
   const router = useRouter();
