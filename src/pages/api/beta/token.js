@@ -1,5 +1,4 @@
 import jwt from "jsonwebtoken";
-import key from "@storage/private.pem";
 
 export default async function handler(req, res) {
   var privateKey = fs.readFileSync("storage/private.pem");
