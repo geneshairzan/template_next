@@ -1,7 +1,3 @@
-function IconRender(props) {
-  return <img src={props.path} style={{ ...props.sx }} />;
-}
-const prefix = "admin";
 const nav = [
   {
     name: "Builder",

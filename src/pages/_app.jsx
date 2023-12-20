@@ -6,6 +6,7 @@ import Context from "@context/app";
 import useauth from "@context/reducer/useauth";
 import useapp from "@context/reducer/useapp";
 import ThemeProvider from "@context/theme";
+import AppMiddleware from "@/middleware/client";
 
 export default function MyApp({ Component, pageProps }) {
   const auth = useauth();
@@ -21,9 +22,11 @@ export default function MyApp({ Component, pageProps }) {
       }}
     >
       <ThemeProvider>
-        <Layout>
-          <Component {...pageProps} />
-        </Layout>
+        <AppMiddleware>
+          <Layout>
+            <Component {...pageProps} />
+          </Layout>
+        </AppMiddleware>
       </ThemeProvider>
     </Context.Provider>
   );

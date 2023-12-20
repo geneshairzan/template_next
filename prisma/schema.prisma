@@ -10,44 +10,78 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Post {
-  id Int @id @default(autoincrement())
+model Status {
+  id   Int    @id @default(autoincrement())
+  name String
 
-  title     String  @db.VarChar(255)
-  content   String?
-  published Boolean @default(false)
-  authorId  String
-
-  created_at DateTime  @default(now())
-  updated_at DateTime  @updatedAt
-  deleted_at DateTime?
-
-  author User @relation(fields: [authorId], references: [id])
+  User            User[]
+  ProductCategory ProductCategory[]
+  Product         Product[]
 }
 
-model Profile {
-  id         Int       @id @default(autoincrement())
-  bio        String?
-  userId     String    @unique
-  created_at DateTime  @default(now())
-  updated_at DateTime  @updatedAt
-  deleted_at DateTime?
+model Organization {
+  id               Int                @id @default(autoincrement())
+  name             String
+  desc             String
+  UserOrganization UserOrganization[]
+  Product          Product[]
+}
 
-  user User @relation(fields: [userId], references: [id])
+model UserRole {
+  id   Int    @id @default(autoincrement())
+  name String
+  User User[]
 }
 
 model User {
-  id       String  @id @default(cuid())
-  email    String  @unique
-  name     String?
-  password String?
-  address  String?
-  role_id  Int?
+  id        String  @id @default(cuid())
+  email     String  @unique
+  name      String?
+  password  String?
+  address   String?
+  role_id   Int?    @default(2)
+  status_id Int     @default(1)
 
   created_at DateTime  @default(now())
   updated_at DateTime  @updatedAt
   deleted_at DateTime?
 
-  posts   Post[]
-  profile Profile?
+  role         UserRole?          @relation(fields: [role_id], references: [id])
+  status       Status             @relation(fields: [status_id], references: [id])
+  organization UserOrganization[]
+}
+
+model UserOrganization {
+  id              Int          @id @default(autoincrement())
+  user_id         String
+  user            User         @relation(fields: [user_id], references: [id])
+  organization_id Int
+  organization    Organization @relation(fields: [organization_id], references: [id])
+}
+
+model ProductCategory {
+  id        Int     @id @default(autoincrement())
+  name      String?
+  status_id Int?    @default(1)
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  status Status? @relation(fields: [status_id], references: [id])
+}
+
+model Product {
+  id              String  @id @default(cuid())
+  name            String?
+  desc            String?
+  status_id       Int?    @default(1)
+  organization_id Int?
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  status       Status?       @relation(fields: [status_id], references: [id])
+  organization Organization? @relation(fields: [organization_id], references: [id])
 }

@@ -1,9 +1,13 @@
-import { NextRequest, NextResponse } from "next/server";
-import { headers } from "next/headers";
+import { useRouter } from "next/router";
+import { redirect } from "next/navigation";
+import P404 from "../pages/404";
 
-export default async function middleware(r) {
-  if (0) {
-    return NextResponse.json({ message: r.url + "unauthenticated" }, { status: 401 });
+export default function AppMiddleware({ children }) {
+  const router = useRouter();
+  const allowedModel = ["product"];
+
+  if (!allowedModel.includes(router.query.model)) {
+    return <P404 />;
   }
-  return NextResponse.next();
+  return <>{children}</>;
 }

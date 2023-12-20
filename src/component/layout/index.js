@@ -8,6 +8,7 @@ export default function Layout(props) {
 
   return (
     <UI.Col
+      alignItems="center"
       width={"100%"}
       maxHeight={"100dvh"}
       height={{ xs: app.mobilescreenheight, md: "100dvh" }}
@@ -22,18 +23,19 @@ export default function Layout(props) {
       }}
     >
       <Header />
-      <UI.Col pt={"64px"} height="100%" position="relative">
-        <UI.Col
-          sx={{
-            maxWidth: { xs: "100vw", md: "1280px" },
-            width: "100%",
-            py: 3,
-            px: { xs: 2, md: 0 },
-            zIndex: 99,
-          }}
-        >
-          {props.children}
-        </UI.Col>
+      <UI.Col
+        sx={{
+          maxWidth: { xs: "100vw", md: "1280px" },
+          width: "100%",
+          py: 3,
+          px: { xs: 2, md: 0 },
+          zIndex: 99,
+          height: "100dvh",
+          overflow: "auto",
+          mt: 5,
+        }}
+      >
+        {props.children}
       </UI.Col>
 
       {app?.isLoading == 1 && <UI.Loader modal={true} />}

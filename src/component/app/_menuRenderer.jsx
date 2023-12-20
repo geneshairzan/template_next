@@ -43,35 +43,7 @@ export default function DesktopMenu({ onClick }) {
       <UI.Col>
         {!loc.pathname.includes("admin") && (
           <>
-            <UI.Col px={2} pb={2}>
-              <UI.Button startIcon={<Icon.Plus />} LinkComponent={Link} href="/adoption" onClick={onClick}>
-                Adopt new plant
-              </UI.Button>
-            </UI.Col>
-            <RowMenuItem path="/user" label="My Adoption" icon={<SpaIcon />} onClick={onClick} />
-            <RowMenuItem
-              onClick={onClick}
-              path="/cart"
-              label="Cart"
-              icon={<Icon.Cart />}
-              endEl={
-                auth?.cart?.list?.length > 0 && (
-                  <UI.Col
-                    bgcolor="red"
-                    center
-                    sx={{
-                      borderRadius: "50%",
-                      width: 24,
-                      height: 24,
-                      fontSize: 12,
-                      color: "white",
-                    }}
-                  >
-                    {auth?.cart?.list?.length}
-                  </UI.Col>
-                )
-              }
-            />
+            <RowMenuItem path="/product" label="Product" onClick={onClick} />
             <RowMenuItem path="/about" label="About Us" onClick={onClick} />
             <RowMenuItem path="/tnc" label="Terms & Condition" onClick={onClick} />
             <RowMenuItem path="/privacypolicy" label="Privacy & Policy" onClick={onClick} />

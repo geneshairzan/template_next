@@ -29,7 +29,7 @@ export default function useAuth() {
       url: `auth/me`,
       method: "post",
     });
-    res?.id ? signin(res) : signout();
+    res?.data?.id ? signin(res.data) : signout();
   }
 
   return {

@@ -14,8 +14,10 @@ import InputData from "./inputData";
 import InputUser from "./inputUser";
 import Qrcode from "./inputBarcode";
 import InputImage from "./inputImage";
+import Data from "./inputData";
 
 const Form = {
+  Data,
   Text,
   Telp,
   Date,

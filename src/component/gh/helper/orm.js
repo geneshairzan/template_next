@@ -1,4 +1,4 @@
-import { PrismaClient } from "@prisma/client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import enc from "./encryption";
 
 const prisma = new PrismaClient();
@@ -6,7 +6,9 @@ const userPrisma = prisma.$extends({
   model: {
     user: {
       async create(raw) {
-        return await prisma.user.create({ data: { ...raw.data, password: await enc.hashing(raw?.data.password) } });
+        return await prisma.user.create({
+          data: { ...raw.data, password: await enc.hashing(raw?.data.password || "password") },
+        });
       },
     },
   },
@@ -14,42 +16,63 @@ const userPrisma = prisma.$extends({
 
 const defaultfilter = ["password", "deleted_at", "updated_at", "created_at", "iat", "exp"];
 
-const prismaorm = { get, set, find, responseFilter, findOrCreate };
+const prismaorm = { get, set, find, responseFilter, findOrCreate, getschema, schemaFilter };
 export default prismaorm;
 
 function responseFilter(e, inputFilter = defaultfilter) {
   if (typeof e == "object") {
-    for (let key of inputFilter) {
-      delete e[key];
+    if (Array.isArray(e)) {
+      return e.map((d) => responseFilter(d, inputFilter));
+    } else {
+      for (let key of inputFilter) {
+        delete e[key];
+      }
+      return e;
     }
   }
   return e;
 }
 
-async function find(model, q) {
+function schemaFilter(e, inputFilter = defaultfilter) {
+  return e.filter((d) => !inputFilter.includes(d.name));
+}
+
+async function getschema(input) {
+  return Prisma.dmmf.datamodel.models.find((model) => model.name.toLowerCase() == input)?.fields;
+}
+
+async function find(model, q = {}) {
   return await prisma[model].findUnique({
     where: q,
   });
 }
 
-async function findOrCreate(model, where, create) {
+async function findOrCreate(model, where = {}, create, update = {}) {
   return await prisma[model].upsert({
     where: where,
-    update: {},
+    update: update,
     create: { ...where, ...create },
   });
 }
 
-async function get(model, id) {
-  return !id
-    ? await prisma[model].findMany()
-    : await prisma[model].findUnique({
-        where: {
-          id: id,
-        },
-      });
+async function get(model, where = {}) {
+  return await prisma[model].findMany({
+    where: where,
+  });
 }
 
 async function set(model, data) {
-  return await userPrisma[model].create({ data });
+  if (data?.id) {
+    return await userPrisma[model].upsert({
+      where: {
+        id: data.id,
+      },
+      update: data,
+      create: data,
+    });
+  } else {
+    return await userPrisma[model].create({
+      data: data,
+    });
+  }
 }

@@ -37,16 +37,10 @@ function CustomLogin({ onLogged }) {
   });
 
   return (
-    <UI.Button
-      startIcon={<Icon.Google />}
-      color="pwhite"
-      variant="text"
-      sx={{
-        color: "black",
-      }}
-      onClick={login}
-    >
-      Sign in with google
-    </UI.Button>
+    <>
+      <UI.Button startIcon={<Icon.Google />} variant="outlined" onClick={login}>
+        Sign in with google
+      </UI.Button>
+    </>
   );
 }

@@ -9,7 +9,7 @@ export default async function handler(r, res) {
 
     try {
       let decode = await enc.checkToken(token);
-      return res.status(200).json(decode);
+      return res.status(200).json(prisma.responseFilter(decode));
     } catch (error) {
       return res.status(500).json("un autorized");
     }

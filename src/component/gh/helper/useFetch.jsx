@@ -30,39 +30,38 @@ export const fetcher = async ({ saltY = accY, multipart = false, ...param }) => 
   }
 };
 
-export const fetcherMultipart = async (param) => {
-  const token = localStorage.getItem("AuthToken");
-  const config = {
-    ...param,
-    url: `${import.meta.env.VITE_BEURL}/api/${param.url}`,
-    headers: {
-      accept: "application/json",
-      "Accept-Language": "en-US,en;q=0.8",
-      "Content-Type": `multipart/form-data`,
-      authorization: `Bearer ${token}`,
-      "access-x": Md5.hashStr(accX + accY),
-      "access-y": accY,
-    },
-  };
+// export const fetcherMultipart = async (param) => {
+//   const token = localStorage.getItem("AuthToken");
+//   const config = {
+//     ...param,
+//     url: `${import.meta.env.VITE_BEURL}/api/${param.url}`,
+//     headers: {
+//       accept: "application/json",
+//       "Accept-Language": "en-US,en;q=0.8",
+//       "Content-Type": `multipart/form-data`,
+//       authorization: `Bearer ${token}`,
+//       "access-x": Md5.hashStr(accX + accY),
+//       "access-y": accY,
+//     },
+//   };
 
-  try {
-    const res = await axios(config);
-    if (res?.data?.status?.code == 200) return res.data.data;
-    if (res?.data?.status?.code == 401) {
-      localStorage.clear();
-      window.location.href = "/auth/signin";
-    }
-    return res.status;
-  } catch (error) {
-    console.log(error);
-    if (error?.response?.status == 401) {
-      localStorage.clear();
-      window.location.href = "/auth/signin";
-    }
-    // localStorage.clear();
-    // window.location.href = "/auth/signin";
-  }
-};
+//   try {
+//     const res = await axios(config);
+//     if (res?.data?.status?.code == 200) return res.data.data;
+//     if (res?.data?.status?.code == 401) {
+//       localStorage.clear();
+//       window.location.href = "/auth/signin";
+//     }
+//     return res.status;
+//   } catch (error) {
+//     if (error?.response?.status == 401) {
+//       localStorage.clear();
+//       window.location.href = "/auth/signin";
+//     }
+//     // localStorage.clear();
+//     // window.location.href = "/auth/signin";
+//   }
+// };
 
 export default function useFetcher(params) {
   const { app } = React.useContext(Context);
@@ -77,8 +76,13 @@ export default function useFetcher(params) {
     return res?.status == 200 ? res.data : null;
   }
 
+  async function prefetch(pre) {
+    let data = await fetch(pre);
+    setdata(data || []);
+  }
+
   useEffect(() => {
-    params?.url && setdata(fetch(params));
+    params?.url && prefetch(params);
   }, []);
 
   return {

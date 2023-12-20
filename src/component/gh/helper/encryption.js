@@ -12,13 +12,24 @@ async function check(raw, hashed) {
 
 async function getToken(data) {
   var privateKey = fs.readFileSync("storage/private.pem");
-  return jwt.sign(data, privateKey, { algorithm: "RS256", expiresIn: 120 });
+  return jwt.sign(data, privateKey, { algorithm: "RS256", expiresIn: "24hr" });
 }
 
 async function checkToken(token) {
+  if (!token) return null;
   var privateKey = fs.readFileSync("storage/private.pem");
   return jwt.verify(token, privateKey, { algorithm: "RS256" });
 }
 
+async function getUser(req) {
+  let token = req.headers?.authorization?.split(" ")[1];
+  try {
+    return await checkToken(token);
+  } catch (error) {
+    return null;
+  }
+}
+
 const enc = { hashing, check, getToken, checkToken };
 export default enc;
+export { checkToken, getUser };

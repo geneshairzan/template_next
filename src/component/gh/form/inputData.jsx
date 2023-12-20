@@ -2,25 +2,22 @@ import { Autocomplete, MenuItem, Stack, TextField } from "@mui/material";
 import { useEffect, useState, useContext } from "react";
 import Context from "@context/app";
 import Label from "./label";
+import { fetcher } from "@gh/helper/useFetch";
 
 export default function InputData({ dataId, url, noLabel = false, ...props }) {
   const { app } = useContext(Context);
   const [datas, setDatas] = useState();
 
   async function fetchData() {
-    let res = await app.fetch({
+    let res = await fetcher({
       url: url,
       method: "get",
     });
-    setDatas(res);
+    res?.data && setDatas(res?.data);
   }
 
   useEffect(() => {
-    if (url == "condition") {
-      setDatas(["Bad", "Good", "Excellent"]);
-    } else {
-      fetchData();
-    }
+    fetchData();
   }, []);
 
   return (
@@ -29,18 +26,18 @@ export default function InputData({ dataId, url, noLabel = false, ...props }) {
         <>
           {!noLabel && <Label label={props.label} tip={props.tip} />}
           <Autocomplete
-            value={datas.find((d) => (url == "condition" ? d == dataId : d.id == dataId))}
+            value={datas.find((d) => d.id == props.value)}
             onChange={(_, newValue) =>
               props.onChange({
                 target: {
-                  value: newValue ? (url == "condition" ? newValue : newValue.id) : "",
+                  value: newValue ? newValue.id : "",
                   name: props?.name,
                 },
               })
             }
-            inputValue={datas.find((d) => d.id == dataId)?.name || datas.find((d) => d == dataId) || ""}
+            inputValue={datas.find((d) => d.id == props.value)?.name || ""}
             options={datas}
-            getOptionLabel={(option) => (url == "condition" ? option : option.name)}
+            getOptionLabel={(option) => option.name}
             renderInput={(params) => (
               <TextField
                 {...params}

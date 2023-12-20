@@ -1,5 +1,10 @@
-import prima from "@gh/helper/orm";
+import prisma from "@gh/helper/orm";
 
 export default async function handler(r, res) {
-  res.status(200).json(await prima.get(r.query.model, r.query?.id));
+  if (r.method === "POST") {
+    res.status(200).json("under dev");
+  } else {
+    let data = await prisma.find(r.query.model, { id: r.query?.id });
+    res.status(200).json(prisma.responseFilter(data));
+  }
 }
