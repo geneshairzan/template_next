@@ -13,6 +13,8 @@ import * as yup from "yup";
 import VpnKeyIcon from "@mui/icons-material/VpnKey";
 import AuthCode from "react-auth-code-input";
 
+import { fetcher } from "@gh/helper/useFetch";
+
 export default function Register({ onLogged, onPasscode, onSignin }) {
   const [step, setstep] = useState(1);
   const [refemail, setrefemail] = useState();
@@ -45,7 +47,7 @@ export default function Register({ onLogged, onPasscode, onSignin }) {
           }}
         />
       )}
-      {step == 3 && <NewPassword onLogged={onLogged} passcode={passcode} />}
+      {step == 3 && <NewPassword onLogged={onLogged} passcode={passcode} refemail={refemail} />}
     </UI.Col>
   );
 }
@@ -61,12 +63,12 @@ function RegisterForm({ onDone, onSignin, refemail }) {
     },
     // validationSchema: validationSchema,
     onSubmit: async (values) => {
-      let res = await app.fetch({
+      let res = await fetcher({
         url: `auth/signup`,
         method: "post",
         data: values,
       });
-      if (res?.next == "passcode") {
+      if (res?.data?.next == "passcode") {
         onDone(2);
         refemail(formik.values.email);
       } else {
@@ -107,8 +109,8 @@ export function PasscodeForm({ onDone, refemail }) {
     reCode();
   }
 
-  async function reCode(params) {
-    let res = await app.fetch({
+  async function reCode() {
+    let res = await fetcher({
       url: `auth/recode`,
       method: "post",
       data: {
@@ -118,15 +120,16 @@ export function PasscodeForm({ onDone, refemail }) {
   }
 
   async function doVerification() {
-    let res = await app.fetch({
+    let res = await fetcher({
       url: `auth/verification`,
       method: "post",
       data: {
+        email: refemail,
         passcode: passcode,
       },
     });
 
-    if (res?.id) {
+    if (res?.data?.id) {
       onDone({ step: 3, passcode: passcode });
     } else {
       seterr("wrong passcode");
@@ -174,7 +177,7 @@ export function PasscodeForm({ onDone, refemail }) {
   );
 }
 
-export function NewPassword({ onLogged, passcode }) {
+export function NewPassword({ onLogged, passcode, refemail }) {
   const { app, auth } = React.useContext(Context);
 
   const formik = useFormik({
@@ -184,17 +187,19 @@ export function NewPassword({ onLogged, passcode }) {
     },
     // validationSchema: validationSchema,
     onSubmit: async (values) => {
-      let res = await app.fetch({
+      let res = await fetcher({
         url: `auth/verification`,
         method: "post",
         data: {
+          email: refemail,
+
           passcode: passcode,
           ...values,
         },
       });
 
-      if (res?.id) {
-        auth.signin(res);
+      if (res?.data?.id) {
+        auth.signin(res.data);
         onLogged(true);
       } else {
         seterr("something wrong");

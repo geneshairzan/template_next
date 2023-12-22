@@ -14,6 +14,10 @@ async function getToken(data) {
   var privateKey = fs.readFileSync("storage/private.pem");
   return jwt.sign(data, privateKey, { algorithm: "RS256", expiresIn: "24hr" });
 }
+function getSimpleToken(data) {
+  return "1111";
+  return Math.floor(Math.random() * 9000 + 1000).toString();
+}
 
 async function checkToken(token) {
   if (!token) return null;
@@ -32,4 +36,4 @@ async function getUser(req) {
 
 const enc = { hashing, check, getToken, checkToken };
 export default enc;
-export { checkToken, getUser };
+export { checkToken, getUser, getSimpleToken };

@@ -12,6 +12,7 @@ import { useFormik } from "formik";
 import * as yup from "yup";
 import Google from "./_google";
 import LoginForget from "./_loginForget";
+import { fetcher } from "@gh/helper/useFetch";
 
 export default function App({ onLogged, onPasscode }) {
   const [err, seterr] = useState();
@@ -24,20 +25,28 @@ export default function App({ onLogged, onPasscode }) {
     },
     // validationSchema: validationSchema,
     onSubmit: async (values) => {
-      let res = await app.fetch({
+      console.log(values);
+      let res = await fetcher({
         url: `auth/signin`,
         method: "post",
         data: values,
       });
-      if (res?.id) {
-        auth.signin(res);
+      if (res?.data?.id) {
+        auth.signin(res.data);
         onLogged(true);
-        res.role > 1 && app.nav("/admin");
       } else {
         seterr("Authentication Failed");
       }
     },
   });
+
+  async function signin() {
+    let res = await fetcher({
+      url: `auth/signin`,
+      method: "post",
+      data: { email: "admin@admin.com" },
+    });
+  }
 
   if (onForget) return <LoginForget onLogged={onLogged} onPasscode={onPasscode} />;
 

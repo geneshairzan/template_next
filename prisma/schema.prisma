@@ -39,6 +39,7 @@ model User {
   name      String?
   password  String?
   address   String?
+  token     String?
   role_id   Int?    @default(2)
   status_id Int     @default(1)
 

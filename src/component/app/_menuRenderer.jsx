@@ -91,7 +91,6 @@ export default function DesktopMenu({ onClick }) {
         <RowMenuItem path="/privacypolicy" label="Privacy & Policy" onClick={onClick} />
         <RowMenuItem
           sx={{ mt: 1 }}
-          path="/privacypolicy"
           label="Logout"
           icon={<Icon.Logout />}
           onClick={() => {
@@ -176,7 +175,7 @@ function rolefilter(d, auth) {
 function RowMenuItem({ onClick, path, ...props }) {
   return (
     <MenuItem
-      component={Link}
+      component={path ? Link : "div"}
       href={path}
       onClick={onClick}
       target={props.newTab && "_blank"}

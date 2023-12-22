@@ -2,7 +2,8 @@ import { Prisma, PrismaClient } from "@prisma/client";
 import enc from "./encryption";
 
 const prisma = new PrismaClient();
-const userPrisma = prisma.$extends({
+
+const extendPrisma = prisma.$extends({
   model: {
     user: {
       async create(raw) {
@@ -52,7 +53,7 @@ async function find(model, q = {}) {
 }
 
 async function findOrCreate(model, where = {}, create, update = {}) {
-  return await prisma[getschemaname(model)].upsert({
+  return await extendPrisma[getschemaname(model)].upsert({
     where: where,
     update: update,
     create: { ...where, ...create },
@@ -60,7 +61,6 @@ async function findOrCreate(model, where = {}, create, update = {}) {
 }
 
 async function get(model, where = {}) {
-  // console.log("KOKOKOK", Prisma.dmmf.datamodel.models.find((d) => d.name == model).name);
   return await prisma[getschemaname(model)].findMany({
     where: where,
   });
@@ -68,7 +68,7 @@ async function get(model, where = {}) {
 
 async function set(model, data) {
   if (data?.id) {
-    return await userPrisma[getschemaname(model)].upsert({
+    return await extendPrisma[getschemaname(model)].upsert({
       where: {
         id: data.id,
       },
@@ -76,7 +76,7 @@ async function set(model, data) {
       create: data,
     });
   } else {
-    return await userPrisma[getschemaname(model)].create({
+    return await extendPrisma[getschemaname(model)].create({
       data: data,
     });
   }

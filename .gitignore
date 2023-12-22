@@ -38,3 +38,5 @@ next-env.d.ts
 certificates
 
 .env
+.next
+.react-email

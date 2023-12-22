@@ -12,6 +12,8 @@ import * as yup from "yup";
 
 import { PasscodeForm, NewPassword } from "./_register";
 import LockResetIcon from "@mui/icons-material/LockReset";
+import { fetcher } from "@gh/helper/useFetch";
+
 export default function App({ onLogged, onPasscode }) {
   const [refemail, setrefemail] = useState();
   const [step, setstep] = useState(1);
@@ -46,7 +48,7 @@ export default function App({ onLogged, onPasscode }) {
           }}
         />
       )}
-      {step == 3 && <NewPassword onLogged={onLogged} passcode={passcode} />}
+      {step == 3 && <NewPassword onLogged={onLogged} passcode={passcode} refemail={refemail} />}
     </UI.Col>
   );
 }
@@ -59,7 +61,7 @@ function Mainform(props) {
     },
     // validationSchema: validationSchema,
     onSubmit: async (values) => {
-      let res = await app.fetch({
+      let res = await fetcher({
         url: `auth/forget`,
         method: "post",
         data: values,

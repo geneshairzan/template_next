@@ -1,4 +1,8 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {}
+const nextConfig = {
+  experimental: {
+    serverComponentsExternalPackages: ["@react-email/components", "@react-email/render", "@react-email/tailwind"],
+  },
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;
