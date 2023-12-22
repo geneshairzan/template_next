@@ -17,7 +17,7 @@ const extendPrisma = prisma.$extends({
 
 const defaultfilter = ["password", "deleted_at", "updated_at", "created_at", "iat", "exp"];
 
-const prismaorm = { get, set, find, responseFilter, findOrCreate, getschema, schemaFilter };
+const prismaorm = { get, set, find, responseFilter, findOrCreate, getschema, schemaFilter, getFieldType, where };
 export default prismaorm;
 
 function responseFilter(e, inputFilter = defaultfilter) {
@@ -38,7 +38,7 @@ function schemaFilter(e, inputFilter = defaultfilter) {
   return e.filter((d) => !inputFilter.includes(d.name));
 }
 
-async function getschema(input) {
+function getschema(input) {
   return Prisma.dmmf.datamodel.models.find((model) => model.name.toLowerCase() == input)?.fields;
 }
 
@@ -46,9 +46,26 @@ function getschemaname(input) {
   return Prisma.dmmf.datamodel.models.find((d) => d.name.toLowerCase() == input.toLowerCase())?.name;
 }
 
-async function find(model, q = {}) {
+function getFieldType(model, field) {
+  return getschema(model)?.find((d) => d.name == field)?.type;
+}
+
+function idParse(model, rawId) {
+  let idType = getFieldType(model, "id");
+  return idType == "String" ? rawId : parseInt(rawId);
+}
+
+async function find(model, id) {
   return await prisma[getschemaname(model)].findUnique({
-    where: q,
+    where: {
+      id: idParse(model, id),
+    },
+  });
+}
+
+async function where(model, where = {}) {
+  return await prisma[getschemaname(model)].findUnique({
+    where: where,
   });
 }
 

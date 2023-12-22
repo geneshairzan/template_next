@@ -15,16 +15,30 @@ model Status {
   name String
 
   User            User[]
-  ProductCategory ProductCategory[]
+  ProductCategory Category[]
   Product         Product[]
 }
 
 model Organization {
   id               Int                @id @default(autoincrement())
   name             String
-  desc             String
+  desc             String?
   UserOrganization UserOrganization[]
   Product          Product[]
+}
+
+model Brand {
+  id      Int       @id @default(autoincrement())
+  name    String
+  desc    String?
+  Product Product[]
+}
+
+model Location {
+  id      Int       @id @default(autoincrement())
+  name    String
+  desc    String?
+  Product Product[]
 }
 
 model UserRole {
@@ -58,9 +72,10 @@ model UserOrganization {
   user            User         @relation(fields: [user_id], references: [id])
   organization_id Int
   organization    Organization @relation(fields: [organization_id], references: [id])
+  brandId         Int?
 }
 
-model ProductCategory {
+model Category {
   id        Int     @id @default(autoincrement())
   name      String?
   status_id Int?    @default(1)
@@ -77,15 +92,20 @@ model Product {
   id              String  @id @default(cuid())
   name            String?
   desc            String?
+  serial_number   String?
+  brand_id        Int?
+  category_id     Int?
   status_id       Int?    @default(1)
   organization_id Int?
-  category_id     Int?
+  location_id     Int?
 
   created_at DateTime  @default(now())
   updated_at DateTime  @updatedAt
   deleted_at DateTime?
 
-  status       Status?          @relation(fields: [status_id], references: [id])
-  organization Organization?    @relation(fields: [organization_id], references: [id])
-  category     ProductCategory? @relation(fields: [category_id], references: [id])
+  status       Status?       @relation(fields: [status_id], references: [id])
+  organization Organization? @relation(fields: [organization_id], references: [id])
+  category     Category?     @relation(fields: [category_id], references: [id])
+  Brand        Brand?        @relation(fields: [brand_id], references: [id])
+  Location     Location?     @relation(fields: [location_id], references: [id])
 }

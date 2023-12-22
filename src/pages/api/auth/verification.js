@@ -11,7 +11,7 @@ import { sendEmail } from "@/component/email/mailer";
 
 export default async function handler(r, res) {
   if (r.method == "POST") {
-    let user = await prisma.find("user", { email: r.body.email, token: r.body.passcode });
+    let user = await prisma.where("user", { email: r.body.email, token: r.body.passcode });
 
     if (user) {
       if (r.body.password) {

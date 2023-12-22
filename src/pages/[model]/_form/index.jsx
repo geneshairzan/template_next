@@ -40,14 +40,21 @@ export default function App({ refdata }) {
 
   function hiddenCol(d) {
     let hidden = ["id", "deleted_at", "created_at", "updated_at"];
-    return !hidden.includes(d.name);
+    if (hidden.includes(d.name)) {
+      return false;
+    }
+    if (d.kind == "object") {
+      return false;
+    }
+
+    return true;
   }
 
-  function idsCol(d) {
-    return !d.name.includes("_id");
+  function labelRender(raw) {
+    // if (raw.includes("_id")) return raw;
+    return raw.replaceAll("_id", " ").replaceAll("_", " ");
   }
 
-  console.log(schema.get());
   return (
     <UI.Col spacing={2}>
       <UI.Row alignItems="center" spacing={1}>
@@ -61,20 +68,25 @@ export default function App({ refdata }) {
       {schema
         .get()
         ?.filter(hiddenCol)
-        ?.filter(idsCol)
         .map((d, ix) => (
           <React.Fragment key={ix}>
-            {d.kind == "scalar" && (
-              <Form.Text label={d.name} name={d.name} value={formik.values[d.name]} onChange={formik.handleChange} />
+            {d.kind == "scalar" && !d.name.includes("_id") && (
+              <Form.Text
+                label={labelRender(d.name)}
+                name={d.name}
+                value={formik.values[d.name]}
+                onChange={formik.handleChange}
+              />
             )}
 
-            {d.kind == "object" && (
+            {d.name.includes("_id") && (
               <Form.Data
-                url={d.type}
-                label={d.name}
-                name={d.name + "_id"}
+                createable
+                url={d.name.replace("_id", "")}
+                label={labelRender(d.name)}
+                name={d.name}
                 data
-                value={formik.values[d.name + "_id"]}
+                value={formik.values[d.name]}
                 onChange={formik.handleChange}
               />
             )}

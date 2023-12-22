@@ -43,9 +43,12 @@ export default function DesktopMenu({ onClick }) {
       <UI.Col>
         {!loc.pathname.includes("admin") && (
           <>
+            <RowMenuItem path="/brand" label="Brand" onClick={onClick} />
             <RowMenuItem path="/status" label="Status" onClick={onClick} />
-            <RowMenuItem path="/productcategory" label="Product Category" onClick={onClick} />
+            <RowMenuItem path="/category" label="Product Category" onClick={onClick} />
             <RowMenuItem path="/product" label="Product" onClick={onClick} />
+            <RowMenuItem path="/organization" label="Organization" onClick={onClick} />
+            <RowMenuItem path="/location" label="Location" onClick={onClick} />
           </>
         )}
 
