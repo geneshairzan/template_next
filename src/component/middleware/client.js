@@ -17,12 +17,17 @@ export default function AppMiddleware({ children }) {
   console.log(allowedModel, router.asPath);
 
   function isAllowed(params) {
-    if (router.pathname == "/" || allowedModel.includes(router.asPath) || allowedModel.includes(router?.query?.model))
+    console.log(allowedModel);
+    if (
+      router.pathname == "/" ||
+      allowedModel.includes(router.asPath) ||
+      allowedModel.map((d) => d.replaceAll("/", "")).includes(router?.query?.model)
+    )
       return true;
     return false;
   }
 
-  if (isAllowed()) {
+  if (!isAllowed()) {
     return <P404 />;
   }
   return <>{children}</>;
