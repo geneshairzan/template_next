@@ -13,8 +13,16 @@ export default function AppMiddleware({ children }) {
   const router = useRouter();
   // const allowedModel = ["product", "category", "status", "brand"];
   const allowedModel = [...nav, ...extra].reduce(navReducer, []);
+  console.log(router);
+  console.log(allowedModel, router.asPath);
 
-  if (router.pathname != "/" && !allowedModel.includes(router.asPath)) {
+  function isAllowed(params) {
+    if (router.pathname == "/" || allowedModel.includes(router.asPath) || allowedModel.includes(router?.query?.model))
+      return true;
+    return false;
+  }
+
+  if (isAllowed()) {
     return <P404 />;
   }
   return <>{children}</>;
