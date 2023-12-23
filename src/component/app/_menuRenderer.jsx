@@ -4,7 +4,7 @@ import UI from "@gh/ui";
 import Context from "@context/app";
 import { Stack, Typography, Menu, MenuItem, IconButton } from "@mui/material";
 import useMediaQuery from "@mui/material/useMediaQuery";
-import { nav, adminNav, menuGenerator } from "./_nav";
+import { nav, extra } from "./_nav";
 
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -19,86 +19,36 @@ import Collapse from "@mui/material/Collapse";
 // import imglogout from "@img/dashboard/logout.svg";
 import SpaIcon from "@mui/icons-material/Spa";
 
+import ExpandLess from "@mui/icons-material/ExpandLess";
+import ExpandMore from "@mui/icons-material/ExpandMore";
+
 export default function DesktopMenu({ onClick }) {
   const { app, auth } = React.useContext(Context);
   const loc = useRouter();
   const [onOpen, setonOpen] = useState();
-  const [dynnav, setdynnav] = useState([]);
 
-  useEffect(() => {
-    getModel();
-  }, []);
-
-  async function getModel() {
-    // let res = await app.fetch({
-    //   url: `schema/model`,
-    //   method: "get",
-    // });
-    // let temp = res?.map((d) => menuGenerator(d.name));
-    // setdynnav(temp);
+  function handleOpen(ix) {
+    setonOpen(onOpen == ix ? null : ix);
   }
 
   return (
     <UI.Col justifyContent="space-between" height="100%" mt={3}>
-      <UI.Col>
-        {!loc.pathname.includes("admin") && (
-          <>
-            <RowMenuItem path="/brand" label="Brand" onClick={onClick} />
-            <RowMenuItem path="/status" label="Status" onClick={onClick} />
-            <RowMenuItem path="/category" label="Product Category" onClick={onClick} />
-            <RowMenuItem path="/product" label="Product" onClick={onClick} />
-            <RowMenuItem path="/organization" label="Organization" onClick={onClick} />
-            <RowMenuItem path="/location" label="Location" onClick={onClick} />
-          </>
-        )}
-
-        {loc.pathname.includes("admin") && (
-          <UI.Col spacing={{ xs: 0, md: 1 }}>
-            <UI.Col px={2} pb={2}>
-              <UI.Button startIcon={<Icon.Plus />} LinkComponent={Link} href="admin/update" onClick={onClick}>
-                Add Plant Update
-              </UI.Button>
-            </UI.Col>
-            {auth?.user?.role == 3 &&
-              adminNav
-                ?.filter((v) => rolefilter(v, auth))
-                .map((d, ix) => (
-                  <UI.Col spacing={0} key={ix}>
-                    {d.path ? (
-                      <RowMenuItem path={d?.path} label={d?.name} onClick={onClick} icon={<Icon.Home></Icon.Home>} />
-                    ) : (
-                      <UI.Text variant="body1" bold color="primary.dark" pt={2} px={2}>
-                        {d.name}
-                      </UI.Text>
-                    )}
-
-                    {d?.child?.map((dx, ix) => (
-                      <RowMenuItem key={ix} path={dx?.path} label={dx?.name} onClick={onClick} newTab={dx?.newTab} />
-                    ))}
-                  </UI.Col>
-                ))}
-          </UI.Col>
-        )}
-        {dynnav
-          ?.filter((v) => rolefilter(v, auth))
-          .map((d, ix) => (
-            <React.Fragment key={ix}>
-              {!d?.child && <RenderSingleMenu d={d} />}
-              {d?.child && <RenderMultiMenu d={d} onClick={setonOpen} open={onOpen == ix} ix={ix} />}
-            </React.Fragment>
-          ))}
+      <UI.Col px={2} spacing={2}>
+        {nav?.map((d, ix) => (
+          <RenderMultiMenu d={d} onClick={() => handleOpen(ix)} open={onOpen == ix} ix={ix} onSelect={onClick} />
+        ))}
       </UI.Col>
-      <UI.Col>
-        <RowMenuItem path="/about" label="About Us" onClick={onClick} mt={2} />
-        <RowMenuItem path="/tnc" label="Terms & Condition" onClick={onClick} />
-        <RowMenuItem path="/privacypolicy" label="Privacy & Policy" onClick={onClick} />
-        <RowMenuItem
-          sx={{ mt: 1 }}
-          label="Logout"
-          icon={<Icon.Logout />}
+      <UI.Col px={2} spacing={2}>
+        {extra?.map((d, ix) => (
+          <RenderMultiMenu d={d} onClick={() => handleOpen(ix)} open={onOpen == ix} ix={ix} onSelect={onClick} />
+        ))}
+        <RenderMultiMenu
+          d={{ name: "Logout" }}
+          sx={{ pt: 2 }}
           onClick={() => {
             auth.signout();
             onClick();
+            loc.push("/");
           }}
         />
       </UI.Col>
@@ -106,27 +56,29 @@ export default function DesktopMenu({ onClick }) {
   );
 }
 
-function RenderMultiMenu({ d, ...props }) {
+function RenderMultiMenu({ d, onSelect, ...props }) {
   return (
     <>
-      <UI.Text variant="body1" bold color="primary.dark" pt={2}>
-        {d.name}
-      </UI.Text>
-      {/* <RenderSingleMenu d={d} asButton onClick={props.onClick} open={props.open} ix={props.ix} /> */}
-      <Collapse
-        // in={props.open}
-        in={true}
-        timeout="auto"
-        unmountOnExit
+      <UI.Row
+        justifyContent="space-between"
+        alignItems="center"
+        onClick={() => (d.path ? onSelect() : props.onClick())}
+        component={d.path ? Link : "div"}
+        href={d.path || "#"}
+        sx={props?.sx}
       >
-        <UI.Col spacing={2}>
-          {d.child.filter(rolefilter).map((dx, dix) => (
-            <>
-              <RenderSingleMenu d={dx} key={dix} />
-            </>
-          ))}
-        </UI.Col>
-      </Collapse>
+        <UI.Text variant="body1">{d.name}</UI.Text>
+        {d?.child?.length > 0 && <>{props.open ? <ExpandLess /> : <ExpandMore />}</>}
+      </UI.Row>
+      {d?.child?.length > 0 && (
+        <Collapse in={props.open} timeout="auto" unmountOnExit>
+          <UI.Col spacing={2} pl={3}>
+            {d?.child?.filter(rolefilter).map((dx, dix) => (
+              <RenderSingleMenu d={dx} key={dix} onClick={onSelect} />
+            ))}
+          </UI.Col>
+        </Collapse>
+      )}
     </>
   );
 }
@@ -136,12 +88,13 @@ function RenderSingleMenu({ d, asButton = false, ...props }) {
     <UI.Row
       alignItems="center"
       spacing={2}
-      component={!asButton ? Link : "div"}
-      href={!asButton ? d.path : "#"}
-      onClick={() => asButton && props.onClick(!props.open ? props.ix : null)}
+      component={d.path ? Link : "div"}
+      href={d.path || "#"}
+      onClick={props.onClick}
       sx={{
         p: {
           color: "#464649",
+          textTransform: "capitalize",
           "&:hover": d.path && {
             color: "#e20547",
           },
@@ -173,25 +126,4 @@ function rolefilter(d, auth) {
     return false;
   }
   return true;
-}
-
-function RowMenuItem({ onClick, path, ...props }) {
-  return (
-    <MenuItem
-      component={path ? Link : "div"}
-      href={path}
-      onClick={onClick}
-      target={props.newTab && "_blank"}
-      rel={props.newTab && "noopener noreferrer"}
-      sx={props.sx}
-    >
-      <UI.Row spacing={2} justifyContent="space-between" width="100%">
-        <UI.Row spacing={2}>
-          <UI.Col minWidth={24}>{props?.icon}</UI.Col>
-          <UI.Text variant="body1">{props.label}</UI.Text>
-        </UI.Row>
-        {props?.endEl}
-      </UI.Row>
-    </MenuItem>
-  );
 }

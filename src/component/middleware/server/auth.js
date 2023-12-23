@@ -1,8 +1,6 @@
 import { getUser } from "@gh/helper/encryption";
 
 const auth = (handler) => async (r, res) => {
-  console.log("auth Middleware");
-
   let request_buffer = r;
   request_buffer.auth = await getUser(r);
 

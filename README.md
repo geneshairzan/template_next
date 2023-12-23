@@ -10,3 +10,4 @@ todo
 5. model organization
 6. share
 7. backup restore
+8. primas optimazion

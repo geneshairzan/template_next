@@ -1,127 +1,57 @@
 const nav = [
   {
-    name: "Builder",
+    name: "Dashboard",
+    path: "/dashboard",
   },
   // {
-  //   name: "Dasboard",
-  //   path: "/builder",
-  //   // icon: (props) => <IconRender path={dsbhome} {...props} />,
-  //   // role: ["admin", "tenant"],
+  //   name: "brand",
+  //   path: "/brand",
   // },
-
-  {
-    name: "Model",
-    path: "/builder/model",
-    // icon: (props) => <IconRender path={dsbhome} {...props} />,
-    // role: ["admin", "tenant"],
-    child: [
-      {
-        name: "List",
-        path: "/builder/model",
-        // icon: (props) => <IconRender path={dsbhome} {...props} />,
-        // role: ["admin", "tenant"],
-      },
-      {
-        name: "Create",
-        path: "/builder/model/create",
-        // icon: (props) => <IconRender path={dsbhome} {...props} />,
-        // role: ["admin", "tenant"],
-      },
-    ],
-  },
-  {
-    name: "Themes",
-    path: "/builder/themes",
-    // icon: (props) => <IconRender path={dsbhome} {...props} />,
-    // role: ["admin", "tenant"],
-  },
-  {
-    name: "Models",
-    sx: { pt: 2 },
-  },
-];
-const adminNav = [
-  {
-    name: "Dashboard",
-    path: "/admin",
-    child: [],
-  },
   {
     name: "Data",
-    // path: "/admin",
     child: [
       {
-        name: "Sector",
-        path: "/admin/sector",
+        name: "brand",
+        path: "/brand",
       },
       {
-        name: "Plant",
-        path: "/admin/plant",
+        name: "Status",
+        path: "/status",
       },
       {
-        name: "Treatment",
-        path: "/admin/treatment",
+        name: "category",
+        path: "/category",
       },
       {
-        name: "Progress",
-        path: "/admin/progress",
+        name: "product",
+        path: "/product",
       },
       {
-        name: "FAQ",
-        path: "/admin/faq",
+        name: "organization",
+        path: "/organization",
       },
       {
-        name: "Barcode",
-        path: "/admin/barcode",
-        newTab: true,
-      },
-    ],
-  },
-  {
-    name: "Users",
-    child: [
-      {
-        name: "Farmers",
-        path: "/admin/farmers",
-      },
-      {
-        name: "Customers",
-        path: "/admin/customers",
-      },
-    ],
-  },
-  {
-    name: "Report",
-    child: [
-      // {
-      //   name: "Plant",
-      //   path: "#",
-      // },
-      {
-        name: "Payment",
-        path: "/admin/report/payment",
+        name: "location",
+        path: "/location",
+        // newTab: true,
       },
     ],
   },
 ];
 
-function menuGenerator(model) {
-  return {
-    name: model,
-    path: "#",
-    // icon: (props) => <IconRender path={dsbhome} {...props} />,
-    // role: ["admin", "tenant"],
-    child: [
-      {
-        name: "List",
-        path: `/${prefix}/${model}`,
-      },
-      {
-        name: "Create",
-        path: `/${prefix}/${model}/create`,
-      },
-    ],
-  };
-}
+const extra = [
+  {
+    name: "About Us",
+    path: "/about",
+  },
+  {
+    name: "Terms & Condition",
+    path: "/tnc",
+  },
+  {
+    name: "Privacy & Policy",
+    path: "/privacypolicy",
+  },
+];
 
-export { nav, adminNav, menuGenerator };
+export { nav, extra };

@@ -17,7 +17,7 @@ export default function CustomStyles(props) {
     },
 
     third: {
-      main: "#f24f09",
+      main: "#e20547",
     },
 
     pwhite: {
@@ -25,16 +25,7 @@ export default function CustomStyles(props) {
       dark: "#fff",
       light: "#fff",
     },
-    pbrown: {
-      main: "#897a5f",
-      dark: "#554c3b",
-      contrastText: "#fff",
-    },
-    pgreen: {
-      main: "#406860",
-      dark: "#203430",
-      contrastText: "#fff",
-    },
+
     google: {
       main: "#4789f4",
       dark: "#305ea7",
