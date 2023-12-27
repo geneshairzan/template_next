@@ -40,3 +40,4 @@ certificates
 .env
 .next
 .react-email
+prisma/migration
