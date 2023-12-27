@@ -9,10 +9,11 @@ import Context from "@context/app";
 import { useRouter } from "next/router";
 
 import * as yup from "yup";
-import Form from "@gh/form";
 import useFetch from "@gh/helper/useFetch";
 
-export default function MainFormRender({ refdata }) {
+import DynamicFormRenderer from "@gh/form/renderer";
+
+export default function Main({ refdata }) {
   const { app } = useContext(Context);
   const router = useRouter();
   const schema = useFetch({ url: `schema/${router.query.model}` });
@@ -21,20 +22,21 @@ export default function MainFormRender({ refdata }) {
     initialValues: refdata ? refdata : {},
     validationSchema: validationSchema,
     onSubmit: async (payload) => {
-      let res = await schema.fetch(
-        {
-          url: `${router.query.model}`,
-          method: "post",
-          data: {
-            ...payload,
-          },
-        },
-        {
-          type: "success",
-          message: "Form Submitted",
-        }
-      );
-      router.push(`/${router.query.model}`);
+      console.log(payload);
+      // let res = await schema.fetch(
+      //   {
+      //     url: `${router.query.model}`,
+      //     method: "post",
+      //     data: {
+      //       ...payload,
+      //     },
+      //   },
+      //   {
+      //     type: "success",
+      //     message: "Form Submitted",
+      //   }
+      // );
+      // router.push(`/${router.query.model}`);
     },
   });
 
@@ -50,7 +52,6 @@ export default function MainFormRender({ refdata }) {
     return true;
   }
 
-  // console.log(schema.get());
   return (
     <UI.Col spacing={2}>
       <UI.Row alignItems="center" spacing={1}>
@@ -65,9 +66,7 @@ export default function MainFormRender({ refdata }) {
         .get()
         ?.filter(hiddenCol)
         .map((d, ix) => (
-          <React.Fragment key={ix}>
-            <FormRender formik={formik} d={d} />
-          </React.Fragment>
+          <DynamicFormRenderer formik={formik} d={d} key={ix} />
         ))}
 
       <UI.Row alignItems="flex-end">
@@ -83,67 +82,6 @@ export default function MainFormRender({ refdata }) {
       </UI.Row>
     </UI.Col>
   );
-}
-
-function FormRender({ d, formik }) {
-  function labelRender(raw) {
-    return raw.replaceAll("_id", " ").replaceAll("_", " ");
-  }
-
-  return (
-    <>
-      {!d.name.includes("_id") && d?.type == "String" && (
-        <Form.Text
-          label={labelRender(d.name)}
-          multiline={d.name == "desc"}
-          rows={5}
-          name={d.name}
-          value={formik.values[d.name]}
-          onChange={formik.handleChange}
-        />
-      )}
-      {!d.name.includes("_id") && d?.type == "Int" && (
-        <Form.Currency
-          prefix=""
-          suffix=""
-          label={labelRender(d.name)}
-          name={d.name}
-          value={formik.values[d.name]}
-          onChange={(v) => {
-            formik.setFieldValue(d.name, parseInt(v?.target?.value));
-          }}
-        />
-      )}
-      {d.name.includes("_id") && (
-        <Form.Data
-          createable
-          url={d.name.replace("_id", "")}
-          label={labelRender(d.name)}
-          name={d.name}
-          data
-          value={formik.values[d.name]}
-          onChange={formik.handleChange}
-        />
-      )}
-      {/* {d.kind == "object" && console.log(d)} */}
-      {d.kind == "object" &&
-        Boolean(d.isList) && ( //equals to has many
-          <RelationInput
-            type={d.type}
-            label={labelRender(d.name)}
-            name={d.name}
-            // data
-            value={formik.values[d.name]}
-            onChange={formik.handleChange}
-          />
-        )}
-    </>
-  );
-}
-
-function RelationInput({ type, ...props }) {
-  const El = Form[type]; // Form.ProjectReference
-  return <El {...props} />;
 }
 
 const validationSchema = yup.object({});
