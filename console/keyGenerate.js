@@ -27,10 +27,10 @@ function genKeyPair() {
   });
 
   // // Create the public key file
-  fs.writeFileSync("../storage/public.pem", keyPair.publicKey);
+  fs.writeFileSync("storage/key/public.pem", keyPair.publicKey);
 
   // // Create the private key file
-  fs.writeFileSync("../storage/private.pem", keyPair.privateKey);
+  fs.writeFileSync("storage/key/private.pem", keyPair.privateKey);
 }
 
 // Generate the keypair

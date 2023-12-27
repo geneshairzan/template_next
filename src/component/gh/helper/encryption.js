@@ -11,7 +11,7 @@ async function check(raw, hashed) {
 }
 
 async function getToken(data) {
-  var privateKey = fs.readFileSync("storage/private.pem");
+  var privateKey = fs.readFileSync("storage/key/private.pem");
   return jwt.sign(data, privateKey, { algorithm: "RS256", expiresIn: "24hr" });
 }
 function getSimpleToken(data) {
@@ -20,7 +20,7 @@ function getSimpleToken(data) {
 
 async function checkToken(token) {
   if (!token) return null;
-  var privateKey = fs.readFileSync("storage/private.pem");
+  var privateKey = fs.readFileSync("storage/key/private.pem");
   return jwt.verify(token, privateKey, { algorithm: "RS256" });
 }
 
