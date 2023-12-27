@@ -23,20 +23,20 @@ export default function Main({ refdata }) {
     validationSchema: validationSchema,
     onSubmit: async (payload) => {
       console.log(payload);
-      // let res = await schema.fetch(
-      //   {
-      //     url: `${router.query.model}`,
-      //     method: "post",
-      //     data: {
-      //       ...payload,
-      //     },
-      //   },
-      //   {
-      //     type: "success",
-      //     message: "Form Submitted",
-      //   }
-      // );
-      // router.push(`/${router.query.model}`);
+      let res = await schema.fetch(
+        {
+          url: `${router.query.model}`,
+          method: "post",
+          data: {
+            ...payload,
+          },
+        },
+        {
+          type: "success",
+          message: "Form Submitted",
+        }
+      );
+      router.push(`/${router.query.model}`);
     },
   });
 

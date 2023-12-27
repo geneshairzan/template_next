@@ -129,11 +129,10 @@ model Product {
 }
 
 model Project {
-  id            String  @id @default(cuid())
-  name          String?
-  desc          String  @db.Text
-  serial_number String?
-  status_id     Int?    @default(1)
+  id        String  @id @default(cuid())
+  name      String?
+  desc      String  @db.Text
+  status_id Int?    @default(1)
 
   created_at DateTime  @default(now())
   updated_at DateTime  @updatedAt
