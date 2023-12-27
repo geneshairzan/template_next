@@ -12,6 +12,7 @@ import * as yup from "yup";
 import useFetch from "@gh/helper/useFetch";
 
 import DynamicFormRenderer from "@gh/form/renderer";
+import RelationForm from "@gh/form/renderer/relationForm";
 
 export default function Main({ refdata }) {
   const { app } = useContext(Context);
@@ -68,7 +69,20 @@ export default function Main({ refdata }) {
         .get()
         ?.filter(hiddenCol)
         .map((d, ix) => (
-          <DynamicFormRenderer formik={formik} d={d} key={ix} />
+          <React.Fragment key={ix}>
+            {!Boolean(d.isList) && <DynamicFormRenderer formik={formik} d={d} key={ix} />}
+            {Boolean(d.isList) && ( //equals to has many
+              <RelationForm
+                model={d.name}
+                label={d.name}
+                name={d.name}
+                value={formik.values[d.name] || []}
+                onChange={(v) => {
+                  formik.setFieldValue(d.name, v?.target?.value);
+                }}
+              />
+            )}
+          </React.Fragment>
         ))}
 
       <UI.Row alignItems="flex-end">

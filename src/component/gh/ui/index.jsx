@@ -16,6 +16,7 @@ import Button from "./button";
 import DTSearch from "./datatables/search";
 import DTFilter from "./datatables/filter";
 import { search, order } from "./datatables/helper";
+import FormLabel from "@gh/form/label";
 
 const UI = {
   Avatar,
@@ -43,6 +44,7 @@ const UI = {
     search,
     order,
   },
+  FormLabel,
 };
 
 export default UI;

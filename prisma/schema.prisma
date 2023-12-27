@@ -150,10 +150,10 @@ model ProjectReference {
   link       String?
   project_id String?
 
-  date         DateTime @default(now())
-  img_path     DateTime @default(now())
-  file_invoice DateTime @default(now())
-  Project      Project? @relation(fields: [project_id], references: [id])
+  // date         DateTime @default(now())
+  // img_path     DateTime @default(now())
+  // file_invoice DateTime @default(now())
+  Project Project? @relation(fields: [project_id], references: [id])
 }
 
 model Sample {

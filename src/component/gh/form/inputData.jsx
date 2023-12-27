@@ -7,7 +7,7 @@ import Autocomplete, { createFilterOptions } from "@mui/material/Autocomplete";
 
 const filter = createFilterOptions();
 
-export default function InputData({ dataId, url, noLabel = false, ...props }) {
+export default function InputData({ dataId, url, noLabel = false, grow, ...props }) {
   const { app } = useContext(Context);
   const [datas, setDatas] = useState();
 
@@ -43,7 +43,7 @@ export default function InputData({ dataId, url, noLabel = false, ...props }) {
   if (!datas) return "loading";
 
   return (
-    <Stack spacing={0.5} width={props.fullWidth ? "100%" : "auto"}>
+    <Stack spacing={0.5} width={props.fullWidth ? "100%" : "auto"} flexGrow={grow}>
       {datas && (
         <>
           {!noLabel && <Label label={props.label} tip={props.tip} />}
