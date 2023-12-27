@@ -131,7 +131,7 @@ model Product {
 model Project {
   id            String  @id @default(cuid())
   name          String?
-  desc          String?
+  desc          String  @db.Text
   serial_number String?
   status_id     Int?    @default(1)
 
@@ -140,17 +140,21 @@ model Project {
   deleted_at DateTime?
 
   status Status? @relation(fields: [status_id], references: [id])
+
+  projectreference ProjectReference[]
 }
 
 model ProjectReference {
-  id   String  @id @default(cuid())
-  name String?
-  desc String?
-  link String?
+  id         String  @id @default(cuid())
+  name       String?
+  desc       String?
+  link       String?
+  project_id String?
 
   date         DateTime @default(now())
   img_path     DateTime @default(now())
   file_invoice DateTime @default(now())
+  Project      Project? @relation(fields: [project_id], references: [id])
 }
 
 model Sample {

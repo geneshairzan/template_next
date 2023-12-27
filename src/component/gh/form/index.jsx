@@ -15,6 +15,7 @@ import InputUser from "./inputUser";
 import Qrcode from "./inputBarcode";
 import InputImage from "./inputImage";
 import Data from "./inputData";
+import ProjectReference from "./project/ProjectReference";
 
 const Form = {
   Data,
@@ -34,6 +35,7 @@ const Form = {
   InputUser,
   Qrcode,
   InputImage,
+  ProjectReference,
 };
 
 export default Form;

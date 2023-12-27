@@ -46,6 +46,15 @@ const nav = [
       },
     ],
   },
+  {
+    name: "Project",
+    child: [
+      {
+        name: "list",
+        path: "/project",
+      },
+    ],
+  },
 ];
 
 const extra = [
