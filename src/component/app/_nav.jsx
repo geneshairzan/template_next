@@ -23,6 +23,10 @@ const nav = [
         path: "/category",
       },
       {
+        name: "sub category",
+        path: "/subcategory",
+      },
+      {
         name: "product",
         path: "/product",
       },
@@ -33,6 +37,11 @@ const nav = [
       {
         name: "location",
         path: "/location",
+        // newTab: true,
+      },
+      {
+        name: "sample",
+        path: "/sample",
         // newTab: true,
       },
     ],

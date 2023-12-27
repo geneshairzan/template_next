@@ -136,7 +136,7 @@ function RenderDetail({ data, col, order, onorder, model, refetch, clickedRow, .
     if (!props.clickedEdit && !props.clickedMore && !props.clickedArrow) return 39;
     if (props.clickedEdit && props.clickedMore) return 83;
     if (props.clickedArrow && props.clickedMore) return 83;
-    return 63;
+    return 103;
   }
 
   function getActionwidthExtra() {
@@ -418,7 +418,7 @@ function Header({ order, onorder, d }) {
         })
       }
     >
-      <UI.Text variant="body1" className="f-bold" px={1} align="center" width="100%">
+      <UI.Text variant="body1" className="f-bold" px={1} align="left" width="100%">
         {d.label}
       </UI.Text>
       <UI.Stack width={"10px"}>

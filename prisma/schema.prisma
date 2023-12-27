@@ -17,6 +17,8 @@ model Status {
   User            User[]
   ProductCategory Category[]
   Product         Product[]
+  Project         Project[]
+  SubCategory     SubCategory[]
 }
 
 model Organization {
@@ -88,16 +90,31 @@ model Category {
   Product Product[]
 }
 
+model SubCategory {
+  id        Int     @id @default(autoincrement())
+  name      String?
+  status_id Int?    @default(1)
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  status  Status?   @relation(fields: [status_id], references: [id])
+  Product Product[]
+}
+
 model Product {
   id              String  @id @default(cuid())
   name            String?
   desc            String?
   serial_number   String?
-  brand_id        Int?
   category_id     Int?
+  sub_category_id Int?
   status_id       Int?    @default(1)
   organization_id Int?
   location_id     Int?
+  brand_id        Int
+  quantity        Int     @default(1)
 
   created_at DateTime  @default(now())
   updated_at DateTime  @updatedAt
@@ -106,6 +123,43 @@ model Product {
   status       Status?       @relation(fields: [status_id], references: [id])
   organization Organization? @relation(fields: [organization_id], references: [id])
   category     Category?     @relation(fields: [category_id], references: [id])
-  Brand        Brand?        @relation(fields: [brand_id], references: [id])
-  Location     Location?     @relation(fields: [location_id], references: [id])
+  brand        Brand?        @relation(fields: [brand_id], references: [id])
+  location     Location?     @relation(fields: [location_id], references: [id])
+  subcategory  SubCategory?  @relation(fields: [sub_category_id], references: [id])
+}
+
+model Project {
+  id            String  @id @default(cuid())
+  name          String?
+  desc          String?
+  serial_number String?
+  status_id     Int?    @default(1)
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @updatedAt
+  deleted_at DateTime?
+
+  status Status? @relation(fields: [status_id], references: [id])
+}
+
+model ProjectReference {
+  id   String  @id @default(cuid())
+  name String?
+  desc String?
+  link String?
+
+  date         DateTime @default(now())
+  img_path     DateTime @default(now())
+  file_invoice DateTime @default(now())
+}
+
+model Sample {
+  id            String  @id @default(cuid())
+  name          String?
+  desc          String?
+  serial_number String?
+
+  date         DateTime @default(now())
+  img_path     DateTime @default(now())
+  file_invoice DateTime @default(now())
 }

@@ -1,4 +1,4 @@
-import prisma from "@gh/helper/orm";
+import prisma from "@/component/gh/helper/orm";
 import { NextResponse } from "next/server";
 import { getUser } from "@gh/helper/encryption";
 import serverMiddleware from "@/component/middleware/server";

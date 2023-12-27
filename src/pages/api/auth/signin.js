@@ -1,4 +1,4 @@
-import prisma from "@gh/helper/orm";
+import prisma from "@/component/gh/helper/orm";
 import enc from "@gh/helper/encryption";
 
 import axios from "axios";

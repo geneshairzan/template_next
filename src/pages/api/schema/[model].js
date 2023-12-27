@@ -1,4 +1,4 @@
-import prisma from "@gh/helper/orm";
+import prisma from "@/component/gh/helper/orm";
 
 export default async function handler(r, res) {
   // res.status(200).json(r.query?.model || {});

@@ -13,7 +13,7 @@ export default function InputData({ dataId, url, noLabel = false, ...props }) {
 
   async function fetchData() {
     let res = await fetcher({
-      url: url,
+      url: url.replaceAll("_", ""),
       method: "get",
     });
     res?.data && setDatas(res?.data);
@@ -69,6 +69,7 @@ export default function InputData({ dataId, url, noLabel = false, ...props }) {
                 {...params}
                 label=""
                 name={props.name}
+                placeholder={props?.label || props?.name}
                 type={props.type || "text"}
                 inputProps={{
                   ...params?.inputProps,

@@ -1,11 +1,11 @@
-import prisma from "@gh/helper/orm";
+import prisma from "@/component/gh/helper/orm";
 import { getSimpleToken } from "@gh/helper/encryption";
 
 import axios from "axios";
 
 import { render } from "@react-email/render";
 import WelcomeTemplate from "@/component/email/template/main";
-import { sendEmail } from "@/component/email/mailer";
+import { sendEmail } from "@/component/email/mailer-node";
 
 export default async function handler(r, res) {
   if (r.method == "POST") {

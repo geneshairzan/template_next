@@ -54,7 +54,7 @@ export default function App({ refdata }) {
     // if (raw.includes("_id")) return raw;
     return raw.replaceAll("_id", " ").replaceAll("_", " ");
   }
-
+  console.log(schema.get());
   return (
     <UI.Col spacing={2}>
       <UI.Row alignItems="center" spacing={1}>
@@ -70,12 +70,25 @@ export default function App({ refdata }) {
         ?.filter(hiddenCol)
         .map((d, ix) => (
           <React.Fragment key={ix}>
-            {d.kind == "scalar" && !d.name.includes("_id") && (
+            {!d.name.includes("_id") && d?.type == "String" && (
               <Form.Text
                 label={labelRender(d.name)}
                 name={d.name}
                 value={formik.values[d.name]}
                 onChange={formik.handleChange}
+              />
+            )}
+
+            {!d.name.includes("_id") && d?.type == "Int" && (
+              <Form.Currency
+                prefix=""
+                suffix=""
+                label={labelRender(d.name)}
+                name={d.name}
+                value={formik.values[d.name]}
+                onChange={(v) => {
+                  formik.setFieldValue(d.name, parseInt(v?.target?.value));
+                }}
               />
             )}
 

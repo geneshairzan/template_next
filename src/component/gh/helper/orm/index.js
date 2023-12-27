@@ -1,5 +1,6 @@
 import { Prisma, PrismaClient } from "@prisma/client";
-import enc from "./encryption";
+import enc from "../encryption";
+import { getMeta } from "./model";
 
 const prisma = new PrismaClient();
 
@@ -19,6 +20,7 @@ const defaultfilter = ["password", "deleted_at", "updated_at", "created_at", "ia
 
 const prismaorm = { get, set, find, responseFilter, findOrCreate, getschema, schemaFilter, getFieldType, where };
 export default prismaorm;
+export { extendPrisma };
 
 function responseFilter(e, inputFilter = defaultfilter) {
   if (typeof e == "object") {
@@ -55,6 +57,10 @@ function idParse(model, rawId) {
   return idType == "String" ? rawId : parseInt(rawId);
 }
 
+function getInclude(model) {
+  return {};
+}
+
 async function find(model, id) {
   return await prisma[getschemaname(model)].findUnique({
     where: {
@@ -80,6 +86,7 @@ async function findOrCreate(model, where = {}, create, update = {}) {
 async function get(model, where = {}) {
   return await prisma[getschemaname(model)].findMany({
     where: where,
+    include: getMeta(model)?.includes || {},
   });
 }
 

@@ -15,7 +15,6 @@ async function getToken(data) {
   return jwt.sign(data, privateKey, { algorithm: "RS256", expiresIn: "24hr" });
 }
 function getSimpleToken(data) {
-  return "1111";
   return Math.floor(Math.random() * 9000 + 1000).toString();
 }
 
