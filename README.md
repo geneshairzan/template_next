@@ -1,8 +1,8 @@
 deploy :
 
-1. npm i
-2. delete all file inside /prisma/migration
-3. set `DATABASE_URL` inside .env.developtment with template `mysql://[username]:[password]@[path:port]/[db_name]`
+1. install depedency `npm i`
+2. delete all file inside `/prisma/migration`
+3. set `DATABASE_URL` inside .env.developtment with template `mysql://[username]:[password]@[host:port]/[db_name]`
 4. seed data with `node ./prisma/seed.js `
 5. run dev with : `npm run devs`
 
