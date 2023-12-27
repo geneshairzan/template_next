@@ -1,4 +1,4 @@
-import data from "./metaData";
+import data from "./index";
 
 const defaultList = [
   { name: "name", label: "Name", w: 220 },

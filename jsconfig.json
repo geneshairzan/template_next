@@ -4,7 +4,8 @@
       "@/*": ["./src/*"],
       "@gh/*": ["./src/component/gh/*"],
       "@context/*": ["./src/component/context/*"],
-      "@storage/*": ["./storage/*"]
+      "@storage/*": ["./storage/*"],
+      "@model/*": ["./src/model/*"]
     }
   }
 }

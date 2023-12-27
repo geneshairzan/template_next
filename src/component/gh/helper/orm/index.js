@@ -1,6 +1,6 @@
 import { Prisma, PrismaClient } from "@prisma/client";
 import enc from "../encryption";
-import { getMeta } from "./model";
+import { getInfo } from "@/model";
 
 const prisma = new PrismaClient();
 
@@ -18,7 +18,7 @@ const extendPrisma = prisma.$extends({
 
 const defaultfilter = ["password", "deleted_at", "updated_at", "created_at", "iat", "exp"];
 
-const prismaorm = { get, set, find, responseFilter, findOrCreate, getschema, schemaFilter, getFieldType, where };
+const prismaorm = { get, set, find, responseFilter, findOrCreate, getschema, schemaFilter, where };
 export default prismaorm;
 export { extendPrisma };
 
@@ -48,23 +48,10 @@ function getschemaname(input) {
   return Prisma.dmmf.datamodel.models.find((d) => d.name.toLowerCase() == input.toLowerCase())?.name;
 }
 
-function getFieldType(model, field) {
-  return getschema(model)?.find((d) => d.name == field)?.type;
-}
-
-function idParse(model, rawId) {
-  let idType = getFieldType(model, "id");
-  return idType == "String" ? rawId : parseInt(rawId);
-}
-
-function getInclude(model) {
-  return {};
-}
-
 async function find(model, id) {
   return await prisma[getschemaname(model)].findUnique({
     where: {
-      id: idParse(model, id),
+      id: getInfo(model, "idType") == "string" ? id : parseInt(id),
     },
   });
 }
@@ -86,7 +73,7 @@ async function findOrCreate(model, where = {}, create, update = {}) {
 async function get(model, where = {}) {
   return await prisma[getschemaname(model)].findMany({
     where: where,
-    include: getMeta(model)?.includes || {},
+    include: getInfo(model, "includes") || {},
   });
 }
 

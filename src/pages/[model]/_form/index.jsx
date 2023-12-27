@@ -62,6 +62,8 @@ export default function Main({ refdata }) {
           {router.query.model}
         </UI.Text>
       </UI.Row>
+
+      {/* ACTUAL FORM RENDERER */}
       {schema
         .get()
         ?.filter(hiddenCol)

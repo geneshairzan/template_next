@@ -21,7 +21,7 @@ export default function InputData({ dataId, url, noLabel = false, ...props }) {
 
   async function newData(v) {
     let res = await fetcher({
-      url: url,
+      url: url.replaceAll("_", ""),
       method: "post",
       data: { name: v },
     });
