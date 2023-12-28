@@ -13,6 +13,7 @@ import useFetch from "@gh/helper/useFetch";
 
 import DynamicFormRenderer from "@gh/form/renderer";
 import RelationForm from "@gh/form/renderer/relationForm";
+import { getInfo } from "@/model";
 
 export default function Main({ refdata }) {
   const { app } = useContext(Context);
@@ -21,15 +22,21 @@ export default function Main({ refdata }) {
 
   const formik = useFormik({
     initialValues: refdata ? refdata : {},
-    validationSchema: validationSchema,
+    validationSchema: null,
     onSubmit: async (payload) => {
-      console.log(payload);
+      let main_payload = Object.keys(payload)
+        .filter((key) => typeof payload[key] != "object")
+        .reduce((obj, key) => {
+          obj[key] = payload[key];
+          return obj;
+        }, {});
+
       let res = await schema.fetch(
         {
           url: `${router.query.model}`,
           method: "post",
           data: {
-            ...payload,
+            ...main_payload,
           },
         },
         {
@@ -37,16 +44,39 @@ export default function Main({ refdata }) {
           message: "Form Submitted",
         }
       );
+
+      let sec_payload = Object.keys(payload).filter((key) => typeof payload[key] == "object");
+      if (res?.id && sec_payload?.length > 0) {
+        sec_payload.forEach(async (el) => {
+          await schema.fetch(
+            {
+              url: el,
+              // url: `dev/test`,
+              method: "post",
+              data: payload[el].map((d) => ({ ...d, project_id: res.id })),
+            },
+            {
+              type: "success",
+              message: "Form Submitted",
+            }
+          );
+        });
+      }
+
       router.push(`/${router.query.model}`);
     },
   });
 
   function hiddenCol(d) {
+    if (getInfo(router.query.model, "form")?.include_field?.includes(d?.name)) {
+      return true;
+    }
+
     let hidden = ["id", "deleted_at", "created_at", "updated_at"];
     if (hidden.includes(d.name)) {
       return false;
     }
-    if (d.kind == "object" && !d.isList) {
+    if (d.kind == "object") {
       return false;
     }
 
@@ -100,4 +130,4 @@ export default function Main({ refdata }) {
   );
 }
 
-const validationSchema = yup.object({});
+// const validationSchema = yup.object({});

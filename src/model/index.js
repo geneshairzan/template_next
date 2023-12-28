@@ -1,5 +1,6 @@
 import { product } from "./product";
 import { project } from "./project";
+import { projectreference } from "./projectreference";
 
 const default_col = [
   { name: "name", label: "Name", w: 220 },
@@ -26,6 +27,6 @@ function getDefault(target) {
 }
 
 export function getInfo(model, target = "schema") {
-  const lib = { product, project };
+  const lib = { product, project, projectreference };
   return lib?.[model]?.[target] || getDefault(target);
 }

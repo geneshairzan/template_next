@@ -14,6 +14,10 @@ model Status {
   id   Int    @id @default(autoincrement())
   name String
 
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
+
   User            User[]
   ProductCategory Category[]
   Product         Product[]
@@ -22,17 +26,27 @@ model Status {
 }
 
 model Organization {
-  id               Int                @id @default(autoincrement())
-  name             String
-  desc             String?
+  id   Int     @id @default(autoincrement())
+  name String
+  desc String?
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
+
   UserOrganization UserOrganization[]
   Product          Product[]
 }
 
 model Brand {
-  id      Int       @id @default(autoincrement())
-  name    String
-  desc    String?
+  id   Int     @id @default(autoincrement())
+  name String
+  desc String?
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
+
   Product Product[]
 }
 
@@ -60,21 +74,27 @@ model User {
   status_id Int     @default(1)
 
   created_at DateTime  @default(now())
-  updated_at DateTime  @updatedAt
+  updated_at DateTime  @default(now()) @updatedAt
   deleted_at DateTime?
 
   role         UserRole?          @relation(fields: [role_id], references: [id])
   status       Status             @relation(fields: [status_id], references: [id])
   organization UserOrganization[]
+  ProjectTask  ProjectTask[]
 }
 
 model UserOrganization {
-  id              Int          @id @default(autoincrement())
+  id              Int    @id @default(autoincrement())
   user_id         String
-  user            User         @relation(fields: [user_id], references: [id])
   organization_id Int
-  organization    Organization @relation(fields: [organization_id], references: [id])
   brandId         Int?
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
+
+  user         User         @relation(fields: [user_id], references: [id])
+  organization Organization @relation(fields: [organization_id], references: [id])
 }
 
 model Category {
@@ -83,7 +103,7 @@ model Category {
   status_id Int?    @default(1)
 
   created_at DateTime  @default(now())
-  updated_at DateTime  @updatedAt
+  updated_at DateTime  @default(now()) @updatedAt
   deleted_at DateTime?
 
   status  Status?   @relation(fields: [status_id], references: [id])
@@ -96,7 +116,7 @@ model SubCategory {
   status_id Int?    @default(1)
 
   created_at DateTime  @default(now())
-  updated_at DateTime  @updatedAt
+  updated_at DateTime  @default(now()) @updatedAt
   deleted_at DateTime?
 
   status  Status?   @relation(fields: [status_id], references: [id])
@@ -135,12 +155,14 @@ model Project {
   status_id Int?    @default(1)
 
   created_at DateTime  @default(now())
-  updated_at DateTime  @updatedAt
+  updated_at DateTime  @default(now()) @updatedAt
   deleted_at DateTime?
 
   status Status? @relation(fields: [status_id], references: [id])
 
   projectreference ProjectReference[]
+  ProjectFeedBAck  ProjectFeedback[]
+  ProjectTask      ProjectTask[]
 }
 
 model ProjectReference {
@@ -150,9 +172,39 @@ model ProjectReference {
   link       String?
   project_id String?
 
-  // date         DateTime @default(now())
-  // img_path     DateTime @default(now())
-  // file_invoice DateTime @default(now())
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
+
+  Project Project? @relation(fields: [project_id], references: [id])
+}
+
+model ProjectFeedback {
+  id           Int     @id @default(autoincrement())
+  name         String?
+  overallscore Int?
+  feedback     String?
+  project_id   String?
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
+
+  Project Project? @relation(fields: [project_id], references: [id])
+}
+
+model ProjectTask {
+  id         Int     @id @default(autoincrement())
+  title      String?
+  status     String?
+  pic        String?
+  project_id String?
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
+
+  user    User?    @relation(fields: [pic], references: [id])
   Project Project? @relation(fields: [project_id], references: [id])
 }
 
@@ -165,4 +217,8 @@ model Sample {
   date         DateTime @default(now())
   img_path     DateTime @default(now())
   file_invoice DateTime @default(now())
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
 }

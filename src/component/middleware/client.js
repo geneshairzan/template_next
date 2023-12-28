@@ -16,7 +16,9 @@ export default function AppMiddleware({ children }) {
     if (
       router.pathname == "/" ||
       allowedModel.includes(router.asPath) ||
-      allowedModel.map((d) => d.replaceAll("/", "")).includes(router?.query?.model)
+      // allowedModel.map((d) => d.replaceAll("/", "")).includes(router?.query?.model) ||
+      allowedModel.map((d) => d.replaceAll("/", "")).includes(router.asPath.split("/")[1]) ||
+      router.asPath.includes("/p/")
     )
       return true;
     return false;

@@ -8,7 +8,7 @@ export default function App({ small, label, children, ...props }) {
   return (
     <Button
       {...props}
-      disabled={props.type == "submit" && app.isLoading}
+      disabled={(props.type == "submit" && app.isLoading) || props.disabled}
       sx={{
         width: small && "180px",
       }}

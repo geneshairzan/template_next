@@ -53,6 +53,14 @@ const nav = [
         name: "list",
         path: "/project",
       },
+      {
+        name: "task",
+        path: "/projecttask",
+      },
+      {
+        name: "feedback",
+        path: "/projectfeedback",
+      },
     ],
   },
 ];

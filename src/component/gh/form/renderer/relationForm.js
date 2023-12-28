@@ -12,6 +12,7 @@ import * as yup from "yup";
 import useFetch from "@gh/helper/useFetch";
 
 import DynamicFormRenderer from "@gh/form/renderer";
+import { getInfo } from "@/model";
 
 export default function Main({ model, label, name, value, onChange, ...props }) {
   const schema = useFetch({ url: `schema/${model}` });
@@ -33,12 +34,19 @@ export default function Main({ model, label, name, value, onChange, ...props }) 
       return false;
     }
 
+    if (getInfo(model, "form")?.ecxclude_field?.includes(d?.name)) {
+      return false;
+    }
+
     return true;
   }
 
   useEffect(() => {
     if (schema?.get() && !defaultValue) {
-      let temp = schema?.get().reduce((a, b) => ({ ...a, [b.name]: "" }), {});
+      let temp = schema
+        ?.get()
+        .filter(hiddenCol)
+        .reduce((a, b) => ({ ...a, [b.name]: "" }), {});
       setdefaultValue(temp);
     }
   }, [schema]);
@@ -60,6 +68,7 @@ export default function Main({ model, label, name, value, onChange, ...props }) 
 
   return (
     <UI.Col spacing={0.5} width={props.fullWidth ? "100%" : "auto"}>
+      {console.log(defaultValue)}
       <UI.FormLabel label={label} />
       {/* ACTUAL FORM RENDERER */}
       <UI.Col spacing={1}>
