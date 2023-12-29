@@ -23,6 +23,7 @@ model Status {
   Product         Product[]
   Project         Project[]
   SubCategory     SubCategory[]
+  ProjectTask     ProjectTask[]
 }
 
 model Organization {
@@ -194,9 +195,10 @@ model ProjectFeedback {
 }
 
 model ProjectTask {
-  id         Int     @id @default(autoincrement())
-  title      String?
-  status     String?
+  id        Int     @id @default(autoincrement())
+  title     String?
+  status_id Int?    @default(1)
+
   pic_id     String
   project_id String?
 
@@ -206,6 +208,7 @@ model ProjectTask {
 
   user    User     @relation(fields: [pic_id], references: [id])
   Project Project? @relation(fields: [project_id], references: [id])
+  status  Status?  @relation(fields: [status_id], references: [id])
 }
 
 model Sample {
