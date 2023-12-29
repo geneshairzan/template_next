@@ -46,7 +46,7 @@ export default function Main({ refdata }) {
         }
       );
 
-      let sec_payload = Object.keys(payload).filter((key) => typeof payload[key] == "object");
+      let sec_payload = Object.keys(payload).filter((key) => Array.isArray(payload[key]));
       if (res?.id && sec_payload?.length > 0) {
         sec_payload.forEach(async (el) => {
           await schema.fetch(
@@ -54,7 +54,7 @@ export default function Main({ refdata }) {
               url: el,
               // url: `dev/test`,
               method: "post",
-              data: payload[el].map((d) => ({ ...d, project_id: res.id })),
+              data: payload[el]?.map((d) => ({ ...d, project_id: res.id })),
             },
             {
               type: "success",
