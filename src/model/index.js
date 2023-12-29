@@ -1,6 +1,9 @@
 import { product } from "./product";
 import { project } from "./project";
+import { projectfeedback } from "./projectfeedback";
 import { projectreference } from "./projectreference";
+import { subcategory } from "./subcategory";
+import { projecttask } from "./projecttask";
 
 const default_col = [
   { name: "name", label: "Name", w: 220 },
@@ -22,11 +25,12 @@ function getDefault(target) {
     case "includes":
       return {};
     default:
-      return {};
+      return null;
   }
 }
 
-export function getInfo(model, target = "schema") {
-  const lib = { product, project, projectreference };
-  return lib?.[model]?.[target] || getDefault(target);
+export function getInfo(model, target) {
+  const lib = { product, project, projectreference, subcategory, projectfeedback, projecttask };
+
+  return target ? lib?.[model]?.[target] || getDefault(target) : lib?.[model];
 }

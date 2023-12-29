@@ -11,8 +11,8 @@ export default function CustomStyles(props) {
     },
 
     secondary: {
-      main: "#f8994c",
-      dark: "#ab6934",
+      main: "#ff0000",
+      dark: "#cc0000",
       contrastText: "#fff",
     },
 

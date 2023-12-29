@@ -197,14 +197,14 @@ model ProjectTask {
   id         Int     @id @default(autoincrement())
   title      String?
   status     String?
-  pic        String?
+  pic_id     String
   project_id String?
 
   created_at DateTime  @default(now())
   updated_at DateTime  @default(now()) @updatedAt
   deleted_at DateTime?
 
-  user    User?    @relation(fields: [pic], references: [id])
+  user    User     @relation(fields: [pic_id], references: [id])
   Project Project? @relation(fields: [project_id], references: [id])
 }
 

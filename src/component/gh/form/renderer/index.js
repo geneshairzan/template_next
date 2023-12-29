@@ -31,7 +31,7 @@ export default function FormRenderer({
           prefix=""
           suffix=""
           grow={grow}
-          label={!disableLabel ? labelRender(d.name) : ""}
+          label={!disableLabel ? labelRender(d?.label || d.name) : ""}
           name={d.name}
           value={formik?.values[d.name] || value?.[d.name]}
           onChange={(v) => {
@@ -42,16 +42,18 @@ export default function FormRenderer({
         />
       )}
       {d.name.includes("_id") && (
-        <Form.Data
-          grow={grow}
-          createable
-          url={d.name.replace("_id", "")}
-          label={!disableLabel ? labelRender(d.name) : ""}
-          name={d.name}
-          data
-          value={formik ? formik?.values[d.name] : value}
-          onChange={(v) => (value ? onChange(v) : formik?.handleChange(v))}
-        />
+        <>
+          <Form.Data
+            grow={grow}
+            createable
+            url={d?.m_url || d.name.replace("_id", "")}
+            label={!disableLabel ? labelRender(d?.m_label || d.name) : ""}
+            name={d.name}
+            data
+            value={formik ? formik?.values[d.name] : value}
+            onChange={(v) => (value ? onChange(v) : formik?.handleChange(v))}
+          />
+        </>
       )}
     </>
   );

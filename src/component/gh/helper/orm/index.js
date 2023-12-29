@@ -82,10 +82,14 @@ async function findOrCreate(model, where = {}, create, update = {}) {
 }
 
 async function get(model, where = {}) {
-  return await prisma[getschemaname(model)].findMany({
-    where: where,
-    include: getInfo(model, "includes") || {},
-  });
+  try {
+    return await prisma[getschemaname(model)].findMany({
+      where: where,
+      include: getInfo(model, "includes") || {},
+    });
+  } catch (error) {
+    return [];
+  }
 }
 
 async function set(model, data) {

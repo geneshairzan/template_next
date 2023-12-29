@@ -14,30 +14,15 @@ import useFetch from "@gh/helper/useFetch";
 import DynamicFormRenderer from "@gh/form/renderer";
 import { getInfo } from "@/model";
 
-export default function Main({ model, label, name, value, onChange, ...props }) {
+export default function Main({ model, label, name, value, onChange, parent, hiddenCol, ...props }) {
   const schema = useFetch({ url: `schema/${model}` });
   const [defaultValue, setdefaultValue] = useState();
+  const modelInfo = getInfo(model);
 
-  function hiddenCol(d) {
-    let hidden = ["id", "deleted_at", "created_at", "updated_at"];
-    if (hidden.includes(d.name)) {
+  function parenthesis(d) {
+    if (d.name?.toLowerCase() == parent.toLowerCase() || d.name?.toLowerCase() == parent.toLowerCase() + "_id") {
       return false;
     }
-    if (d.kind == "object" && !d.isList) {
-      return false;
-    }
-    if (d.kind == "object" && d.relationName.toLowerCase().includes("to" + name)) {
-      return false;
-    }
-
-    if (d.deleted_at) {
-      return false;
-    }
-
-    if (getInfo(model, "form")?.ecxclude_field?.includes(d?.name)) {
-      return false;
-    }
-
     return true;
   }
 
@@ -65,11 +50,9 @@ export default function Main({ model, label, name, value, onChange, ...props }) 
     temp[index] = { ...temp[index], [v?.target?.name]: v?.target?.value };
     onChange({ target: { value: [...temp] } });
   }
-
   return (
     <UI.Col spacing={0.5} width={props.fullWidth ? "100%" : "auto"}>
-      {console.log(defaultValue)}
-      <UI.FormLabel label={label} />
+      <UI.FormLabel label={modelInfo?.label || model} />
       {/* ACTUAL FORM RENDERER */}
       <UI.Col spacing={1}>
         {schema.get() &&
@@ -83,6 +66,7 @@ export default function Main({ model, label, name, value, onChange, ...props }) 
                 {schema
                   .get()
                   ?.filter(hiddenCol)
+                  ?.filter(parenthesis)
                   .map((d, ix) => (
                     <React.Fragment key={ix}>
                       <DynamicFormRenderer
@@ -109,13 +93,15 @@ export default function Main({ model, label, name, value, onChange, ...props }) 
               </UI.Row>
             ))}
       </UI.Col>
-      <UI.Row alignItems="flex-end" justifyContent="flex-end">
+      <UI.Row alignItems="flex-end" justifyContent="flex-end" pt={1.5}>
         <UI.Button
           variant={"outlined"}
           onClick={handleAdd}
+          color="secondary"
           sx={{
             width: "180px",
           }}
+          startIcon={<Icon.Plus />}
         >
           Add {name}
         </UI.Button>
@@ -123,7 +109,3 @@ export default function Main({ model, label, name, value, onChange, ...props }) 
     </UI.Col>
   );
 }
-
-function name(params) {}
-
-const validationSchema = yup.object({});

@@ -19,10 +19,11 @@ export default function Main({ refdata }) {
   const { app } = useContext(Context);
   const router = useRouter();
   const schema = useFetch({ url: `schema/${router.query.model}` });
+  const modelInfo = getInfo(router.query.model);
 
   const formik = useFormik({
     initialValues: refdata ? refdata : {},
-    validationSchema: null,
+    validationSchema: modelInfo?.validationSchema || null,
     onSubmit: async (payload) => {
       let main_payload = Object.keys(payload)
         .filter((key) => typeof payload[key] != "object")
@@ -68,21 +69,16 @@ export default function Main({ refdata }) {
   });
 
   function hiddenCol(d) {
-    if (getInfo(router.query.model, "form")?.include_field?.includes(d?.name)) {
+    if (modelInfo?.form?.include_field?.includes(d?.name)) {
       return true;
     }
-
     let hidden = ["id", "deleted_at", "created_at", "updated_at"];
-    if (hidden.includes(d.name)) {
-      return false;
-    }
-    if (d.kind == "object") {
+    if (hidden.includes(d.name) || d.kind == "object" || d.deleted_at) {
       return false;
     }
 
     return true;
   }
-
   return (
     <UI.Col spacing={2}>
       <UI.Row alignItems="center" spacing={1}>
@@ -90,7 +86,7 @@ export default function Main({ refdata }) {
           <Icon.Back />
         </UI.IconButton>
         <UI.Text variant="h6" bold capitalize>
-          {router.query.model}
+          {modelInfo?.label || router.query.model}
         </UI.Text>
       </UI.Row>
 
@@ -100,12 +96,16 @@ export default function Main({ refdata }) {
         ?.filter(hiddenCol)
         .map((d, ix) => (
           <React.Fragment key={ix}>
-            {!Boolean(d.isList) && <DynamicFormRenderer formik={formik} d={d} key={ix} />}
+            {!Boolean(d.isList) && (
+              <DynamicFormRenderer formik={formik} d={{ ...d, ...modelInfo?.form?.[d.name] }} key={ix} name={d.name} />
+            )}
+
             {Boolean(d.isList) && ( //equals to has many
               <RelationForm
+                parent={router.query.model}
+                hiddenCol={hiddenCol}
                 model={d.name}
-                label={d.name}
-                name={d.name}
+                name={modelInfo?.form?.[d.name]?.alias || d.name}
                 value={formik.values[d.name] || []}
                 onChange={(v) => {
                   formik.setFieldValue(d.name, v?.target?.value);
@@ -129,5 +129,3 @@ export default function Main({ refdata }) {
     </UI.Col>
   );
 }
-
-// const validationSchema = yup.object({});

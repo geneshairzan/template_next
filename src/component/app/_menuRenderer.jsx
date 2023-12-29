@@ -35,12 +35,26 @@ export default function DesktopMenu({ onClick }) {
     <UI.Col justifyContent="space-between" height="100%" mt={3}>
       <UI.Col px={2} spacing={2}>
         {nav?.map((d, ix) => (
-          <RenderMultiMenu d={d} onClick={() => handleOpen(ix)} open={onOpen == ix} ix={ix} onSelect={onClick} />
+          <RenderMultiMenu
+            key={ix}
+            d={d}
+            onClick={() => handleOpen(ix)}
+            open={onOpen == ix}
+            ix={ix}
+            onSelect={onClick}
+          />
         ))}
       </UI.Col>
       <UI.Col px={2} spacing={2}>
         {extra?.map((d, ix) => (
-          <RenderMultiMenu d={d} onClick={() => handleOpen(ix)} open={onOpen == ix} ix={ix} onSelect={onClick} />
+          <RenderMultiMenu
+            key={ix}
+            d={d}
+            onClick={() => handleOpen(ix)}
+            open={onOpen == ix}
+            ix={ix}
+            onSelect={onClick}
+          />
         ))}
         <RenderMultiMenu
           d={{ name: "Logout" }}
