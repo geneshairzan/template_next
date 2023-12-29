@@ -16,7 +16,7 @@ import ImageIcon from "@mui/icons-material/Image";
 import HomeIcon from "@mui/icons-material/Home";
 import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import EditIcon from "@mui/icons-material/Edit";
-
+import VisibilityIcon from "@mui/icons-material/Visibility";
 function IconRender(props) {
   return <img src={props.path} style={{ width: 18, height: 18, ...props.sx }} />;
 }
@@ -40,6 +40,7 @@ const icon = {
   Home: HomeIcon,
   Open: OpenInNewIcon,
   Edit: EditIcon,
+  View: VisibilityIcon,
 };
 
 export default icon;

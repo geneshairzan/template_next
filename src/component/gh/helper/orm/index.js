@@ -18,7 +18,7 @@ const extendPrisma = prisma.$extends({
 
 const defaultfilter = ["password", "deleted_at", "updated_at", "created_at", "iat", "exp"];
 
-const prismaorm = { get, set, find, responseFilter, findOrCreate, getschema, schemaFilter, where, manyUpsert };
+const prismaorm = { get, set, update, find, responseFilter, findOrCreate, getschema, schemaFilter, where, manyUpsert };
 export default prismaorm;
 export { extendPrisma };
 
@@ -84,7 +84,10 @@ async function findOrCreate(model, where = {}, create, update = {}) {
 async function get(model, where = {}) {
   try {
     return await prisma[getschemaname(model)].findMany({
-      where: where,
+      where: {
+        ...where,
+        deleted_at: null,
+      },
       include: getInfo(model, "includes") || {},
     });
   } catch (error) {
@@ -107,6 +110,14 @@ async function set(model, data) {
     });
   }
 }
+
+async function update(model, data) {
+  return await extendPrisma[getschemaname(model)].update({
+    where: { id: data?.id },
+    data: data,
+  });
+}
+
 async function manyUpsert(model, data) {
   let old_data = data.filter((d) => d?.id);
   let new_data = data.filter((d) => !d?.id);

@@ -1,4 +1,4 @@
-import { Stack, IconButton, Grid } from "@mui/material";
+import { Stack, IconButton, Grid, ListItemButton } from "@mui/material";
 import Row from "./row";
 import Col from "./col";
 import Text, { Elipsis, TextOverflow } from "./typography";
@@ -45,6 +45,7 @@ const UI = {
     order,
   },
   FormLabel,
+  ListItemButton: (props) => <ListItemButton sx={{ py: 0.5 }} {...props} />,
 };
 
 export default UI;

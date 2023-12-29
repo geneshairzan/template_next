@@ -81,6 +81,11 @@ export default function useFetcher(params) {
     setdata(data || []);
   }
 
+  async function reload(pre) {
+    setdata([]);
+    prefetch(params);
+  }
+
   useEffect(() => {
     params?.url && prefetch(params);
   }, []);
@@ -89,5 +94,6 @@ export default function useFetcher(params) {
     get: () => data,
     fetch,
     refetch: (props) => fetch(props || params),
+    reload,
   };
 }

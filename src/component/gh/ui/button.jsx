@@ -11,6 +11,7 @@ export default function App({ small, label, children, ...props }) {
       disabled={(props.type == "submit" && app.isLoading) || props.disabled}
       sx={{
         width: small && "180px",
+        ...props.sx,
       }}
       startIcon={
         props.type == "submit" && app.isLoading ? <CircularProgress size={"14px"} color="pwhite" /> : props.startIcon

@@ -10,7 +10,10 @@ export default function Typo({ capitalize = false, bold, italic, ...props }) {
       fontStyle={italic ? "italic" : ""}
       fontWeight={bold ? 600 : ""}
       textTransform={capitalize && "capitalize"}
-      sx={props?.sx}
+      sx={{
+        ...props?.sx,
+        color: props.children == "unknown" && "error.main",
+      }}
     >
       {props.children}
     </Typography>

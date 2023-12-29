@@ -136,7 +136,7 @@ function RenderDetail({ data, col, order, onorder, model, refetch, clickedRow, .
     if (!props.clickedEdit && !props.clickedMore && !props.clickedArrow) return 39;
     if (props.clickedEdit && props.clickedMore) return 83;
     if (props.clickedArrow && props.clickedMore) return 83;
-    return 103;
+    return 71;
   }
 
   function getActionwidthExtra() {
@@ -243,9 +243,7 @@ function RenderDetail({ data, col, order, onorder, model, refetch, clickedRow, .
                   position: dx.freeze ? "sticky" : "relative",
                   zIndex: dx.freeze ? 200 : 99,
                   left: dix > 0 && dx.freeze ? getActionwidth() + getActionwidthExtra() + col[dix - 1]?.w || 0 : 0,
-                  // pl: col.findLast((d) => (d?.freeze ? d.freeze == true : false))?.name == dx.name ? `3px` : 0,
                   py: 0.5,
-                  // backgroundColor: "d.a",
                 }}
                 direction="row"
                 alignItems="center"
@@ -363,18 +361,21 @@ function ArrowAction({ p, ...props }) {
 
 function ViewAction(props) {
   return (
-    <UI.Button
-      sx={{
-        p: 0,
-        height: 18,
-        width: 18,
-        minWidth: "unset",
-      }}
-      variant="outlined"
-      {...props}
-    >
-      <MoreVertIcon sx={{ fontSize: 12 }} />
-    </UI.Button>
+    <UI.Col width={32}>
+      <UI.Button
+        fullWidth={false}
+        {...props}
+        sx={{
+          p: 0,
+          height: 18,
+          width: 18,
+          minWidth: 0,
+        }}
+        variant="outlined"
+      >
+        <MoreVertIcon sx={{ fontSize: 12 }} />
+      </UI.Button>
+    </UI.Col>
   );
 }
 
