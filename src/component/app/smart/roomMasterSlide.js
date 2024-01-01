@@ -73,6 +73,12 @@ export default function MasterSlide(params) {
     seton((p) => !p);
   }
 
+  function getValue() {
+    if (!on) return 0;
+    if (value == 0) return "-";
+    return value == 100 ? "M" : value;
+  }
+
   return (
     <UI.Col
       center
@@ -133,7 +139,7 @@ export default function MasterSlide(params) {
           }}
         >
           <UI.Text variant="body1" color="white" pb={0.5} bold>
-            {on ? value : 0}
+            {getValue()}
           </UI.Text>
         </UI.Col>
       </UI.Col>
