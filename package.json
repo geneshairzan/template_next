@@ -6,7 +6,7 @@
     "dev": "next dev",
     "devs": "next dev  --experimental-https",
     "build": "next build",
-    "start": "next start -p 7001",
+    "start": "next start -p 7002",
     "lint": "next lint",
     "preview-email": "email dev"
   },
