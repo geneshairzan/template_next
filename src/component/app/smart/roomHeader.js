@@ -24,7 +24,6 @@ export default function MainNav({ data }) {
       <UI.Button
         startIcon={<Icon.Back />}
         onClick={() => loc.push("/")}
-        alignItems="center"
         spacing={0}
         bgcolor="grey"
         sx={{

@@ -20,7 +20,18 @@ export default function App(props) {
         flexGrow={1}
       >
         <MainGeneralInfo />
-        <UI.Col flexGrow={1} overflow="auto" height="10vh" spacing={2} pb={"64px"}>
+        <UI.Col
+          height="10vh"
+          spacing={2}
+          sx={{
+            pb: "64px",
+            flexGrow: 1,
+            overflow: "auto",
+            "::-webkit-scrollbar": {
+              width: "0px",
+            },
+          }}
+        >
           {rooms.map((d) => (
             <RoomCards D={d} />
           ))}
