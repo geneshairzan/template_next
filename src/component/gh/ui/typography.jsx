@@ -5,15 +5,13 @@ import { Typography, Tooltip, Stack } from "@mui/material";
 export default function Typo({ capitalize = false, bold, italic, ...props }) {
   return (
     <Typography
-      className="font-link"
+      sx={{
+        ...props?.sx,
+      }}
       {...props}
       fontStyle={italic ? "italic" : ""}
       fontWeight={bold ? 600 : ""}
       textTransform={capitalize && "capitalize"}
-      sx={{
-        ...props?.sx,
-        color: props.children == "unknown" && "error.main",
-      }}
     >
       {props.children}
     </Typography>

@@ -8,6 +8,7 @@ import useapp from "@context/reducer/useapp";
 import ThemeProvider from "@context/theme";
 import AppMiddleware from "@/component/middleware/client";
 import { useRouter } from "next/router";
+import UI from "@gh/ui";
 
 export default function MyApp({ Component, pageProps }) {
   const loc = useRouter();
@@ -25,9 +26,16 @@ export default function MyApp({ Component, pageProps }) {
     >
       <ThemeProvider>
         <AppMiddleware>
-          <Layout>
+          <UI.Col
+            height={"100dvh"}
+            overflow={"hidden"}
+            width={"100vw"}
+            backgroundColor="#1c1512"
+            center
+            px={{ xs: 1.5, md: 5 }}
+          >
             <Component {...pageProps} key={loc?.asPath} />
-          </Layout>
+          </UI.Col>
         </AppMiddleware>
       </ThemeProvider>
     </Context.Provider>

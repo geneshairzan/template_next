@@ -18,6 +18,7 @@ export default function AppMiddleware({ children }) {
       allowedModel.includes(router.asPath) ||
       // allowedModel.map((d) => d.replaceAll("/", "")).includes(router?.query?.model) ||
       allowedModel.map((d) => d.replaceAll("/", "")).includes(router.asPath.split("/")[1]) ||
+      router.asPath.includes("/home") ||
       router.asPath.includes("/p/")
     )
       return true;

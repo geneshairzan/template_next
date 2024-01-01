@@ -50,12 +50,40 @@ export default function CustomStyles(props) {
       blue: "#2f4858",
       red: "#ee6c4d",
     },
+
+    smart: {
+      main: "#d6974d",
+      dark: "#1c1512",
+      text: "#9f9e9c",
+      textdark: "#645444",
+    },
+    smartSecondary: {
+      main: "#402e25",
+      dark: "#1c1512",
+      text: "#9f9e9c",
+    },
+
+    menu: {
+      bg: "#402e25",
+      active: "#d6974d",
+      inactive: "#1c1512",
+
+      // text: { active: "#d6974d", inactive: "1c1512" },
+    },
   };
 
   const themeSetup = createTheme({
     palette: color,
     typography: {
       fontSize: 12,
+      // h1: {
+      //   fontWeight: 600,
+      //   fontSize: 72,
+      // },
+      // h4: {
+      //   fontWeight: 600,
+      //   fontSize: 16,
+      // },
     },
     components: {
       MuiTextField: {

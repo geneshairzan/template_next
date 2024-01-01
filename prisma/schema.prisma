@@ -6,8 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider = "mysql"
-  url      = env("DATABASE_URL")
+  provider = "sqlite"
+  url      = "file:./db.db"
 }
 
 model Status {
@@ -152,7 +152,7 @@ model Product {
 model Project {
   id        String  @id @default(cuid())
   name      String?
-  desc      String  @db.Text
+  desc      String
   status_id Int?    @default(1)
 
   created_at DateTime  @default(now())
