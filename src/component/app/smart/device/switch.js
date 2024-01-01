@@ -10,7 +10,7 @@ export default function App({ D, roomState }) {
   const state = UseVal();
 
   useEffect(() => {
-    D?.roomLinked && roomState?.state ? state.setOn() : state.setOff();
+    if (D?.roomLinked) roomState?.state ? state.setOn() : state.setOff();
   }, [roomState?.state]);
 
   return (
