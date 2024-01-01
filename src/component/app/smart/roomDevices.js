@@ -45,7 +45,7 @@ export default function MainNav({ data, roomState }) {
           top: 12,
         }}
       />
-      <UI.Col pt={0} flexGrow={1} overflow="auto">
+      <UI.Col pt={0} flexGrow={1} overflow="auto" center>
         {data?.length ? (
           <UI.Col height="100%" pt={2}>
             <UI.Text p={1} variant="body1" color={"smart.text"}>
