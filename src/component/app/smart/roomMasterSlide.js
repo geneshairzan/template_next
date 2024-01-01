@@ -18,6 +18,8 @@ import { glass } from "@/component/app/smart/data";
 import Slider, { SliderThumb } from "@mui/material/Slider";
 import { styled } from "@mui/material/styles";
 import ArrowDropUpIcon from "@mui/icons-material/ArrowDropUp";
+import UsePwm from "@/component/app/smart/helper/usePwm";
+
 const config = {
   width: 36,
   widthModifier: 0.6,
@@ -65,19 +67,17 @@ const PrettoSlider = styled(Slider)({
   },
 });
 
-export default function MasterSlide(params) {
-  const [value, setvalue] = useState(40);
-  const [on, seton] = useState(true);
-
-  function toggle(params) {
-    seton((p) => !p);
-  }
+export default function MasterSlide({ onRoomChange }) {
+  const room = UsePwm();
 
   function getValue() {
-    if (!on) return 0;
-    if (value == 0) return "-";
-    return value == 100 ? "M" : value;
+    if (!room.v.state) return 0;
+    if (room.v.value == 0) return "-";
+    return room.v.value == 100 ? "M" : room.v.value;
   }
+  useEffect(() => {
+    onRoomChange(room.v);
+  }, [room.v]);
 
   return (
     <UI.Col
@@ -91,18 +91,19 @@ export default function MasterSlide(params) {
       spacing={2}
     >
       <UI.Col
-        onClick={toggle}
+        onClick={room.toggle}
         center
         sx={{
-          bgcolor: on ? "smart.main" : "smartSecondary.main",
+          bgcolor: room.v.state ? "smart.main" : "smartSecondary.main",
           borderRadius: "50%",
           width: config.width,
           height: config.width,
           flexShrink: 0,
         }}
       >
-        <Icon.Light sx={{ color: !on ? "smart.main" : "smart.dark" }} />
+        <Icon.Light sx={{ color: room.v.state ? "smart.dark" : "smart.main" }} />
       </UI.Col>
+
       <UI.Col
         alignItems="center"
         sx={{
@@ -113,22 +114,22 @@ export default function MasterSlide(params) {
         }}
       >
         <PrettoSlider
-          disabled={!on}
-          // color={on ? "smartSecondary" : "primary"}
+          disabled={!room.v.state}
           color={"smartSecondary"}
           slots={{ thumb: CustomSliderThumb }}
+          value={room.v.state ? room.v.value : 0}
+          onChange={(e) => room.set({ ...room.v, value: e.target.value })}
+          orientation="vertical"
+          // color={on ? "smartSecondary" : "primary"}
           // valueLabelDisplay="auto"
           // aria-label="pretto slider"
-          value={on ? value : 0}
-          onChange={(e) => setvalue(e.target.value)}
-          orientation="vertical"
         />
         <UI.Col
-          onClick={toggle}
+          // onClick={room.toggle}
           alignItems="center"
           justifyContent="flex-end"
           sx={{
-            bgcolor: on ? "smartSecondary.main" : "grey",
+            bgcolor: room.v.state ? "smartSecondary.main" : "grey",
             borderRadius: "0 0 32px 32px",
             width: config.width * config.widthModifier,
             height: 58,
@@ -138,7 +139,7 @@ export default function MasterSlide(params) {
             zIndex: 1,
           }}
         >
-          <UI.Text variant="body1" color="white" pb={0.5} bold>
+          <UI.Text variant="caption" color="white" pb={0.5} bold>
             {getValue()}
           </UI.Text>
         </UI.Col>
@@ -148,7 +149,6 @@ export default function MasterSlide(params) {
 }
 
 function CustomSliderThumb(props) {
-  console.log(props.ownerState);
   const { children, ...other } = props;
   return (
     <SliderThumb {...other}>
@@ -162,12 +162,16 @@ function CustomSliderThumb(props) {
           bgcolor: !props.ownerState.disabled ? "smart.main" : "grey",
         }}
       >
-        <ArrowDropUpIcon
-          sx={{
-            fontSize: 48,
-            color: "smartSecondary.main",
-          }}
-        />
+        {props.ownerState.disabled ? (
+          "-"
+        ) : (
+          <ArrowDropUpIcon
+            sx={{
+              fontSize: 48,
+              color: "smartSecondary.main",
+            }}
+          />
+        )}
       </UI.Col>
     </SliderThumb>
   );

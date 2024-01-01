@@ -18,6 +18,8 @@ import OpenInNewIcon from "@mui/icons-material/OpenInNew";
 import EditIcon from "@mui/icons-material/Edit";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import LightbulbIcon from "@mui/icons-material/Lightbulb";
+import WbSunnyIcon from "@mui/icons-material/WbSunny";
+
 function IconRender(props) {
   return <img src={props.path} style={{ width: 18, height: 18, ...props.sx }} />;
 }
@@ -42,7 +44,7 @@ const icon = {
   Open: OpenInNewIcon,
   Edit: EditIcon,
   View: VisibilityIcon,
-  Light: LightbulbIcon,
+  Light: WbSunnyIcon,
 };
 
 export default icon;

@@ -14,14 +14,15 @@ import MasterSlide from "@/component/app/smart/roomMasterSlide";
 export default function ModelForm(props) {
   const { query } = useRouter();
   const [data, setdata] = useState(rooms.find((d) => d.id == query?.id));
+  const [roomState, setroomState] = useState();
   if (!query?.id) return;
 
   return (
     <UI.Col width="100%" maxWidth={1920} maxHeight={1080} height="100%" position="relative" py={{ xs: 2, md: 5 }}>
       <RoomBg src={data?.src} />
       <RoomHeader data={data} />
-      <Devices d={data.devices} />
-      <MasterSlide />
+      <Devices data={data.devices} roomState={roomState} />
+      <MasterSlide onRoomChange={setroomState} />
     </UI.Col>
   );
 }
