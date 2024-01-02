@@ -10,15 +10,26 @@ import SettingsIcon from "@mui/icons-material/Settings";
 
 export default function MainNav({ pages, activepage, setactivepage }) {
   return (
-    <UI.Col sx={{ position: "absolute", bottom: "7dvh" }} center width="100%">
+    <UI.Col
+      center
+      sx={{
+        position: "absolute",
+        bottom: { xs: "24px", md: 36 },
+        width: { xs: "100%", md: "40%" },
+      }}
+    >
       <UI.Row
         sx={{
-          position: "absolute",
+          position: "relative",
           bgcolor: "smartSecondary.main",
           p: 1,
-          borderRadius: "32px",
-          width: { xs: "100%", md: "auto" },
+          borderRadius: "64px",
+          // width: { xs: "100%", md: "auto" },
+          // width: { xs: "100%", md: "auto" },
           justifyContent: { xs: "space-between", md: "center" },
+          // border: { md: "4px solid" },
+          border: { xs: "none", md: "8px solid" },
+          borderColor: { xs: "black", md: "smartSecondary.dark" },
         }}
         spacing={2}
       >

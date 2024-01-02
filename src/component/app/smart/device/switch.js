@@ -16,10 +16,12 @@ export default function App({ D, roomState }) {
   return (
     <UI.Col
       alignItems="center"
-      justifyContent="space-between"
+      // justifyContent="space-between"
       onClick={state.toggle}
       sx={{
-        height: 72,
+        justifyContent: { xs: "space-between", md: "flex-start" },
+        overflow: "hidden",
+        height: { xs: 72, md: 180 },
         m: 1,
         borderRadius: 3,
         p: 1,
@@ -27,16 +29,54 @@ export default function App({ D, roomState }) {
         ...grad,
       }}
     >
-      <UI.Row justifyContent="space-between" width="100%" spacing={2}>
-        <UI.Text variant="body1" color="smart.text">
-          {D.name || "Switch"}
-        </UI.Text>
+      <UI.Stack
+        direction={{ xs: "row", md: "column" }}
+        sx={{
+          flexGrow: 1,
+          alignItems: { xs: "flex-start", md: "center" },
+          justifyContent: { xs: "space-between", md: "flex-start" },
+          position: "relative",
+        }}
+        width="100%"
+        spacing={2}
+        // bgcolor={"red"}
+      >
+        <UI.Col
+          sx={{
+            // justifyContent: "space-between",
+            justifyContent: "space-between",
+            height: "100%",
+            order: { xs: 1, md: 2 },
+            pt: { xs: 0, md: 1 },
+            width: "calc(100% - 36px)",
+          }}
+        >
+          <UI.Text
+            color="smart.text"
+            sx={{
+              typography: { xs: "body1", md: "h5" },
+              // order: { xs: 1, md: 2 },
+            }}
+          >
+            {D.name || "Switch"}
+          </UI.Text>
+          <UI.Text
+            variant="body2"
+            color="smart.textdark"
+            sx={{
+              typography: { xs: "body2", md: "body1" },
+              // order: { xs: 2, md: 1 },
+            }}
+          >
+            {"Active until 06.00"}
+          </UI.Text>
+        </UI.Col>
         <UI.Col
           center
           sx={{
             flexShrink: 0,
-            width: 42,
-            height: 42,
+            width: { xs: 72, md: 110 },
+            height: { xs: 72, md: 110 },
             bgcolor: state.val ? "smart.main" : "unset",
             // bgcolor: "red",
             border: "2px solid",
@@ -44,21 +84,22 @@ export default function App({ D, roomState }) {
             borderRadius: "50%",
             pl: "2px",
             pt: "2px",
+            order: { xs: 2, md: 1 },
+            // position: { xs: "relative", md: "absolute" },
+            position: "absolute",
+            bottom: { xs: 0, md: -24 },
+            right: { xs: -32, md: -24 },
+            top: { xs: -8, md: "unset" },
           }}
         >
           <WbSunnyIcon
             sx={{
               color: state?.val == 0 ? "smart.main" : "black",
+              fontSize: { xs: 32, md: 48 },
             }}
           />
         </UI.Col>
-      </UI.Row>
-
-      <UI.Col width="100%">
-        <UI.Text variant="body2" color="smart.textdark">
-          {"Active until 06.00"}
-        </UI.Text>
-      </UI.Col>
+      </UI.Stack>
     </UI.Col>
   );
 }

@@ -25,16 +25,17 @@ export default function MainNav({ data, roomState }) {
         left: 0,
         bottom: 0,
         bgcolor: "grey",
-        height: "50vh",
+        height: { xs: "50vh", md: "100%" },
         width: "100%",
         ...glass,
-        borderRadius: "24px 24px 0 0 ",
+        borderRadius: { xs: "24px 24px 0 0 ", md: 0 },
       }}
       alignItems="center"
       width="100%"
     >
       <UI.Col
         sx={{
+          display: { xs: "flex", md: "none" },
           t: 1,
           width: 48,
           bgcolor: "darkGrey",
@@ -45,9 +46,29 @@ export default function MainNav({ data, roomState }) {
           top: 12,
         }}
       />
-      <UI.Col pt={0} flexGrow={1} overflow="auto" center>
+      <UI.Col
+        pt={0}
+        flexGrow={1}
+        overflow="auto"
+        center
+        sx={{
+          px: { xs: 0, md: "15vw" },
+        }}
+      >
         {data?.length ? (
-          <UI.Col height="100%" pt={2}>
+          <UI.Col
+            pt={2}
+            sx={{
+              minHeight: {
+                xs: "100%",
+                md: "0",
+              },
+              maxHeight: {
+                xs: "100%",
+                md: "60dvh",
+              },
+            }}
+          >
             <UI.Text p={1} variant="body1" color={"smart.text"}>
               {data?.length} Devices
             </UI.Text>
@@ -85,7 +106,7 @@ function RenderDevice({ data, roomState }) {
         <UI.Col
           key={ix}
           sx={{
-            width: { xs: "50%" },
+            width: { xs: "50%", md: "25%" },
           }}
         >
           {d.type == "switch" && <Device.Switch D={d} roomState={roomState} />}

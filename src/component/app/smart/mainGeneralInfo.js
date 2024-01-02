@@ -36,16 +36,26 @@ const info = [
 
 export default function MainNav({ pages, activepage, setactivepage }) {
   return (
-    <UI.Row
-      width="100%"
-      p={1}
+    <UI.Stack
+      direction={{ xs: "row", md: "column" }}
       sx={{
+        p: { xs: 1, md: 3 },
+        width: { xs: "100%", md: "40%" },
+        height: { xs: "auto", md: "calc(100% - 36px)" },
         bgcolor: "smartSecondary.main",
         borderRadius: 3,
       }}
       spacing={1}
     >
-      <UI.Col width="60%" border="1px solid black" bgcolor="smart.dark" borderRadius={3}>
+      <UI.Col
+        border="1px solid black"
+        bgcolor="smart.dark"
+        borderRadius={3}
+        sx={{
+          width: { xs: "60%", md: "100%" },
+          overflow: "hidden",
+        }}
+      >
         <UI.Col p={{ xs: 2, md: 5 }} spacing={2}>
           <UI.Row justifyContent="space-between" position="relative">
             <UI.Text color={"smart.main"} variant="h4">
@@ -74,12 +84,18 @@ export default function MainNav({ pages, activepage, setactivepage }) {
           </UI.Text>
         </UI.Col>
       </UI.Col>
-      <UI.Col width="40%" spacing={1}>
+      <UI.Col
+        spacing={1}
+        direction={{ xs: "column", md: "row" }}
+        sx={{
+          width: { xs: "40%", md: "100%" },
+        }}
+      >
         {info.map((d, ix) => (
           <InfoCard D={d} key={ix} />
         ))}
       </UI.Col>
-    </UI.Row>
+    </UI.Stack>
   );
 }
 
@@ -88,17 +104,49 @@ function InfoCard({ D }) {
     <UI.Col
       sx={{
         bgcolor: "smart.dark",
-        height: "30%",
+        height: { xs: "30%", md: 140 },
+        width: { xs: "100%", md: "40%" },
         borderRadius: 3,
         p: 1,
+        alignItems: { xs: "flex-start", md: "center" },
       }}
     >
-      <UI.Text variant="body2" color="smart.textdark">
+      <D.Icon
+        color="smart"
+        sx={{
+          display: { xs: "none", md: "flex" },
+          fontSize: { xs: 18, md: 64 },
+        }}
+      />
+      <UI.Text
+        color="smart.textdark"
+        sx={{
+          typography: { xs: "body2", md: "h5" },
+          textAlign: { xs: "left", md: "center" },
+        }}
+      >
         {D.name}
       </UI.Text>
-      <UI.Row spacing={1}>
-        <D.Icon color="smart" />
-        <UI.Text variant="body1" color="smart.text">
+      <UI.Row
+        spacing={1}
+        alignItems="center"
+        sx={{
+          justifyContent: { xs: "flex-start", md: "center" },
+        }}
+      >
+        <D.Icon
+          color="smart"
+          sx={{
+            display: { xs: "flex", md: "none" },
+            fontSize: { xs: 18, md: 64 },
+          }}
+        />
+        <UI.Text
+          color="smart.text"
+          sx={{
+            typography: { xs: "body1", md: "h5" },
+          }}
+        >
           {D.value}
         </UI.Text>
       </UI.Row>

@@ -20,22 +20,36 @@ export default function MainNav({ data }) {
   const loc = useRouter();
 
   return (
-    <UI.Row sx={{ position: "absolute", height: 48 }} width="100%" justifyContent="space-between" alignItems="center">
+    <UI.Row
+      sx={{
+        position: { xs: "absolute", md: "fixed" },
+        height: 48,
+        px: { xs: "0", md: "15vw" },
+        zIndex: 99,
+        width: "100%",
+        // bgcolor: "red"
+        left: 0,
+      }}
+      width="100%"
+      justifyContent="space-between"
+      alignItems="center"
+    >
       <UI.Button
+        color="smart"
         startIcon={<Icon.Back />}
         onClick={() => loc.push("/")}
         spacing={0}
         bgcolor="grey"
         sx={{
           borderRadius: 32,
-          pr: 2,
           textTransform: "none",
           ...glass,
+          fontSize: { xs: 16, md: 32 },
+          color: "white",
         }}
       >
         {data?.label}
-
-        <UI.Text variant="h6" color="white"></UI.Text>
+        {/* <UI.Text variant="h6" color="white"></UI.Text> */}
       </UI.Button>
       <UI.IconButton
         sx={{
@@ -46,6 +60,7 @@ export default function MainNav({ data }) {
         <MoreVertIcon
           sx={{
             color: "white",
+            fontSize: { xs: 24, md: 48 },
           }}
         />
       </UI.IconButton>

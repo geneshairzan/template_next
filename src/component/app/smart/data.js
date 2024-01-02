@@ -48,6 +48,16 @@ export const rooms = [
     label: "Kitchen",
     src: "/assets/img/bg/kitchen.jpg",
   },
+  {
+    id: 3,
+    label: "Kitchen",
+    src: "/assets/img/bg/kitchen.jpg",
+  },
+  {
+    id: 3,
+    label: "Kitchen",
+    src: "/assets/img/bg/kitchen.jpg",
+  },
 ];
 
 export const glass = {

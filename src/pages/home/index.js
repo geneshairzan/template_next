@@ -9,34 +9,47 @@ import { rooms, pages } from "@/component/app/smart/data";
 export default function App(props) {
   const [activepage, setactivepage] = useState(0);
   return (
-    <UI.Col width="100%" maxWidth={1920} maxHeight={1080} height="100%" position="relative" py={{ xs: 2, md: 5 }}>
+    <UI.Col
+      width="100%"
+      maxWidth={1920}
+      maxHeight={1080}
+      height="100%"
+      position="relative"
+      py={{ xs: 2, md: 6 }}
+      // overflow="hidden"
+    >
       <MainHeader />
-      <UI.Col
+      <UI.Stack
         id="mainContainer"
+        direction={{ xs: "column", md: "row" }}
         sx={{
           pt: "calc(48px + 16px)",
+          position: "relative",
+          height: { xs: "100%", md: "100%" },
         }}
         spacing={2}
         flexGrow={1}
       >
         <MainGeneralInfo />
         <UI.Col
-          height="10vh"
           spacing={2}
           sx={{
+            height: { xs: "10vh", md: "calc(100% - 36px)" },
+            maxHeight: "100%",
             pb: "64px",
             flexGrow: 1,
-            overflow: "auto",
+            overflow: "scroll",
             "::-webkit-scrollbar": {
               width: "0px",
+              height: 0,
             },
           }}
         >
-          {rooms.map((d) => (
-            <RoomCards D={d} />
+          {rooms.map((d, ix) => (
+            <RoomCards D={d} key={ix} />
           ))}
         </UI.Col>
-      </UI.Col>
+      </UI.Stack>
       <MainNav pages={pages} activepage={activepage} setactivepage={setactivepage} />
     </UI.Col>
   );

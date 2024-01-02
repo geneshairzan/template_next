@@ -17,21 +17,6 @@ const pages = [
   },
 ];
 
-const rooms = [
-  {
-    label: "Living Room",
-    bg: "/assets/img/bg/living-room.jpg",
-  },
-  {
-    label: "Bed Room",
-    bg: "/assets/img/bg/bed-room.jpg",
-  },
-  {
-    label: "Kitchen",
-    bg: "/assets/img/bg/kitchen.jpg",
-  },
-];
-
 const glass = {
   background: "rgba(255, 255, 255, 0.2)",
   boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
@@ -43,6 +28,7 @@ export default function App(props) {
     <UI.Stack height={"100dvh"} overflow={"hidden"} width={"100vw"} backgroundColor="#1e1e1e">
       <Bgimg src={pages[activepage].bg} />
       <Panel />
+
       <RoomNav pages={pages} activepage={activepage} setactivepage={setactivepage} />
     </UI.Stack>
   );

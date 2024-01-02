@@ -47,7 +47,6 @@ function CTA({ D }) {
   return (
     <UI.Row
       justifyContent="space-between"
-      alignItem="center"
       sx={{
         width: "100%",
         alignItem: "center",

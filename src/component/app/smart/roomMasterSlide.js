@@ -85,8 +85,8 @@ export default function MasterSlide({ onRoomChange }) {
       sx={{
         width: 36,
         position: "absolute",
-        right: 0,
-        top: "20%",
+        right: { xs: 0, md: "5vw" },
+        top: { xs: "20%", md: "calc(30vh)" },
       }}
       spacing={2}
     >
