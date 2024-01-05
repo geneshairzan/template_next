@@ -1,9 +1,9 @@
-import { Prisma } from "@prisma/client";
-import prisma from "./client";
+import { Prisma, PrismaClient } from "@prisma/client";
 import enc from "../encryption";
 import { getInfo } from "@/model";
 
-// const prisma = new PrismaClient();
+// import prisma from "./client";
+const prisma = new PrismaClient();
 
 const extendPrisma = prisma.$extends({
   model: {
