@@ -27,7 +27,9 @@ export default function AppMiddleware({ children }) {
         if (!router.asPath.includes("/home") && auth?.user.role_id == 3) router.push("/home");
       }
     } else {
-      router.push("/");
+      if (!router.asPath.includes("/demo")) {
+        router.push("/");
+      }
     }
   }, [auth?.user]);
 
@@ -39,6 +41,7 @@ export default function AppMiddleware({ children }) {
       allowedModel.map((d) => d.replaceAll("/", "")).includes(router.asPath.split("/")[1]) ||
       router.asPath.includes("/home") ||
       router.asPath.includes("/family") ||
+      router.asPath.includes("/demo") ||
       router.asPath.includes("/p/")
     )
       return true;
@@ -46,6 +49,6 @@ export default function AppMiddleware({ children }) {
   }
 
   if (!isAllowed()) return <P404 />;
-  if (!auth?.user?.id) return <PAuth />;
+  if (!auth?.user?.id && !router.asPath.includes("/demo")) return <PAuth />;
   return <>{children}</>;
 }

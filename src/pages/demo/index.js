@@ -17,7 +17,7 @@ export default function App(props) {
       maxHeight={1080}
       height="100%"
       position="relative"
-      py={{ xs: 2, md: 6 }}
+      p={{ xs: 2, md: 6 }}
       // overflow="hidden"
     >
       <MainHeader />

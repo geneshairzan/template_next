@@ -6,7 +6,7 @@ import Profile from "@/component/app/smart/profile";
 export default function MainNav({ pages, activepage, setactivepage }) {
   return (
     <UI.Row
-      sx={{ position: "absolute", height: 48 }}
+      sx={{ position: "absolute", left: 0, height: 48 }}
       width="100%"
       justifyContent="space-between"
       alignItems="center"

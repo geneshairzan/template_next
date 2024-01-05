@@ -29,7 +29,7 @@ export default function App(props) {
           flexGrow={1}
           id="mainContainer"
           sx={{
-            pt: "calc(48px + 16px)",
+            pt: { xs: 0, md: "calc(48px + 16px)" },
             position: "relative",
             height: { xs: "100%", md: "100%" },
           }}

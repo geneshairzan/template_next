@@ -36,7 +36,7 @@ export default function MainNav({ data }) {
       <UI.Button
         color="smart"
         startIcon={<Icon.Back />}
-        onClick={() => loc.push("/home")}
+        onClick={() => loc.push("/demo")}
         spacing={0}
         bgcolor="grey"
         sx={{
@@ -48,7 +48,7 @@ export default function MainNav({ data }) {
           textTransform: "capitalize",
         }}
       >
-        {data?.name}
+        {data?.name || data?.label}
         {/* <UI.Text variant="h6" color="white"></UI.Text> */}
       </UI.Button>
       <UI.IconButton
