@@ -18,8 +18,9 @@ const extendPrisma = prisma.$extends({
   },
 });
 
-let role = ["admin", "user"];
+let role = ["super", "admin", "member"];
 let status = ["active", "inactive"];
+let devicetype = ["switch"];
 
 async function main() {
   await prisma.userRole.createMany({
@@ -32,11 +33,17 @@ async function main() {
     skipDuplicates: true,
   });
 
+  await prisma.deviceType.createMany({
+    data: [...devicetype.map((d) => ({ name: d }))],
+    skipDuplicates: true,
+  });
+
   await extendPrisma.user.create({
     data: {
       email: "admin@admin.com",
       name: "admin",
       password: "password",
+      role_id: 1,
     },
   });
 }

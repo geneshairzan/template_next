@@ -1,6 +1,7 @@
 import prisma from "@/component/gh/helper/orm";
+import serverMiddleware from "@/component/middleware/server";
 
-export default async function handler(r, res) {
+async function handler(r, res) {
   if (r.method === "POST") {
     res.status(200).json("under dev");
   } else {
@@ -8,3 +9,5 @@ export default async function handler(r, res) {
     res.status(200).json(prisma.responseFilter(data));
   }
 }
+
+export default serverMiddleware(handler);

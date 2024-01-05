@@ -14,7 +14,7 @@ export default function App({ grey = false }) {
   return (
     <AppBar position="fixed">
       <UI.Row spacing={2} center justifyContent="space-between" px={2} py={1}>
-        <ModalLogin auth={auth} />
+        <ModalLogin auth={auth} setmodalOpen={() => {}} />
         <UI.Col component={Link} href="/">
           Inventory Mng.
         </UI.Col>

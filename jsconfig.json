@@ -5,7 +5,8 @@
       "@gh/*": ["./src/component/gh/*"],
       "@context/*": ["./src/component/context/*"],
       "@storage/*": ["./storage/*"],
-      "@model/*": ["./src/model/*"]
+      "@model/*": ["./src/model/*"],
+      "@smart/*": ["./src/component/app/smart/*"]
     }
   }
 }

@@ -5,13 +5,13 @@ import { getCroppedImg, readFile } from "./utils";
 import AddCircleOutlineIcon from "@mui/icons-material/AddCircleOutline";
 import RotateLeftIcon from "@mui/icons-material/RotateLeft";
 
-export default function App({ result, btnText }) {
+export default function App({ result, btnText, refimg }) {
   const inputRef = React.useRef(null);
 
   const [crop, setCrop] = useState({ x: 0, y: 0 });
   const [zoom, setZoom] = useState(1);
   const [croppedAreaPixels, setCroppedAreaPixels] = useState(null);
-  const [croppedImage, setCroppedImage] = useState();
+  const [croppedImage, setCroppedImage] = useState(refimg);
   const [modalOpen, setModalOpen] = useState(false);
 
   const onCropComplete = useCallback((croppedArea, croppedAreaPixels) => {

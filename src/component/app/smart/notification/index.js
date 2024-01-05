@@ -13,7 +13,7 @@ let ex = [
     date: new Date(),
     msg: "Continues failed login attempt detected. If the problem persist and  this is not you, please contact developer.",
   },
-  { date: new Date(), msg: "Automation 'Morning Sunshine' cannot execure properly" },
+  { date: new Date(), msg: "Automation 'Morning Sunshine' cannot execute properly" },
   { date: new Date(), msg: "Schedule 'Morning routine' set off by 'john doe'" },
 ];
 

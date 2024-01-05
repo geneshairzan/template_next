@@ -8,7 +8,7 @@ export default function App({ src, sx, ...props }) {
 
   return (
     <img
-      src={src}
+      src={process.env.NEXT_PUBLIC_APP_URL + "/api/file/" + src}
       alt=""
       style={{
         objectFit: "cover",

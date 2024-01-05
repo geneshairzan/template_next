@@ -2,17 +2,17 @@ import * as React from "react";
 import { createTheme, ThemeProvider, responsiveFontSizes, StyledEngineProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 
-export default function CustomStyles(props) {
+export default function CustomStyles({ isDark, ...props }) {
   const color = {
     primary: {
-      main: "#004378",
-      dark: "#002e52",
+      main: "#d6974d",
+      dark: "#a3733a",
       contrastText: "#fff",
     },
 
     secondary: {
-      main: "#ff0000",
-      dark: "#cc0000",
+      main: "#402e25",
+      dark: "#1c1512",
       contrastText: "#fff",
     },
 
@@ -50,13 +50,14 @@ export default function CustomStyles(props) {
       blue: "#2f4858",
       red: "#ee6c4d",
     },
-
+    //202124
     smart: {
       main: "#d6974d",
       dark: "#1c1512",
       text: "#9f9e9c",
       textdark: "#645444",
     },
+
     smartSecondary: {
       main: "#402e25",
       dark: "#1c1512",
@@ -73,7 +74,10 @@ export default function CustomStyles(props) {
   };
 
   const themeSetup = createTheme({
-    palette: color,
+    palette: {
+      mode: isDark ? "dark" : "light",
+      ...color,
+    },
     typography: {
       fontSize: 12,
       // h1: {

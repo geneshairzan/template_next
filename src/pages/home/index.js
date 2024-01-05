@@ -6,51 +6,42 @@ import MainGeneralInfo from "@/component/app/smart/mainGeneralInfo";
 import RoomCards from "@/component/app/smart/roomCards";
 import { rooms, pages } from "@/component/app/smart/data";
 
+import Dashboard from "./dashboard";
+import useFetch from "@gh/helper/useFetch";
+
 export default function App(props) {
+  const room = useFetch({ url: "family/room" });
+
   const [activepage, setactivepage] = useState(0);
   return (
-    <UI.Col
-      width="100%"
-      maxWidth={1920}
-      maxHeight={1080}
-      height="100%"
-      position="relative"
-      py={{ xs: 2, md: 6 }}
-      // overflow="hidden"
-    >
-      <MainHeader />
-      <UI.Stack
-        id="mainContainer"
-        direction={{ xs: "column", md: "row" }}
-        sx={{
-          pt: "calc(48px + 16px)",
-          position: "relative",
-          height: { xs: "100%", md: "100%" },
-        }}
-        spacing={2}
-        flexGrow={1}
+    <UI.Col px={{ xs: 2, md: 5 }} width="100%">
+      <UI.Col
+        width="100%"
+        maxWidth={1920}
+        maxHeight={1080}
+        height="100dvh"
+        position="relative"
+        py={{ xs: 2, md: 6 }}
+        // overflow="hidden"
       >
-        <MainGeneralInfo />
+        <MainHeader />
         <UI.Col
-          spacing={2}
+          flexGrow={1}
+          id="mainContainer"
           sx={{
-            height: { xs: "10vh", md: "calc(100% - 36px)" },
-            maxHeight: "100%",
-            pb: "64px",
-            flexGrow: 1,
-            overflow: "scroll",
-            "::-webkit-scrollbar": {
-              width: "0px",
-              height: 0,
-            },
+            pt: "calc(48px + 16px)",
+            position: "relative",
+            height: { xs: "100%", md: "100%" },
           }}
         >
-          {rooms.map((d, ix) => (
-            <RoomCards D={d} key={ix} />
-          ))}
+          {activepage == 0 && <Dashboard />}
+          {activepage == 1 && <Dashboard />}
+          {activepage == 2 && <Dashboard />}
+          {activepage == 3 && <Dashboard />}
         </UI.Col>
-      </UI.Stack>
-      <MainNav pages={pages} activepage={activepage} setactivepage={setactivepage} />
+
+        <MainNav pages={pages} activepage={activepage} setactivepage={setactivepage} />
+      </UI.Col>
     </UI.Col>
   );
 }

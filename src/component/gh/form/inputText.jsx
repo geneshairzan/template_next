@@ -6,7 +6,7 @@ import Label from "./label";
 export default function App({ noLabel = false, grow = false, ...props }) {
   return (
     <Stack spacing={0.5} width={props.fullWidth ? "100%" : "auto"} flexGrow={grow}>
-      {!noLabel && <Label label={props.label} tip={props.tip} />}
+      {!noLabel && <Label label={props.label || props.name} tip={props.tip} />}
       <TextField
         {...props}
         sx={{
@@ -19,7 +19,7 @@ export default function App({ noLabel = false, grow = false, ...props }) {
         inputProps={{
           sx: {
             bgcolor: "white.main",
-            pl: props.InputProps && 0.5,
+            // pl: props.InputProps && 0.5,
           },
         }}
         label=""

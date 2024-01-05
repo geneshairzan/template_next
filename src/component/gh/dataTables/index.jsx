@@ -16,10 +16,21 @@ import PrevIcon from "@mui/icons-material/KeyboardArrowLeftRounded";
 import NextIcon from "@mui/icons-material/KeyboardArrowRightRounded";
 import Pagination from "@mui/material/Pagination";
 
+const refconfig = {
+  firstColWidth: 300,
+  rowHeight: 40,
+  minCellWidth: 200,
+  bgcolor: "#fafafa",
+  bgcoloreven: "#e2eff5",
+};
+
 const config = {
   firstColWidth: 300,
   rowHeight: 40,
   minCellWidth: 200,
+  bgcolor: "",
+  bgcoloreven: "",
+  bordercolor: "#4f4f4f",
 };
 
 export default function Datatables({
@@ -150,8 +161,8 @@ function RenderDetail({ data, col, order, onorder, model, refetch, clickedRow, .
 
   return (
     <UI.Stack id="app-container" flexGrow={1} overflow={"auto"} position="relative" height={"100%"}>
-      <div style={{ minWidth: "1280px" }}>
-        {/* HEADER  RENDER */}
+      <div style={{ minWidth: "200px", width: "100%" }}>
+        {/* HEADER RENDER */}
         <UI.Row
           height={42}
           position="relative"
@@ -160,8 +171,9 @@ function RenderDetail({ data, col, order, onorder, model, refetch, clickedRow, .
             position: "sticky",
             top: 0,
             zIndex: 999,
+            // flexGrow: 1,
             minWidth: "100%",
-            bgcolor: "#fafafa",
+            bgcolor: config?.bgcolor,
           }}
         >
           {col.map((dx, ix) => (
@@ -169,10 +181,10 @@ function RenderDetail({ data, col, order, onorder, model, refetch, clickedRow, .
               key={ix}
               borderTop="1px solid"
               borderBottom="1px solid"
+              borderColor={config.bordercolor}
               flexShrink={0}
               minWidth={dx.w == "auto" && config.minCellWidth}
               flexGrow={dx.w == "auto" ? 1 : 0}
-              borderColor="grey.c"
               zIndex={102}
               direction="row"
               sx={{
@@ -215,8 +227,9 @@ function RenderDetail({ data, col, order, onorder, model, refetch, clickedRow, .
             position="relative"
             sx={{
               minWidth: "100%",
-
-              backgroundColor: ix % 2 == 0 ? "#E2EFF5" : "",
+              borderBottom: "1px solid",
+              borderColor: config.bordercolor,
+              backgroundColor: ix % 2 == 0 ? config?.bgcoloreven : "",
               display: "inline-flex",
               "& :hover": {
                 cursor: "pointer",
@@ -230,7 +243,7 @@ function RenderDetail({ data, col, order, onorder, model, refetch, clickedRow, .
                   col.findLast((dxx) => (dxx?.freeze ? dxx.freeze == true : false))?.name == dx.name
                     ? "grey.c"
                     : ix % 2 == 0
-                    ? "#E2EFF5"
+                    ? config?.bgcoloreven
                     : ""
                 }
                 height={config.rowHeight}
@@ -239,7 +252,7 @@ function RenderDetail({ data, col, order, onorder, model, refetch, clickedRow, .
                 flexShrink={0}
                 flexGrow={dx.w == "auto" ? 1 : 0}
                 sx={{
-                  backgroundColor: ix % 2 == 0 ? "#E2EFF5" : "",
+                  backgroundColor: ix % 2 == 0 ? config.bgcoloreven : "",
                   position: dx.freeze ? "sticky" : "relative",
                   zIndex: dx.freeze ? 200 : 99,
                   left: dix > 0 && dx.freeze ? getActionwidth() + getActionwidthExtra() + col[dix - 1]?.w || 0 : 0,
@@ -284,7 +297,13 @@ function RenderDetail({ data, col, order, onorder, model, refetch, clickedRow, .
                       justifyContent={dx.align}
                       alignItems="center"
                     >
-                      <RenderChild value={d[dx.name]} type={dx.type || dx.format} width={dx.w || config.minCellWidth} />
+                      <RenderChild
+                        value={d[dx.name]}
+                        type={dx.type || dx.format}
+                        width={dx.w || config.minCellWidth}
+                        El={dx?.El}
+                        row={d}
+                      />
                     </UI.Row>
                   )}
                 </UI.Row>
@@ -332,7 +351,7 @@ function ArrowAction({ p, ...props }) {
       <Menu anchorEl={anchorEl} open={open} onClose={handleClose}>
         <MenuItem sx={{ py: 0.5, px: 2 }} onClick={() => props.onClick(0, handleClose())}>
           <UI.Row alignItems="center" spacing={0.5}>
-            <UI.Circle w={8} bgcolor="#e2eff5" />
+            <UI.Circle w={8} bgcolor={config.bgcoloreven} />
             <UI.Text variant="body2" pt="2px">
               General
             </UI.Text>

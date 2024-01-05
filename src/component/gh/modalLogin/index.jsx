@@ -13,16 +13,10 @@ export default function App({ grey = false, auth, extraMenu }) {
   const { app } = React.useContext(Context);
   const [modalOpen, setmodalOpen] = useState(false);
   const [anchorEl, setAnchorEl] = useState(null);
-  const [value, setvalue] = useState(0);
-  const [onPasscode, setonPasscode] = useState(false);
 
   const handleClose = (path) => {
     setAnchorEl(null);
   };
-
-  useEffect(() => {
-    value == 0 && setonPasscode(false);
-  }, [value]);
 
   useEffect(() => {
     !modalOpen && app.set("forcelogin", false);
@@ -67,7 +61,8 @@ export default function App({ grey = false, auth, extraMenu }) {
         </UI.Col>
       </Drawer>
       <UI.Modal open={modalOpen || app.forcelogin ? true : false} onClose={() => !onPasscode && setmodalOpen(false)}>
-        <UI.Col center p={2} width="100vw">
+        <AuthForm />
+        {/* <UI.Col center p={2} width="100vw">
           <UI.Col
             sx={{
               width: "100%",
@@ -88,8 +83,53 @@ export default function App({ grey = false, auth, extraMenu }) {
               <Register onLogged={() => setmodalOpen(false)} onPasscode={setonPasscode} onSignin={() => setvalue(0)} />
             )}
           </UI.Col>
-        </UI.Col>
+        </UI.Col> */}
       </UI.Modal>
     </>
+  );
+}
+
+export function AuthForm({ sx, ...props }) {
+  const [value, setvalue] = useState(0);
+  const [onPasscode, setonPasscode] = useState(false);
+  useEffect(() => {
+    value == 0 && setonPasscode(false);
+  }, [value]);
+
+  return (
+    <UI.Col center p={2} width="80vw" maxWidth={640}>
+      <UI.Col
+        sx={{
+          width: "100%",
+          maxWidth: "400px",
+          bgcolor: "white",
+          pt: 2,
+          pb: 5,
+          px: 2,
+          borderRadius: 2,
+          ...sx,
+        }}
+      >
+        <Tabs value={value} onChange={(e, v) => setvalue(v)} variant="fullWidth">
+          <Tab label="Sign In" />
+          <Tab label="Register" />
+        </Tabs>
+        {value == 0 && (
+          <Login
+            // onLogged={() => setmodalOpen(false)}
+            onLogged={() => {}}
+            onPasscode={setonPasscode}
+          />
+        )}
+        {value == 1 && (
+          <Register
+            //  onLogged={() => setmodalOpen(false)}
+            onLogged={() => {}}
+            onPasscode={setonPasscode}
+            onSignin={() => setvalue(0)}
+          />
+        )}
+      </UI.Col>
+    </UI.Col>
   );
 }

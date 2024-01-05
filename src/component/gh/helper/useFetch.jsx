@@ -7,18 +7,32 @@ import Context from "@context/app";
 const accX = "w}5opZ%3oIQ6Vq(PUsTL";
 const accY = new Date().getTime();
 
-export const fetcher = async ({ saltY = accY, multipart = false, ...param }) => {
-  const token = localStorage.getItem("AuthToken");
+async function parseFormData(raw) {
+  var formData = new FormData();
+
+  Object.keys(raw).forEach(function (key) {
+    console.log(key, raw[key]);
+    formData.append(key, raw[key]);
+  });
+  console.log(formData);
+
+  return formData;
+}
+
+export const fetcher = async ({ saltY = accY, multipart = false, htoken, ...param }) => {
+  const token = htoken || localStorage.getItem("AuthToken");
   try {
     return await axios({
       ...param,
-      url: `${process.env.NEXT_PUBLIC_APP_URL}/api/${param.url}`,
+      url: param.url.includes("http") ? param.url : `${process.env.NEXT_PUBLIC_APP_URL}/api/${param.url}`,
       headers: {
+        authorization: `Bearer ${token}`,
+        "Content-Type": multipart ? `multipart/form-data` : "application/json",
+
         accept: "application/json",
         "Accept-Language": "en-US,en;q=0.8",
-        authorization: `Bearer ${token}`,
+
         "access-x": Md5.hashStr(accX + saltY),
-        "Content-Type": multipart ? `multipart/form-data` : "application/json",
         "access-y": saltY,
         "Cache-Control": "no-cache",
         Pragma: "no-cache",

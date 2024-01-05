@@ -16,8 +16,36 @@ import { useRouter } from "next/router";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { glass } from "@/component/app/smart/data";
 import Device from "@/component/app/smart/device";
+import useFetch, { fetcher } from "@gh/helper/useFetch";
 
 export default function MainNav({ data, roomState }) {
+  const data_ha = useFetch({
+    url: "family/device/sync",
+  });
+
+  function syncMap(d) {
+    return {
+      ...d,
+      state: data_ha.get()?.find((dx) => dx?.entity_id == d?.ha_entity_id)?.state,
+    };
+  }
+
+  async function deviceToggle(e) {
+    let res = await fetcher({
+      url: "device",
+      method: "post",
+      data: {
+        id: e,
+        do: "toggle",
+      },
+    });
+    if (res?.data) data_ha.reload();
+  }
+
+  async function handleClick(device) {
+    await deviceToggle(device?.ha_entity_id);
+  }
+
   return (
     <UI.Col
       sx={{
@@ -52,6 +80,7 @@ export default function MainNav({ data, roomState }) {
         overflow="auto"
         center
         sx={{
+          width: "100%",
           px: { xs: 0, md: "15vw" },
         }}
       >
@@ -59,6 +88,7 @@ export default function MainNav({ data, roomState }) {
           <UI.Col
             pt={2}
             sx={{
+              width: "100%",
               minHeight: {
                 xs: "100%",
                 md: "0",
@@ -82,7 +112,7 @@ export default function MainNav({ data, roomState }) {
                 },
               }}
             >
-              <RenderDevice data={data} roomState={roomState} />
+              <RenderDevice data={data.map(syncMap)} roomState={roomState} onClick={handleClick} />
             </UI.Col>
           </UI.Col>
         ) : (
@@ -95,10 +125,11 @@ export default function MainNav({ data, roomState }) {
   );
 }
 
-function RenderDevice({ data, roomState }) {
+function RenderDevice({ data, roomState, onClick }) {
   return (
     <UI.Row
       sx={{
+        width: "100%",
         flexWrap: "wrap",
       }}
     >
@@ -109,7 +140,7 @@ function RenderDevice({ data, roomState }) {
             width: { xs: "50%", md: "25%" },
           }}
         >
-          {d.type == "switch" && <Device.Switch D={d} roomState={roomState} />}
+          {d.type_id == 1 && <Device.Switch D={d} roomState={roomState} onClick={() => onClick(d)} />}
         </UI.Col>
       ))}
     </UI.Row>

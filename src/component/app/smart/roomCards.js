@@ -9,7 +9,7 @@ export default function App({ D }) {
 
   return (
     <UI.Col
-      onClick={() => loc.push(`/p/room/${D.id}`)}
+      onClick={() => loc.push(`/home/room/${D.id}`)}
       sx={{
         width: "100%",
         height: "225px",
@@ -19,8 +19,9 @@ export default function App({ D }) {
         position: "relative",
       }}
     >
-      <img
-        src={D.src}
+      {console.log(D)}
+      <UI.Img
+        src={"room/" + D.img}
         alt=""
         style={{
           height: "100%",
@@ -56,8 +57,8 @@ function CTA({ D }) {
       }}
     >
       <UI.Col pl={2}>
-        <UI.Text variant="body1" color="white">
-          {D.label}
+        <UI.Text variant="body1" color="white" capitalize>
+          {D.name}
         </UI.Text>
         <UI.Text variant="body2" color="smart.text">
           8 Devices Active

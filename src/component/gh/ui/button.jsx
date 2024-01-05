@@ -5,6 +5,13 @@ import CircularProgress from "@mui/material/CircularProgress";
 
 export default function App({ small, label, children, ...props }) {
   const { app } = React.useContext(Context);
+
+  function getStartIcon(params) {
+    if (props.type == "submit") {
+      app.isLoading ? <CircularProgress size={"14px"} color="pwhite" /> : props.startIcon;
+    }
+    return props.startIcon;
+  }
   return (
     <Button
       {...props}
@@ -13,9 +20,7 @@ export default function App({ small, label, children, ...props }) {
         width: small && "180px",
         ...props.sx,
       }}
-      startIcon={
-        props.type == "submit" && app.isLoading ? <CircularProgress size={"14px"} color="pwhite" /> : props.startIcon
-      }
+      startIcon={getStartIcon()}
     >
       {children}
     </Button>

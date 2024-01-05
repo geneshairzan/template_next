@@ -18,13 +18,12 @@ import { glass } from "@/component/app/smart/data";
 
 export default function MainNav({ data }) {
   const loc = useRouter();
-
   return (
     <UI.Row
       sx={{
         position: { xs: "absolute", md: "fixed" },
         height: 48,
-        px: { xs: "0", md: "15vw" },
+        px: { xs: 2, md: "15vw" },
         zIndex: 99,
         width: "100%",
         // bgcolor: "red"
@@ -37,7 +36,7 @@ export default function MainNav({ data }) {
       <UI.Button
         color="smart"
         startIcon={<Icon.Back />}
-        onClick={() => loc.push("/")}
+        onClick={() => loc.push("/home")}
         spacing={0}
         bgcolor="grey"
         sx={{
@@ -46,9 +45,10 @@ export default function MainNav({ data }) {
           ...glass,
           fontSize: { xs: 16, md: 32 },
           color: "white",
+          textTransform: "capitalize",
         }}
       >
-        {data?.label}
+        {data?.name}
         {/* <UI.Text variant="h6" color="white"></UI.Text> */}
       </UI.Button>
       <UI.IconButton

@@ -32,7 +32,7 @@ export default function App({ src }) {
             top: 0,
           }}
         >
-          <img
+          <UI.Img
             src={buffer}
             alt=""
             style={{

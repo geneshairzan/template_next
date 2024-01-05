@@ -12,7 +12,6 @@ import UI from "@gh/ui";
 
 export default function MyApp({ Component, pageProps }) {
   const loc = useRouter();
-
   const auth = useauth();
   const app = useapp();
 
@@ -24,15 +23,15 @@ export default function MyApp({ Component, pageProps }) {
         app,
       }}
     >
-      <ThemeProvider>
+      <ThemeProvider isDark={auth?.user?.id}>
         <AppMiddleware>
           <UI.Col
             height={"100dvh"}
             overflow={"hidden"}
             width={"100vw"}
-            backgroundColor="#1c1512"
+            bgcolor="smart.dark"
             center
-            px={{ xs: 1.5, md: 5 }}
+            // px={{ xs: 1.5, md: 5 }}
           >
             <Component {...pageProps} key={loc?.asPath} />
           </UI.Col>

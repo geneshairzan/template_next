@@ -6,8 +6,8 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
-  url      = "file:./db.db"
+  provider = "mysql"
+  url      = env("DATABASE_URL")
 }
 
 model Status {
@@ -20,42 +20,70 @@ model Status {
 
   User            User[]
   ProductCategory Category[]
-  Product         Product[]
-  Project         Project[]
-  SubCategory     SubCategory[]
-  ProjectTask     ProjectTask[]
 }
 
-model Organization {
-  id   Int     @id @default(autoincrement())
-  name String
-  desc String?
+model Family {
+  id String @id @default(cuid())
+
+  name     String
+  desc     String?
+  owner_id String?
+
+  endpoint String?
+  token    String?
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
+  room       Room[]
+  member     User[]
+  // owner      User?     @relation(fields: [owner_id], references: [id])
+  Device     Device[]
+}
+
+model Room {
+  id        String  @id @default(cuid())
+  name      String
+  desc      String?
+  family_id String
+  img       String?
 
   created_at DateTime  @default(now())
   updated_at DateTime  @default(now()) @updatedAt
   deleted_at DateTime?
 
-  UserOrganization UserOrganization[]
-  Product          Product[]
+  family Family   @relation(fields: [family_id], references: [id])
+  device Device[]
 }
 
-model Brand {
-  id   Int     @id @default(autoincrement())
+model DeviceType {
+  id   Int    @id @default(autoincrement())
   name String
-  desc String?
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
+  Device     Device[]
+}
+
+model Device {
+  id        String  @id @default(cuid())
+  name      String
+  desc      String?
+  room_id   String?
+  family_id String?
+  type_id   Int?
+
+  ha_entity_id String?
+  ha_name      String?
 
   created_at DateTime  @default(now())
   updated_at DateTime  @default(now()) @updatedAt
   deleted_at DateTime?
 
-  Product Product[]
-}
-
-model Location {
-  id      Int       @id @default(autoincrement())
-  name    String
-  desc    String?
-  Product Product[]
+  room   Room?       @relation(fields: [room_id], references: [id])
+  family Family?     @relation(fields: [family_id], references: [id])
+  type   DeviceType? @relation(fields: [type_id], references: [id])
 }
 
 model UserRole {
@@ -65,37 +93,25 @@ model UserRole {
 }
 
 model User {
-  id        String  @id @default(cuid())
-  email     String? @unique
-  name      String?
-  password  String?
-  address   String?
-  token     String?
-  role_id   Int?    @default(2)
-  status_id Int     @default(1)
+  id            String  @id @default(cuid())
+  email         String? @unique
+  name          String?
+  password      String?
+  address       String?
+  token         String?
+  role_id       Int?    @default(3)
+  status_id     Int     @default(1)
+  family_id     String?
+  family_status Int?
+  room_access   Json?
 
   created_at DateTime  @default(now())
   updated_at DateTime  @default(now()) @updatedAt
   deleted_at DateTime?
 
-  role         UserRole?          @relation(fields: [role_id], references: [id])
-  status       Status             @relation(fields: [status_id], references: [id])
-  organization UserOrganization[]
-  ProjectTask  ProjectTask[]
-}
-
-model UserOrganization {
-  id              Int    @id @default(autoincrement())
-  user_id         String
-  organization_id Int
-  brandId         Int?
-
-  created_at DateTime  @default(now())
-  updated_at DateTime  @default(now()) @updatedAt
-  deleted_at DateTime?
-
-  user         User         @relation(fields: [user_id], references: [id])
-  organization Organization @relation(fields: [organization_id], references: [id])
+  role   UserRole? @relation(fields: [role_id], references: [id])
+  status Status    @relation(fields: [status_id], references: [id])
+  family Family?   @relation(fields: [family_id], references: [id])
 }
 
 model Category {
@@ -107,121 +123,5 @@ model Category {
   updated_at DateTime  @default(now()) @updatedAt
   deleted_at DateTime?
 
-  status  Status?   @relation(fields: [status_id], references: [id])
-  Product Product[]
-}
-
-model SubCategory {
-  id        Int     @id @default(autoincrement())
-  name      String?
-  status_id Int?    @default(1)
-
-  created_at DateTime  @default(now())
-  updated_at DateTime  @default(now()) @updatedAt
-  deleted_at DateTime?
-
-  status  Status?   @relation(fields: [status_id], references: [id])
-  Product Product[]
-}
-
-model Product {
-  id              String  @id @default(cuid())
-  name            String?
-  desc            String?
-  serial_number   String?
-  category_id     Int?
-  sub_category_id Int?
-  status_id       Int?    @default(1)
-  organization_id Int?
-  location_id     Int?
-  brand_id        Int?
-  quantity        Int?    @default(1)
-
-  created_at DateTime  @default(now())
-  updated_at DateTime  @updatedAt
-  deleted_at DateTime?
-
-  status       Status?       @relation(fields: [status_id], references: [id])
-  brand        Brand?        @relation(fields: [brand_id], references: [id])
-  organization Organization? @relation(fields: [organization_id], references: [id])
-  category     Category?     @relation(fields: [category_id], references: [id])
-  location     Location?     @relation(fields: [location_id], references: [id])
-  subcategory  SubCategory?  @relation(fields: [sub_category_id], references: [id])
-}
-
-model Project {
-  id        String  @id @default(cuid())
-  name      String?
-  desc      String
-  status_id Int?    @default(1)
-
-  created_at DateTime  @default(now())
-  updated_at DateTime  @default(now()) @updatedAt
-  deleted_at DateTime?
-
   status Status? @relation(fields: [status_id], references: [id])
-
-  projectreference ProjectReference[]
-  ProjectFeedBAck  ProjectFeedback[]
-  ProjectTask      ProjectTask[]
-}
-
-model ProjectReference {
-  id         Int     @id @default(autoincrement())
-  name       String?
-  desc       String?
-  link       String?
-  project_id String?
-
-  created_at DateTime  @default(now())
-  updated_at DateTime  @default(now()) @updatedAt
-  deleted_at DateTime?
-
-  Project Project? @relation(fields: [project_id], references: [id])
-}
-
-model ProjectFeedback {
-  id           Int     @id @default(autoincrement())
-  name         String?
-  overallscore Int?
-  feedback     String?
-  project_id   String?
-
-  created_at DateTime  @default(now())
-  updated_at DateTime  @default(now()) @updatedAt
-  deleted_at DateTime?
-
-  Project Project? @relation(fields: [project_id], references: [id])
-}
-
-model ProjectTask {
-  id        Int     @id @default(autoincrement())
-  title     String?
-  status_id Int?    @default(1)
-
-  pic_id     String
-  project_id String?
-
-  created_at DateTime  @default(now())
-  updated_at DateTime  @default(now()) @updatedAt
-  deleted_at DateTime?
-
-  user    User     @relation(fields: [pic_id], references: [id])
-  Project Project? @relation(fields: [project_id], references: [id])
-  status  Status?  @relation(fields: [status_id], references: [id])
-}
-
-model Sample {
-  id            String  @id @default(cuid())
-  name          String?
-  desc          String?
-  serial_number String?
-
-  date         DateTime @default(now())
-  img_path     DateTime @default(now())
-  file_invoice DateTime @default(now())
-
-  created_at DateTime  @default(now())
-  updated_at DateTime  @default(now()) @updatedAt
-  deleted_at DateTime?
 }

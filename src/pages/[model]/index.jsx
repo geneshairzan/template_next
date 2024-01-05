@@ -12,11 +12,11 @@ import useFetch, { fetcher } from "@gh/helper/useFetch";
 import { getInfo } from "@/model";
 import { Menu, Fade } from "@mui/material";
 
-export default function App(props) {
-  const router = useRouter();
-  const model = router.query.model;
+export default function App({ config }) {
   const { app } = React.useContext(Context);
-  const data = useFetch({ url: model });
+  const router = useRouter();
+  const model = config?.model || router.query.model;
+  const data = useFetch({ url: config?.url || model });
   const [morestate, setmorestate] = useState();
 
   async function handleDelete() {
@@ -34,8 +34,6 @@ export default function App(props) {
     }
   }
 
-  console.log(data?.get());
-
   return (
     <Stack flexGrow={1} overflow="auto" spacing={2} pr={5}>
       <UI.Stack flexGrow={1}>
@@ -45,8 +43,8 @@ export default function App(props) {
             data={data.get()?.map(getInfo(model, "datamap"))}
             col={getInfo(model, "col")}
             NewElementConfig={{
-              to: `${router.query.model}/create`,
-              label: `New ${router.query.model}`,
+              to: `${model}/create`,
+              label: `New ${model}`,
             }}
             clickedMore={(id, e) =>
               setmorestate({

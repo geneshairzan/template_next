@@ -7,7 +7,14 @@ const config = {
   minCellWidth: 200,
 };
 
-export default function RenderChild({ type, value, width }) {
+export default function RenderChild({ type, value, width, El, row }) {
+  if (type == "el")
+    return (
+      <UI.Col flexGrow={1}>
+        <El value={value} row={row} />
+      </UI.Col>
+    );
+
   if (type == "html")
     return (
       <UI.Col ml={2} maxHeight={config.rowHeight - 8} mt={-2} overflow="hidden">

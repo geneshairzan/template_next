@@ -63,7 +63,6 @@ export const rooms = [
 export const glass = {
   // background: "rgba(255, 255, 255, 0.2)",
   background: "rgba(40, 40, 40, 0.6)",
-
   boxShadow: "0 4px 30px rgba(0, 0, 0, 0.1)",
   backdropFilter: "blur(5px)",
 };

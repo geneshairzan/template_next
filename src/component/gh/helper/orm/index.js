@@ -1,8 +1,9 @@
-import { Prisma, PrismaClient } from "@prisma/client";
+import { Prisma } from "@prisma/client";
+import prisma from "./client";
 import enc from "../encryption";
 import { getInfo } from "@/model";
 
-const prisma = new PrismaClient();
+// const prisma = new PrismaClient();
 
 const extendPrisma = prisma.$extends({
   model: {
@@ -67,6 +68,7 @@ async function find(model, id) {
 async function where(model, where = {}) {
   return await prisma[getschemaname(model)].findUnique({
     where: where,
+    include: getInfo(model, "includes") || {},
   });
 }
 

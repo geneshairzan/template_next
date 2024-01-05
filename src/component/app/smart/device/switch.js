@@ -6,18 +6,11 @@ import UseVal from "@/component/app/smart/helper/useVal";
 import { grad } from "@/component/app/smart/data";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 
-export default function App({ D, roomState }) {
-  const state = UseVal();
-
-  useEffect(() => {
-    if (D?.roomLinked) roomState?.state ? state.setOn() : state.setOff();
-  }, [roomState?.state]);
-
+export default function App({ D, onClick }) {
   return (
     <UI.Col
       alignItems="center"
-      // justifyContent="space-between"
-      onClick={state.toggle}
+      onClick={onClick}
       sx={{
         justifyContent: { xs: "space-between", md: "flex-start" },
         overflow: "hidden",
@@ -77,10 +70,10 @@ export default function App({ D, roomState }) {
             flexShrink: 0,
             width: { xs: 72, md: 110 },
             height: { xs: 72, md: 110 },
-            bgcolor: state.val ? "smart.main" : "unset",
+            bgcolor: D.state == "on" ? "smart.main" : "unset",
             // bgcolor: "red",
             border: "2px solid",
-            borderColor: state.val ? "smart.main" : "smartSecondary.main",
+            borderColor: D.state == "on" ? "smart.main" : "smartSecondary.main",
             borderRadius: "50%",
             pl: "2px",
             pt: "2px",
@@ -94,7 +87,7 @@ export default function App({ D, roomState }) {
         >
           <WbSunnyIcon
             sx={{
-              color: state?.val == 0 ? "smart.main" : "black",
+              color: D?.state != "on" ? "smart.main" : "black",
               fontSize: { xs: 32, md: 48 },
             }}
           />
