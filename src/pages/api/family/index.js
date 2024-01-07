@@ -18,7 +18,7 @@ const handler = async (r, res) => {
 
       if (data?.id) {
         await prisma.update("user", {
-          id: r?.auth.id,
+          id: r?.auth?.id,
           family_id: data.id,
           family_status: r?.body?.family_id ? 0 : 1,
           role_id: 2,
@@ -37,7 +37,8 @@ const handler = async (r, res) => {
       res.status(200).json(prisma.responseFilter(data));
     }
   } catch (error) {
-    res.status(400).json("bad request");
+    console.log(error, r?.auth?.id);
+    res.status(400).json({ msg: "bad request", log: r?.auth });
   }
 };
 

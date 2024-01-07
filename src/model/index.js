@@ -1,3 +1,4 @@
+import { user } from "./user";
 import { product } from "./product";
 import { project } from "./project";
 import { projectfeedback } from "./projectfeedback";
@@ -31,6 +32,8 @@ function getDefault(target) {
       return default_col;
     case "includes":
       return {};
+    case "idType":
+      return "int";
     default:
       return null;
   }
@@ -38,6 +41,7 @@ function getDefault(target) {
 
 export function getInfo(model, target) {
   const lib = {
+    user,
     product,
     project,
     projectreference,
