@@ -9,6 +9,8 @@ import RoomCards from "@/component/app/smart/roomCards";
 import { rooms, pages } from "@/component/app/smart/data";
 
 import useFetch, { fetcher } from "@gh/helper/useFetch";
+// import useLog from "@gh/helper/useLog";
+import Context from "@context/app";
 
 import { useFormik } from "formik";
 import * as yup from "yup";
@@ -16,8 +18,10 @@ import _, { values } from "lodash";
 import MenuItem from "@mui/material/MenuItem";
 
 export default function App({ onedit, hasSubmit, onClose }) {
+  const { auth } = React.useContext(Context);
   const [open, setopen] = useState(Boolean(onedit));
   const device = useFetch({ url: "family/device" });
+  const log = useFetch({ url: "family/device" });
 
   useEffect(() => {
     !open && onClose(null);
@@ -53,6 +57,25 @@ export default function App({ onedit, hasSubmit, onClose }) {
           message: "Form Submitted",
         }
       );
+
+      if (onedit && onedit?.status_id != payload?.status_id) {
+        let logging = await fetcher(
+          {
+            url: `log`,
+            method: "post",
+            data: {
+              title: `Automation ${payload.status_id == 1 ? "active" : "deactive"}`,
+              body: `${auth?.user?.name} set ${payload.status_id == 1 ? "active" : "deactive"} automation '${
+                payload?.name
+              }' `,
+            },
+          },
+          {
+            type: "success",
+            message: "Form Submitted",
+          }
+        );
+      }
       res?.data && handleClose(true);
     },
   });

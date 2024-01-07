@@ -14,7 +14,15 @@ import Scheduler from "./scheduler";
 
 export default function App(props) {
   // const room = useFetch({ url: "family/room" });
+  const log = useFetch({ url: "log" });
   const notes = useFetch({ url: "family/notes" });
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      log.reload();
+    }, 10000);
+    return () => clearInterval(interval);
+  }, []);
 
   //https://www.weatherapi.com/api-explorer.aspx
   const forecast = useFetch({
@@ -33,7 +41,7 @@ export default function App(props) {
         py={{ xs: 2, md: 6 }}
         // overflow="hidden"
       >
-        <MainHeader />
+        <MainHeader log={log} />
         <UI.Col
           flexGrow={1}
           id="mainContainer"

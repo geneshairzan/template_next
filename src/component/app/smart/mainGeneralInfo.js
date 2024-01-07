@@ -17,8 +17,6 @@ import BloodtypeIcon from "@mui/icons-material/Bloodtype";
 import GrainIcon from "@mui/icons-material/Grain";
 
 export default function MainNav({ pages, activepage, setactivepage, forecast }) {
-  console.log(forecast);
-
   const info = [
     {
       name: "Force",

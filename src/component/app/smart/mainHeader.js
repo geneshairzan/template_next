@@ -3,7 +3,7 @@ import UI from "@gh/ui";
 import Notification from "@/component/app/smart/notification";
 import Profile from "@/component/app/smart/profile";
 
-export default function MainNav({ pages, activepage, setactivepage }) {
+export default function MainNav({ pages, activepage, setactivepage, log }) {
   return (
     <UI.Row
       sx={{ position: "absolute", left: 0, height: 48 }}
@@ -16,7 +16,7 @@ export default function MainNav({ pages, activepage, setactivepage }) {
       <UI.Text variant="h4" bold sx={{ color: "white" }}>
         Smart's Home
       </UI.Text>
-      <Notification />
+      <Notification log={log} />
     </UI.Row>
   );
 }

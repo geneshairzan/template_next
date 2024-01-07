@@ -80,7 +80,6 @@ function NotesCard({ d, onedit }) {
                 bgcolor: d.status_id == 1 ? "success.main" : "error.main",
               }}
             />
-            {console.log(d)}
             <UI.Text
               variant="h6"
               color="primary.main"

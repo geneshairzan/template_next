@@ -42,6 +42,7 @@ model Family {
   Notes          Notes[]
   DeviceSchedule DeviceSchedule[]
   FamilyMedia    Media[]
+  Log            Log[]
 }
 
 model Media {
@@ -109,8 +110,9 @@ model DeviceSchedule {
   family_id String?
   status_id Int?
 
-  trigger Json?
-  action  Json?
+  trigger  Json?
+  action   Json?
+  last_run DateTime?
 
   created_at DateTime  @default(now())
   updated_at DateTime  @default(now()) @updatedAt
@@ -164,4 +166,20 @@ model User {
   family         Family?          @relation(fields: [family_id], references: [id])
   Notes          Notes[]
   DeviceSchedule DeviceSchedule[]
+}
+
+model Log {
+  id        String  @id @default(cuid())
+  user      String?
+  family_id String?
+
+  title   String
+  body    String? @db.Text
+  is_read Boolean @default(false)
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
+
+  family Family? @relation(fields: [family_id], references: [id])
 }
