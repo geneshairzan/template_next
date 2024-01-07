@@ -3,19 +3,24 @@ import React, { useState } from "react";
 import UI from "@gh/ui";
 import Icon from "@gh/icon";
 import { Tabs, Tab } from "@mui/material";
+
+import { useRouter } from "next/router";
+import Context from "@context/app";
+import useFetch, { fetcher } from "@gh/helper/useFetch";
+
 import Info from "./info";
 import Device from "./device";
 import Room from "./room";
 import Member from "./member";
-import { useRouter } from "next/router";
-import Context from "@context/app";
-import useFetch, { fetcher } from "@gh/helper/useFetch";
+import Media from "./media";
+
+const tabsMenu = ["info", "room", "device", "member", "media"];
 
 export default function App(props) {
   const { auth } = React.useContext(Context);
   const data = useFetch({ url: `family/me` });
   const router = useRouter();
-  const [tab, settab] = useState(router?.query?.on * 1 || 0);
+  const [tab, settab] = useState(router?.query?.on || "info");
   return (
     <UI.Col
       sx={{
@@ -70,16 +75,20 @@ export default function App(props) {
             Family Configuration
           </UI.Text>
         </UI.Col>
-        <Tabs value={tab} onChange={(e, v) => settab(v)} aria-label="basic tabs example">
-          <Tab label="Info" />
-          <Tab label="Room" />
-          <Tab label="Devices" />
-          <Tab label="Member" />
+        <Tabs
+          value={tabsMenu.indexOf(tab)}
+          onChange={(e, v) => settab(tabsMenu[v].toLowerCase())}
+          aria-label="basic tabs example"
+        >
+          {tabsMenu.map((d) => (
+            <Tab key={d} label={d} />
+          ))}
         </Tabs>
-        {tab == 0 && <Info data={data?.get()} />}
-        {tab == 1 && <Room />}
-        {tab == 2 && <Device />}
-        {tab == 3 && <Member />}
+        {tab == "info" && <Info data={data?.get()} />}
+        {tab == "room" && <Room />}
+        {tab == "device" && <Device />}
+        {tab == "member" && <Member />}
+        {tab == "media" && <Media />}
       </UI.Stack>
     </UI.Col>
   );

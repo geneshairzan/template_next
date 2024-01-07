@@ -8,12 +8,11 @@ import { pages } from "@/component/app/smart/data";
 import useFetch from "@gh/helper/useFetch";
 import Context from "@context/app";
 
-export default function App(props) {
+export default function App({ forecast }) {
   const { auth } = React.useContext(Context);
   const rooms = useFetch({ url: "family/room" });
 
   const [access, setaccess] = useState();
-
   useEffect(() => {
     auth?.user && setaccess(auth?.user?.room_access.map((d) => d.id));
   }, [auth]);
@@ -30,7 +29,7 @@ export default function App(props) {
       }}
       spacing={2}
     >
-      <MainGeneralInfo />
+      <MainGeneralInfo forecast={forecast} />
       <UI.Col
         spacing={2}
         sx={{

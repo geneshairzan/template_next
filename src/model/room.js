@@ -7,4 +7,7 @@ export const room = {
   includes: {
     device: true,
   },
+  list: {
+    deleteable: true,
+  },
 };

@@ -115,8 +115,11 @@ async function set(model, data) {
 
 async function update(model, data) {
   return await extendPrisma[getschemaname(model)].update({
-    where: { id: data?.id },
-    data: data,
+    where: { id: getInfo(model, "idType") == "string" ? data.id : parseInt(data.id) },
+    data: {
+      ...data,
+      id: getInfo(model, "idType") == "string" ? data.id : parseInt(data.id),
+    },
   });
 }
 

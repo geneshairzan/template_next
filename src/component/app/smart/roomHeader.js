@@ -36,7 +36,7 @@ export default function MainNav({ data }) {
       <UI.Button
         color="smart"
         startIcon={<Icon.Back />}
-        onClick={() => loc.push("/demo")}
+        onClick={() => loc.push("/home")}
         spacing={0}
         bgcolor="grey"
         sx={{

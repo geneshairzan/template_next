@@ -12,10 +12,12 @@ export default function BasicModal(props) {
     >
       <Stack
         sx={{
-          position: "absolute",
-          top: "50%",
-          right: "50%",
-          transform: "translate(50%,-50%)",
+          position: "fixed",
+          width: "100vw",
+          height: "100vh",
+          alignItems: "center",
+          justifyContent: "center",
+          // transform: "translate(50%,-50%)",
         }}
       >
         {props.children}

@@ -145,7 +145,8 @@ function InputRoom({ value, onChange, disabled, row, option, ...props }) {
       renderTags={(value, getTagProps) => {
         return (
           <UI.Text variant="body2" pl={1}>
-            {value.map((d) => d.name).join(", ")}
+            {/* {value.map((d) => d.name).join(", ")} */}
+            {value.length} Room(s) Selected
           </UI.Text>
         );
       }}

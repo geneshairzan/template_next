@@ -17,7 +17,6 @@ export default function DatePickerText({
   return (
     <Stack spacing={1} width={props.fullWidth ? "100%" : "auto"}>
       {!noLabel && <Label label={props.label} tip={props.tip} />}
-      {console.log(h.date.preformat(props.value))}
       <LocalizationProvider dateAdapter={AdapterMoment}>
         <DatePicker
           {...props}

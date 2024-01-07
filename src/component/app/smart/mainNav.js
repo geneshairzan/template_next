@@ -16,6 +16,7 @@ export default function MainNav({ pages, activepage, setactivepage }) {
         position: "absolute",
         bottom: { xs: "24px", md: 36 },
         width: { xs: "100%", md: "40%" },
+        zIndex: 99,
       }}
     >
       <UI.Row
@@ -24,10 +25,7 @@ export default function MainNav({ pages, activepage, setactivepage }) {
           bgcolor: "smartSecondary.main",
           p: 1,
           borderRadius: "64px",
-          // width: { xs: "100%", md: "auto" },
-          // width: { xs: "100%", md: "auto" },
           justifyContent: { xs: "space-between", md: "center" },
-          // border: { md: "4px solid" },
           border: { xs: "none", md: "8px solid" },
           borderColor: { xs: "black", md: "smartSecondary.dark" },
         }}
@@ -49,7 +47,7 @@ function RoomNavBtn({ D, active, onClick }) {
         spacing: 1,
         py: 2,
         px: active ? 5 : 0,
-        width: active ? "auto" : 48,
+        width: active ? 120 : 48,
         height: 48,
         borderRadius: "30px",
         bgcolor: active ? "menu.active" : "menu.inactive",

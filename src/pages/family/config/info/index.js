@@ -35,6 +35,7 @@ export default function App({ data }) {
         }}
       />
       <Form.Text label="name" value={data?.name} />
+      <Form.Text label="Location" value={"Asia/Jakarta"} disabled />
       <Form.Text label="end point" value={data?.endpoint} />
       <Form.Text label="token" value={data?.token.substring(0, 5) + " . . . " + data?.token.slice(-5)} />
       <UI.Row justifyContent="flex-end">

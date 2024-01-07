@@ -31,7 +31,7 @@ export default function Main({ refdata }) {
         {
           url: `family/room`,
           method: "post",
-          data: _.omit(payload, ["new_img"]),
+          data: _.omit(payload, ["new_img", "device"]),
         },
         {
           type: "success",
@@ -60,7 +60,7 @@ export default function Main({ refdata }) {
         );
       }
       res?.data?.id
-        ? router.push(`/family/config?on=0`)
+        ? router.push(`/family/config?on=room`)
         : formik.setErrors({ email: "someone registered with this email" });
     },
   });

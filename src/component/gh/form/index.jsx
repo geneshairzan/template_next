@@ -14,7 +14,10 @@ import InputData from "./inputData";
 import InputUser from "./inputUser";
 import Qrcode from "./inputBarcode";
 import InputImage from "./inputImage";
+import Days from "./inputDays";
 import Data from "./inputData";
+import Time from "./inputTime";
+import Label from "./label";
 import ProjectReference from "./project/ProjectReference";
 
 const Form = {
@@ -36,6 +39,9 @@ const Form = {
   Qrcode,
   InputImage,
   ProjectReference,
+  Days,
+  Time,
+  Label,
 };
 
 export default Form;

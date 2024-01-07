@@ -35,6 +35,15 @@ export default function App(props) {
     // },
   ];
 
+  async function handleDelete(d) {
+    let res = await fetcher({
+      url: `family/room/${morestate.id}`,
+      method: "delete",
+    });
+    res?.data && data.reload();
+    setmorestate();
+  }
+
   if (!data.get()) return;
 
   return (
@@ -69,7 +78,7 @@ export default function App(props) {
           setmorestate={setmorestate}
           model={model}
           modelinfo={getInfo(model)}
-          // onDelete={handleDelete}
+          onDelete={handleDelete}
         />
       )}
     </Stack>

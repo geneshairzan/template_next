@@ -19,9 +19,14 @@ import Device from "@/component/app/smart/device";
 import useFetch, { fetcher } from "@gh/helper/useFetch";
 
 export default function MainNav({ data, roomState }) {
+  const [onloading, setonloading] = useState();
   const data_ha = useFetch({
     url: "family/device/sync",
   });
+
+  useEffect(() => {
+    setonloading();
+  }, [data_ha?.get()]);
 
   function syncMap(d) {
     return {
@@ -31,6 +36,7 @@ export default function MainNav({ data, roomState }) {
   }
 
   async function deviceToggle(e) {
+    setonloading(e);
     let res = await fetcher({
       url: "device",
       method: "post",
@@ -112,7 +118,12 @@ export default function MainNav({ data, roomState }) {
                 },
               }}
             >
-              <RenderDevice data={data.map(syncMap)} roomState={roomState} onClick={handleClick} />
+              <RenderDevice
+                data={data.map(syncMap)}
+                roomState={roomState}
+                onClick={handleClick}
+                onloading={onloading}
+              />
             </UI.Col>
           </UI.Col>
         ) : (
@@ -125,7 +136,7 @@ export default function MainNav({ data, roomState }) {
   );
 }
 
-function RenderDevice({ data, roomState, onClick }) {
+function RenderDevice({ data, roomState, onClick, onloading }) {
   return (
     <UI.Row
       sx={{
@@ -140,7 +151,14 @@ function RenderDevice({ data, roomState, onClick }) {
             width: { xs: "50%", md: "25%" },
           }}
         >
-          {d.type_id == 1 && <Device.Switch D={d} roomState={roomState} onClick={() => onClick(d)} />}
+          {d.type_id == 1 && (
+            <Device.Switch
+              D={d}
+              roomState={roomState}
+              onClick={() => !onloading && onClick(d)}
+              onloading={onloading == d?.ha_entity_id}
+            />
+          )}
         </UI.Col>
       ))}
     </UI.Row>

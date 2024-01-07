@@ -39,7 +39,7 @@ export default function Main({ refdata }) {
       );
 
       res?.data?.id
-        ? router.push(`/family/config?on=2`)
+        ? router.push(`/family/config?on=member`)
         : formik.setErrors({ email: "someone registered with this email" });
     },
   });

@@ -26,7 +26,7 @@ export const fetcher = async ({ saltY = accY, multipart = false, htoken, ...para
       ...param,
       url: param.url.includes("http") ? param.url : `${process.env.NEXT_PUBLIC_APP_URL}/api/${param.url}`,
       headers: {
-        authorization: `Bearer ${token}`,
+        authorization: !param.url.includes("http") && `Bearer ${token}`,
         "Content-Type": multipart ? `multipart/form-data` : "application/json",
 
         accept: "application/json",

@@ -5,6 +5,7 @@ function excelDateParse(data) {
 }
 
 const fdate = {
+  moment: () => moment(),
   today: () => moment(new Date()).format("DD MMM YYYY"),
   todayYear: new Date().getFullYear(),
 

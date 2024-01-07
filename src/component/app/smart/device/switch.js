@@ -5,8 +5,8 @@ import Icon from "@gh/icon";
 import UseVal from "@/component/app/smart/helper/useVal";
 import { grad } from "@/component/app/smart/data";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
-
-export default function App({ D, onClick }) {
+import CircularProgress from "@mui/material/CircularProgress";
+export default function App({ D, onClick, onloading }) {
   return (
     <UI.Col
       alignItems="center"
@@ -85,12 +85,16 @@ export default function App({ D, onClick }) {
             top: { xs: -8, md: "unset" },
           }}
         >
-          <WbSunnyIcon
-            sx={{
-              color: D?.state != "on" ? "smart.main" : "black",
-              fontSize: { xs: 32, md: 48 },
-            }}
-          />
+          {onloading ? (
+            <CircularProgress color={D.state != "on" ? "smart" : "smartSecondary"} />
+          ) : (
+            <WbSunnyIcon
+              sx={{
+                color: D?.state != "on" ? "smart.main" : "black",
+                fontSize: { xs: 32, md: 48 },
+              }}
+            />
+          )}
         </UI.Col>
       </UI.Stack>
     </UI.Col>

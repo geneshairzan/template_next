@@ -2,23 +2,25 @@ import HomeIcon from "@mui/icons-material/Home";
 import MapIcon from "@mui/icons-material/Map";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import SettingsIcon from "@mui/icons-material/Settings";
-
+import DescriptionIcon from "@mui/icons-material/Description";
+import AutoModeIcon from "@mui/icons-material/AutoMode";
 export const pages = [
   {
     label: "Home",
     Icon: HomeIcon,
+  },
+
+  {
+    label: "Notes",
+    Icon: DescriptionIcon,
   },
   {
     label: "Map",
     Icon: MapIcon,
   },
   {
-    label: "Calender",
-    Icon: CalendarMonthIcon,
-  },
-  {
-    label: "Setting",
-    Icon: SettingsIcon,
+    label: "Automation",
+    Icon: AutoModeIcon,
   },
 ];
 

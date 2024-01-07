@@ -19,7 +19,7 @@ export const config = {
 
 const handler = async (r, res) => {
   // !r?.auth && res.status(401).json({ msg: "un autorized" });
-  let model = "room";
+  // let model = "room";
 
   try {
     if (r.method == "POST") {

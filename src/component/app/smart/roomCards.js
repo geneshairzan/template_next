@@ -4,12 +4,12 @@ import ArrowOutwardIcon from "@mui/icons-material/ArrowOutward";
 import { glass } from "@/component/app/smart/data";
 import { useRouter } from "next/router";
 
-export default function App({ D, demo = false }) {
+export default function App({ D }) {
   const loc = useRouter();
 
   return (
     <UI.Col
-      onClick={() => loc.push(`/${demo ? "demo" : "home"}/room/${D.id}`)}
+      onClick={() => loc.push(`/home/room/${D.id}`)}
       sx={{
         width: "100%",
         height: "225px",
@@ -44,7 +44,6 @@ export default function App({ D, demo = false }) {
 }
 
 function CTA({ D }) {
-  console.log(D);
   return (
     <UI.Row
       justifyContent="space-between"
@@ -61,7 +60,7 @@ function CTA({ D }) {
           {D.name || D?.label}
         </UI.Text>
         <UI.Text variant="body2" color="smart.text">
-          8 Devices Active
+          {D.device?.length} Devices Active
         </UI.Text>
       </UI.Col>
       <UI.Col

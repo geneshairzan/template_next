@@ -5,12 +5,21 @@ import MainHeader from "@/component/app/smart/mainHeader";
 import MainGeneralInfo from "@/component/app/smart/mainGeneralInfo";
 import RoomCards from "@/component/app/smart/roomCards";
 import { rooms, pages } from "@/component/app/smart/data";
-
-import Dashboard from "./dashboard";
 import useFetch from "@gh/helper/useFetch";
 
+import Dashboard from "./dashboard";
+import Notes from "./notes";
+import Media from "./media";
+import Scheduler from "./scheduler";
+
 export default function App(props) {
-  const room = useFetch({ url: "family/room" });
+  // const room = useFetch({ url: "family/room" });
+  const notes = useFetch({ url: "family/notes" });
+
+  //https://www.weatherapi.com/api-explorer.aspx
+  const forecast = useFetch({
+    url: "https://api.weatherapi.com/v1/forecast.json?key=4aa52ce0c3d54ac8b7d132258240701&q=jakarta&days=1&aqi=no&alerts=no",
+  });
 
   const [activepage, setactivepage] = useState(0);
   return (
@@ -34,10 +43,10 @@ export default function App(props) {
             height: { xs: "100%", md: "100%" },
           }}
         >
-          {activepage == 0 && <Dashboard />}
-          {activepage == 1 && <Dashboard />}
-          {activepage == 2 && <Dashboard />}
-          {activepage == 3 && <Dashboard />}
+          {activepage == 0 && <Dashboard forecast={forecast.get()} />}
+          {activepage == 1 && <Notes notes={notes} />}
+          {activepage == 2 && <Media />}
+          {activepage == 3 && <Scheduler />}
         </UI.Col>
 
         <MainNav pages={pages} activepage={activepage} setactivepage={setactivepage} />

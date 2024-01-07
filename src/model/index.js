@@ -8,6 +8,9 @@ import { status } from "./status";
 import { family } from "./family";
 import { device } from "./device";
 import { room } from "./room";
+import { notes } from "./notes";
+import { deviceschedule } from "./deviceschedule";
+import { media } from "./media";
 
 const default_col = [
   { name: "name", label: "Name", w: 220 },
@@ -45,6 +48,9 @@ export function getInfo(model, target) {
     family,
     device,
     room,
+    notes,
+    deviceschedule,
+    media,
   };
 
   return target ? lib?.[model]?.[target] || getDefault(target) : lib?.[model];

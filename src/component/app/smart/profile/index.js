@@ -15,19 +15,6 @@ import Badge from "@mui/material/Badge";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import Context from "@context/app";
 
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 400,
-  bgcolor: "background.paper",
-  // border: "2px solid #000",
-  boxShadow: 24,
-  borderRadius: 3,
-  p: 4,
-};
-
 export default function App(props) {
   const { auth } = React.useContext(Context);
   const [isOpen, setisOpen] = useState(false);
@@ -41,14 +28,13 @@ export default function App(props) {
       >
         <Avatar sx={{ bgcolor: "smart.main" }}>{auth?.user?.name[0].toUpperCase()}</Avatar>
       </UI.IconButton>
-      <Modal
-        open={isOpen}
-        onClose={() => setisOpen(false)}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-      >
-        <UI.Col sx={style}>
-          <UI.Col minHeight={200} justifyContent="space-between">
+      <UI.Modal open={isOpen}>
+        <UI.Col center sx={{ width: "100vw", maxWidth: "600px", p: 2 }}>
+          <UI.Col
+            minHeight={200}
+            sx={{ bgcolor: "smart.dark", p: 2, width: "100%", borderRadius: 3 }}
+            justifyContent="space-between"
+          >
             <UI.Text id="modal-modal-title" variant="h6" component="h2">
               {`Hi, ${auth?.user?.name}`}
             </UI.Text>
@@ -59,7 +45,7 @@ export default function App(props) {
             </UI.Row>
           </UI.Col>
         </UI.Col>
-      </Modal>
+      </UI.Modal>
     </UI.Stack>
   );
 }
