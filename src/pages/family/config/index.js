@@ -51,6 +51,7 @@ export default function App(props) {
           maxWidth: 1280,
           py: "5vh",
           zIndex: 2,
+          px: { xs: 1, md: 0 },
         }}
       >
         <UI.Col>

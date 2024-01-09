@@ -16,27 +16,68 @@ import AirIcon from "@mui/icons-material/Air";
 import BloodtypeIcon from "@mui/icons-material/Bloodtype";
 import GrainIcon from "@mui/icons-material/Grain";
 
+import PowerIcon from "@mui/icons-material/Power";
+import BoltIcon from "@mui/icons-material/Bolt";
+import DeviceHubIcon from "@mui/icons-material/DeviceHub";
+
 export default function MainNav({ pages, activepage, setactivepage, forecast }) {
+  const grupList = [0, 1];
+  const [activeGrup, setactiveGrup] = useState(0);
+
   const info = [
     {
       name: "Force",
       value: `${forecast?.current?.gust_kph || "-"} km/h`,
       Icon: AirIcon,
+      group: 0,
     },
     {
       name: "Humidity",
       value: `${forecast?.current?.humidity || "-"} %`,
-
       Icon: GrainIcon,
+      group: 0,
     },
     {
       name: "Change of rain",
-      value: "42 %",
       value: `${forecast?.forecast?.forecastday[0].day?.daily_chance_of_rain || "-"} %`,
-
       Icon: BloodtypeIcon,
+      group: 0,
+    },
+
+    {
+      name: "Wattage",
+      value: "~ W",
+      Icon: PowerIcon,
+      group: 1,
+    },
+    {
+      name: "Voltage",
+      value: "220 V",
+      Icon: BoltIcon,
+      group: 1,
+    },
+    {
+      name: "Active Device",
+      value: 64,
+      Icon: DeviceHubIcon,
+      group: 1,
     },
   ];
+
+  function filterGroup(d) {
+    return d?.group == activeGrup;
+  }
+
+  useEffect(() => {
+    if (activeGrup >= grupList.length) setactiveGrup(0);
+  }, [activeGrup]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setactiveGrup((p) => p + 1);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
 
   return (
     <UI.Stack
@@ -98,8 +139,8 @@ export default function MainNav({ pages, activepage, setactivepage, forecast }) 
           width: { xs: "40%", md: "100%" },
         }}
       >
-        {info.map((d, ix) => (
-          <InfoCard D={d} key={ix} />
+        {info?.filter(filterGroup)?.map((d, ix) => (
+          <InfoCard D={d} key={activeGrup + "_" + ix} />
         ))}
       </UI.Col>
     </UI.Stack>
@@ -117,46 +158,54 @@ function InfoCard({ D }) {
         p: 1,
         alignItems: { xs: "flex-start", md: "center" },
       }}
+      center
     >
-      <D.Icon
-        color="smart"
+      <UI.Col
         sx={{
-          display: { xs: "none", md: "flex" },
-          fontSize: { xs: 18, md: 64 },
-        }}
-      />
-      <UI.Text
-        color="smart.textdark"
-        sx={{
-          typography: { xs: "body2", md: "h5" },
-          textAlign: { xs: "left", md: "center" },
-        }}
-      >
-        {D.name}
-      </UI.Text>
-      <UI.Row
-        spacing={1}
-        alignItems="center"
-        sx={{
-          justifyContent: { xs: "flex-start", md: "center" },
+          alignItems: { xs: "flex-start", md: "center" },
+          animation: "fadeInAnimation ease 1s",
         }}
       >
         <D.Icon
           color="smart"
           sx={{
-            display: { xs: "flex", md: "none" },
+            display: { xs: "none", md: "flex" },
             fontSize: { xs: 18, md: 64 },
           }}
         />
         <UI.Text
-          color="smart.text"
+          color="smart.textdark"
           sx={{
-            typography: { xs: "body1", md: "h5" },
+            typography: { xs: "body2", md: "h5" },
+            textAlign: { xs: "left", md: "center" },
           }}
         >
-          {D.value}
+          {D.name}
         </UI.Text>
-      </UI.Row>
+        <UI.Row
+          spacing={1}
+          alignItems="center"
+          sx={{
+            justifyContent: { xs: "flex-start", md: "center" },
+          }}
+        >
+          <D.Icon
+            color="smart"
+            sx={{
+              display: { xs: "flex", md: "none" },
+              fontSize: { xs: 18, md: 64 },
+            }}
+          />
+          <UI.Text
+            color="smart.text"
+            sx={{
+              typography: { xs: "body1", md: "h5" },
+            }}
+          >
+            {D.value}
+          </UI.Text>
+        </UI.Row>
+      </UI.Col>
     </UI.Col>
   );
 }
