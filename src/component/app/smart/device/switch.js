@@ -48,12 +48,11 @@ export default function App({ D, onClick, onloading, maxTreshold = 10 }) {
 
   return (
     <UI.Col
+      onTouchStart={startCountUp}
+      onTouchEnd={stopCounter}
       onMouseDown={startCountUp}
-      onMouseLeave={stopCounter}
       onMouseUp={stopCounter}
-      // onClick={() => {
-      //   onClick(interval);
-      // }}
+      onMouseLeave={stopCounter}
       alignItems="center"
       // onClick={onClick}
       sx={{
@@ -67,6 +66,9 @@ export default function App({ D, onClick, onloading, maxTreshold = 10 }) {
         ...grad,
       }}
     >
+      {/* <div
+      onTouch
+      ></div> */}
       <UI.Stack
         direction={{ xs: "row", md: "column" }}
         sx={{
