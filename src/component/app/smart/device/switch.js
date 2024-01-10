@@ -64,6 +64,11 @@ export default function App({ D, onClick, onloading, maxTreshold = 10 }) {
         p: 1,
         px: 1.5,
         ...grad,
+        "& p": {
+          userSelect: "none",
+          WebkitUserSelect: "none",
+          msUserSelect: "none",
+        },
       }}
     >
       {/* <div
