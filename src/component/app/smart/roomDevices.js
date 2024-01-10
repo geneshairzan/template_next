@@ -209,40 +209,48 @@ function OnDetail({ data, onClose, onUpdate }) {
         sx={{
           width: "100%",
           maxWidth: 600,
-          bgcolor: "smartSecondary.main",
-          minHeight: 300,
           p: 2,
-          borderRadius: 3,
-          justifyContent: "space-between",
         }}
       >
-        <UI.Col>
-          <UI.Row alignItems="center" justifyContent="space-between">
-            <UI.Text variant="h6" color="smart.main">
-              Device Settings
-            </UI.Text>
-            <UI.IconButton onClick={onClose}>
-              <Icon.Close />
-            </UI.IconButton>
-          </UI.Row>
-          <UI.Row alignItems="center">
-            <UI.Text
-              variant="body1"
-              sx={{
-                width: "100%",
-              }}
-            >
-              linked to room ?
-            </UI.Text>
-            <Form.Switch
-              value={payload?.link_to_room}
-              onChange={(e) => setpayload({ ...payload, link_to_room: e.target.value })}
-            />
+        <UI.Col
+          sx={{
+            width: "100%",
+            maxWidth: 600,
+            bgcolor: "smartSecondary.main",
+            minHeight: 300,
+            p: 2,
+            borderRadius: 3,
+            justifyContent: "space-between",
+          }}
+        >
+          <UI.Col>
+            <UI.Row alignItems="center" justifyContent="space-between">
+              <UI.Text variant="h6" color="smart.main">
+                Device Settings
+              </UI.Text>
+              <UI.IconButton onClick={onClose}>
+                <Icon.Close />
+              </UI.IconButton>
+            </UI.Row>
+            <UI.Row alignItems="center">
+              <UI.Text
+                variant="body1"
+                sx={{
+                  width: "100%",
+                }}
+              >
+                linked to room ?
+              </UI.Text>
+              <Form.Switch
+                value={payload?.link_to_room}
+                onChange={(e) => setpayload({ ...payload, link_to_room: e.target.value })}
+              />
+            </UI.Row>
+          </UI.Col>
+          <UI.Row justifyContent="flex-end" width="100%">
+            <UI.Button onClick={() => onUpdate(payload)}>save</UI.Button>
           </UI.Row>
         </UI.Col>
-        <UI.Row justifyContent="flex-end" width="100%">
-          <UI.Button onClick={() => onUpdate(payload)}>save</UI.Button>
-        </UI.Row>
       </UI.Col>
     </UI.Modal>
   );
