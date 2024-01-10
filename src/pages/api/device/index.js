@@ -8,6 +8,14 @@ let service = [
     name: "toggle",
     endpoint: "services/switch/toggle",
   },
+  {
+    name: "turn_off",
+    endpoint: "services/switch/turn_off",
+  },
+  {
+    name: "turn_on",
+    endpoint: "services/switch/turn_on",
+  },
 ];
 
 async function handler(r, res) {

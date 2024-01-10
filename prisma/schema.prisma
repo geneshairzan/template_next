@@ -60,10 +60,13 @@ model Media {
 
 model Room {
   id        String  @id @default(cuid())
-  name      String
+  name      String?
   desc      String?
   family_id String
   img       String?
+
+  state       Int?
+  state_value Int?
 
   created_at DateTime  @default(now())
   updated_at DateTime  @default(now()) @updatedAt
@@ -93,6 +96,8 @@ model Device {
 
   ha_entity_id String?
   ha_name      String?
+
+  link_to_room Boolean @default(false)
 
   created_at DateTime  @default(now())
   updated_at DateTime  @default(now()) @updatedAt

@@ -18,6 +18,23 @@ export default function ModelForm(props) {
   const [roomState, setroomState] = useState();
   const rooms = useFetch({ url: `family/room/${query?.id}` });
 
+  async function handleRoomChange(data) {
+    setroomState(data);
+    await rooms.dfetch({
+      url: `family/room/${query?.id}`,
+      method: "post",
+      reload: true,
+      data: {
+        state: data?.state ? 1 : 0,
+        state_value: data?.state_value,
+      },
+    });
+  }
+
+  useEffect(() => {
+    setroomState({ state: rooms?.get()?.state, state_value: rooms?.get()?.state_value || 0 });
+  }, [rooms?.get()]);
+
   return (
     <UI.Col
       maxWidth={1920}
@@ -31,8 +48,8 @@ export default function ModelForm(props) {
     >
       <RoomBg src={"room/" + rooms.get()?.img} />
       <RoomHeader data={rooms.get()} />
-      <Devices data={rooms.get()?.device} roomState={roomState} />
-      <MasterSlide onRoomChange={setroomState} />
+      <Devices data={rooms.get()?.device} roomState={roomState} refetch={() => rooms.reload()} />
+      {rooms?.get() && <MasterSlide onRoomChange={handleRoomChange} data={roomState} />}
     </UI.Col>
   );
 }

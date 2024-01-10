@@ -4,6 +4,8 @@ import axios from "axios";
 import { Md5 } from "ts-md5";
 import Context from "@context/app";
 
+import { debounce } from "lodash";
+
 const accX = "w}5opZ%3oIQ6Vq(PUsTL";
 const accY = new Date().getTime();
 
@@ -81,6 +83,8 @@ export default function useFetcher(params) {
   const { app } = React.useContext(Context);
   const [data, setdata] = useState();
 
+  const dfetch = React.useCallback(debounce(fetch, 500), []);
+
   async function fetch(props) {
     app.setOnLoading();
     let res = await fetcher({
@@ -109,5 +113,7 @@ export default function useFetcher(params) {
     fetch,
     refetch: (props) => fetch(props || params),
     reload,
+    prefetch,
+    dfetch,
   };
 }

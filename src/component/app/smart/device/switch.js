@@ -6,11 +6,50 @@ import UseVal from "@/component/app/smart/helper/useVal";
 import { grad } from "@/component/app/smart/data";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import CircularProgress from "@mui/material/CircularProgress";
-export default function App({ D, onClick, onloading }) {
+
+export default function App({ D, onClick, onloading, maxTreshold = 20 }) {
+  const [interval, setinterval] = useState(-1);
+  const intervalRef = React.useRef(null);
+  const [onPressed, setonPressed] = useState(false);
+
+  const startCountUp = () => {
+    setonPressed(true);
+    if (intervalRef.current) return;
+    intervalRef.current = setInterval(() => {
+      setinterval((p) => p + 1);
+    }, 100);
+  };
+
+  const stopCounter = () => {
+    if (intervalRef.current) {
+      clearInterval(intervalRef.current);
+      intervalRef.current = null;
+      setonPressed(false);
+    }
+  };
+
+  useEffect(() => {
+    interval == maxTreshold && setonPressed(false);
+  }, [interval]);
+
+  useEffect(() => {
+    if (!onPressed && interval >= 0) {
+      onClick(interval);
+      setonPressed(false);
+      setinterval(-1);
+    }
+  }, [onPressed]);
+
   return (
     <UI.Col
+      onMouseDown={startCountUp}
+      onMouseLeave={stopCounter}
+      onMouseUp={stopCounter}
+      // onClick={() => {
+      //   onClick(interval);
+      // }}
       alignItems="center"
-      onClick={onClick}
+      // onClick={onClick}
       sx={{
         justifyContent: { xs: "space-between", md: "flex-start" },
         overflow: "hidden",

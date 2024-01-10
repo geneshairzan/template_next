@@ -67,17 +67,15 @@ const PrettoSlider = styled(Slider)({
   },
 });
 
-export default function MasterSlide({ onRoomChange }) {
-  const room = UsePwm();
-
+export default function MasterSlide({ onRoomChange, data }) {
   function getValue() {
-    if (!room.v.state) return 0;
-    if (room.v.value == 0) return "-";
-    return room.v.value == 100 ? "M" : room.v.value;
+    if (!data.state) return 0;
+    if (data.state_value == 0) return "-";
+    return data.state_value == 100 ? "M" : data.state_value;
   }
-  useEffect(() => {
-    onRoomChange(room.v);
-  }, [room.v]);
+  // useEffect(() => {
+  //   onRoomChange(room.v);
+  // }, [room.v]);
 
   return (
     <UI.Col
@@ -91,17 +89,18 @@ export default function MasterSlide({ onRoomChange }) {
       spacing={2}
     >
       <UI.Col
-        onClick={room.toggle}
+        // onClick={room.toggle} // todo
+        onClick={(e) => onRoomChange({ state: !data.state, state_value: data.state_value, action: "toggle" })}
         center
         sx={{
-          bgcolor: room.v.state ? "smart.main" : "smartSecondary.main",
+          bgcolor: data.state ? "smart.main" : "smartSecondary.main",
           borderRadius: "50%",
           width: config.width,
           height: config.width,
           flexShrink: 0,
         }}
       >
-        <Icon.Light sx={{ color: room.v.state ? "smart.dark" : "smart.main" }} />
+        <Icon.Light sx={{ color: data.state ? "smart.dark" : "smart.main" }} />
       </UI.Col>
 
       <UI.Col
@@ -114,11 +113,12 @@ export default function MasterSlide({ onRoomChange }) {
         }}
       >
         <PrettoSlider
-          disabled={!room.v.state}
+          disabled={!data.state}
           color={"smartSecondary"}
           slots={{ thumb: CustomSliderThumb }}
-          value={room.v.state ? room.v.value : 0}
-          onChange={(e) => room.set({ ...room.v, value: e.target.value })}
+          value={data.state ? data.state_value : 0}
+          // onChange={(e) => room.set({ ...room.v, value: e.target.value })}
+          onChange={(e) => onRoomChange({ state: data.state, state_value: e.target.value, action: "pwm" })}
           orientation="vertical"
           // color={on ? "smartSecondary" : "primary"}
           // valueLabelDisplay="auto"
@@ -129,7 +129,7 @@ export default function MasterSlide({ onRoomChange }) {
           alignItems="center"
           justifyContent="flex-end"
           sx={{
-            bgcolor: room.v.state ? "smartSecondary.main" : "grey",
+            bgcolor: data?.state ? "smartSecondary.main" : "grey",
             borderRadius: "0 0 32px 32px",
             width: config.width * config.widthModifier,
             height: 58,
