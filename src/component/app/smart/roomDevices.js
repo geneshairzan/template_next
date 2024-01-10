@@ -76,8 +76,7 @@ export default function MainNav({ data, roomState, refetch }) {
   }
 
   async function handleClick(device, interval) {
-    console.log("here");
-    if (interval == 20) {
+    if (interval == 10) {
       setonDetail(device);
     } else {
       await deviceToggle(device?.ha_entity_id);

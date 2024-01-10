@@ -7,12 +7,18 @@ import { grad } from "@/component/app/smart/data";
 import WbSunnyIcon from "@mui/icons-material/WbSunny";
 import CircularProgress from "@mui/material/CircularProgress";
 
-export default function App({ D, onClick, onloading, maxTreshold = 20 }) {
+export default function App({ D, onClick, onloading, maxTreshold = 10 }) {
   const [interval, setinterval] = useState(-1);
   const intervalRef = React.useRef(null);
   const [onPressed, setonPressed] = useState(false);
 
+  useEffect(() => {
+    console.log("interval:", interval);
+    console.log("onPressed:", onPressed);
+  });
+
   const startCountUp = () => {
+    setinterval(0);
     setonPressed(true);
     if (intervalRef.current) return;
     intervalRef.current = setInterval(() => {
