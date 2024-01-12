@@ -33,7 +33,7 @@ async function main() {
     skipDuplicates: true,
   });
 
-  await prisma.$queryRaw`ALTER TABLE userrole AUTO_INCREMENT = 4`;
+  // await prisma.$queryRaw`ALTER TABLE userrole AUTO_INCREMENT = 4`;
 
   await prisma.access.createMany({
     data: [...access.map((d) => ({ name: d }))],
