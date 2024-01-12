@@ -9,7 +9,7 @@ export default function Pages(props) {
   return (
     <UI.Col overflow="auto" center height="100dvh" width="100vw">
       <img
-        src="/assets/img/app/landing-main.jpg"
+        src="/assets/img/app/landing-main.webp"
         alt=""
         style={{
           position: "absolute",
