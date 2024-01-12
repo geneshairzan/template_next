@@ -86,9 +86,15 @@ export default function App({ onedit, hasSubmit, onClose }) {
 
   return (
     <>
-      <UI.Row justifyContent="flex-end">
-        <UI.Button startIcon={<Icon.Plus />} onClick={() => setopen(true)}>
-          {onedit ? "Edit Schedule" : "Add New Schedule"}
+      <UI.Row justifyContent="flex-end" height="100%">
+        <UI.Button
+          startIcon={<Icon.Plus />}
+          onClick={() => setopen(true)}
+          sx={{
+            height: "100%",
+          }}
+        >
+          {onedit ? "Edit Schedule" : "New Schedule"}
         </UI.Button>
       </UI.Row>
       <UI.Modal open={open}>

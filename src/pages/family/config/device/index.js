@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 
 import UI from "@gh/ui";
+import Form from "@gh/form";
 import Icon from "@gh/icon";
 import InputEditable from "@gh/form/inputEditable";
 
@@ -17,6 +18,10 @@ export default function App(props) {
   const router = useRouter();
   const model = "device";
   const { app, auth } = React.useContext(Context);
+  const status = useFetch({
+    url: "status",
+  });
+
   const data = useFetch({
     url: "family/device",
   });
@@ -31,13 +36,21 @@ export default function App(props) {
   const [morestate, setmorestate] = useState();
 
   let col = [
-    { name: "ha_entity_id", label: "id", w: "220px" },
+    { name: "ha_entity_id", label: "id", w: "220px", freeze: false },
     {
       name: "name",
       label: "Name",
       w: "auto",
       type: "el",
       El: (props) => <InputEditable onChange={handleName} {...props} />,
+    },
+    {
+      name: "access_id",
+      label: "Access",
+      w: 220,
+      type: "el",
+      El: (props) => <Form.Access onChange={(e) => handleAccess(e?.target?.value, props?.row)} name {...props} />,
+      w: "200px",
     },
     {
       name: "room_id",
@@ -47,7 +60,18 @@ export default function App(props) {
       El: (props) => <InputRoom onChange={handleRoom} options={rooms?.get()} {...props} />,
       w: "200px",
     },
-    { name: "state", label: "state", w: "280px", type: "elipsis" },
+
+    {
+      name: "status_id",
+      label: "Status",
+      w: 220,
+      type: "el",
+      El: (props) => (
+        <Form.Status onChange={(e) => handleStatus(e?.target?.value, props?.row)} options={status.get()} {...props} />
+      ),
+      w: "200px",
+    },
+    { name: "state", label: "state", w: "120px", type: "elipsis" },
     {
       name: "ha_entity_id",
       label: "Test",
@@ -97,6 +121,20 @@ export default function App(props) {
     doUpdate({
       id: device?.id,
       room_id: rid,
+    });
+  }
+
+  async function handleAccess(rid, device) {
+    doUpdate({
+      id: device?.id,
+      access_id: rid,
+    });
+  }
+
+  async function handleStatus(rid, device) {
+    doUpdate({
+      id: device?.id,
+      status_id: rid,
     });
   }
 

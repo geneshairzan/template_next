@@ -30,6 +30,7 @@ const config = {
   minCellWidth: 200,
   bgcolor: "",
   bgcoloreven: "",
+  bgcolorodd: "",
   bordercolor: "#4f4f4f",
 };
 
@@ -229,7 +230,7 @@ function RenderDetail({ data, col, order, onorder, model, refetch, clickedRow, .
               minWidth: "100%",
               borderBottom: "1px solid",
               borderColor: config.bordercolor,
-              backgroundColor: ix % 2 == 0 ? config?.bgcoloreven : "",
+              backgroundColor: ix % 2 == 0 ? config?.bgcoloreven : config?.bgcolorodd,
               display: "inline-flex",
               "& :hover": {
                 cursor: "pointer",

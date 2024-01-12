@@ -15,8 +15,7 @@ const handler = async (r, res) => {
     }
 
     res.status(200).json(prisma.responseFilter(data));
-  }
-  if (r.method == "DELETE") {
+  } else if (r.method == "DELETE") {
     let data = await prisma.update(r.query.model, r?.body);
     res.status(200).json(prisma.responseFilter(data));
 

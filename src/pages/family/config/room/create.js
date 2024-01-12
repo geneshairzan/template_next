@@ -31,7 +31,10 @@ export default function Main({ refdata }) {
         {
           url: `family/room`,
           method: "post",
-          data: _.omit(payload, ["new_img", "device"]),
+          data: {
+            ..._.omit(payload, ["new_img", "device", "access", "owner"]),
+            owner_id: payload.owner_id || null,
+          },
         },
         {
           type: "success",
@@ -86,6 +89,22 @@ export default function Main({ refdata }) {
           </UI.Text>
         </UI.Row>
         <Form.Text name="name" value={formik.values.name} onChange={formik.handleChange} />
+        <Form.Access
+          label="Access"
+          select
+          name="access_id"
+          value={formik.values.access_id}
+          onChange={formik.handleChange}
+        />
+
+        <Form.Data
+          url="family/member"
+          label="Owner"
+          name="owner_id"
+          value={formik.values.owner_id}
+          onChange={formik.handleChange}
+        />
+
         <Form.ImgCrop
           result={(v) => formik.setFieldValue("new_img", v)}
           refimg={formik?.values?.img && "/api/file/room/" + formik.values.img}

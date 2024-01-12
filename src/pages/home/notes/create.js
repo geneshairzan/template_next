@@ -91,6 +91,17 @@ export default function App({ onedit, hasSubmit, onClose }) {
             </UI.Row>
             <Form.Text name="title" value={formik.values?.title} onChange={formik.handleChange} />
             <Form.Text name="body" value={formik.values?.body} onChange={formik.handleChange} multiline rows={10} />
+            <UI.Row justifyContent="space-between" alignItems="center">
+              <UI.Text variant="body1">Pinned this notes</UI.Text>
+              <Form.Checkbox
+                name="is_pinned"
+                value={formik.values?.is_pinned}
+                onChange={(e) => {
+                  console.log(e.target.checked);
+                  formik.handleChange(e);
+                }}
+              />
+            </UI.Row>
             <UI.Button onClick={formik.handleSubmit}>Submit</UI.Button>
           </UI.Col>
         </UI.Col>

@@ -17,14 +17,26 @@ const extendPrisma = prisma.$extends({
     },
   },
 });
-
-let role = ["super", "admin", "member"];
+let role = [
+  { name: "super", id: 99 },
+  { name: "admin", id: 1 },
+  { name: "master", id: 2 },
+  { name: "member", id: 3 },
+];
+let access = ["private", "public"];
 let status = ["active", "inactive"];
 let devicetype = ["switch"];
 
 async function main() {
   await prisma.userRole.createMany({
-    data: [...role.map((d) => ({ name: d }))],
+    data: role,
+    skipDuplicates: true,
+  });
+
+  await prisma.$queryRaw`ALTER TABLE userrole AUTO_INCREMENT = 4`;
+
+  await prisma.access.createMany({
+    data: [...access.map((d) => ({ name: d }))],
     skipDuplicates: true,
   });
 
@@ -38,14 +50,20 @@ async function main() {
     skipDuplicates: true,
   });
 
-  await extendPrisma.user.create({
-    data: {
+  let user = await extendPrisma.user.findUnique({
+    where: {
       email: "admin@admin.com",
-      name: "admin",
-      password: "password",
-      role_id: 1,
     },
   });
+  !user &&
+    (await extendPrisma.user.create({
+      data: {
+        email: "admin@admin.com",
+        name: "admin",
+        password: "password",
+        role_id: 1,
+      },
+    }));
 }
 
 main()

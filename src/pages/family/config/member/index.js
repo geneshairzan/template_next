@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 
 import UI from "@gh/ui";
 import Icon from "@gh/icon";
+import Form from "@gh/form";
 
 import { Stack, Autocomplete, Typography } from "@mui/material";
 import Datatables from "@gh/dataTables";
@@ -24,7 +25,9 @@ export default function App(props) {
   const router = useRouter();
   const model = "member";
   const { app, auth } = React.useContext(Context);
+  const roles = useFetch({ url: "userrole" });
   const data = useFetch({ url: "family/member" });
+
   const rooms = useFetch({
     url: "family/room",
   });
@@ -32,13 +35,13 @@ export default function App(props) {
 
   let col = [
     { name: "name", label: "Name", w: "200px" },
-    { name: "email", label: "Email", w: "280px", type: "elipsis" },
+    { name: "email", label: "Email", w: "auto", type: "elipsis" },
     {
-      name: "room_access",
-      label: "Room Access",
+      name: "role_id",
+      label: "Role",
       w: "auto",
       type: "el",
-      El: (props) => <InputRoom option={rooms.get() || []} onChange={handleRoom} {...props} />,
+      El: (props) => <Form.Select options={roles.get() || []} onChange={handleRole} {...props} />,
     },
     {
       name: "family_status",
@@ -49,13 +52,13 @@ export default function App(props) {
     },
   ];
 
-  async function handleRoom(v, row) {
+  async function handleRole(v, row) {
     let res = await data.fetch({
       url: "family/member",
       method: "post",
       data: {
         id: row?.id,
-        room_access: v.map((d) => ({ id: d.id, name: d.name })),
+        role_id: v.target.value,
       },
     });
     data.reload();
@@ -74,20 +77,17 @@ export default function App(props) {
     // console.log(e);
   }
 
-  if (!data.get()) return;
+  // if (!data.get()) return;
 
   return (
     <Stack flexGrow={1} overflow="auto" spacing={2}>
       <UI.Stack flexGrow={1}>
-        {/* <UI.Text variant="h4" color="smart.main">
-          Family List
-        </UI.Text> */}
         <Datatables
           name="model"
           data={data
             .get()
-            ?.filter((d) => d?.id != auth?.user?.id)
-            .map(getInfo(model, "datamap"))}
+            // ?.filter((d) => d?.id != auth?.user?.id)
+            ?.map(getInfo(model, "datamap"))}
           col={col}
           NewElementConfig={{
             to: `config/member/create`,

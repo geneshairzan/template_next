@@ -8,16 +8,19 @@ export default function BasicModal(props) {
       sx={{
         backdropFilter: "blur(5px)",
         WebkitBackdropFilter: "blur(5px)",
+        alignItems: "center",
+        justifyContent: "center",
+        height: "100dvh",
+        display: "flex",
+        width: "100vw",
       }}
     >
       <Stack
         sx={{
-          position: "fixed",
-          width: "100vw",
-          height: "100vh",
+          width: "100%",
+          p: { xs: 1, md: 2 },
           alignItems: "center",
           justifyContent: "center",
-          // transform: "translate(50%,-50%)",
         }}
       >
         {props.children}

@@ -14,7 +14,7 @@ import Room from "./room";
 import Member from "./member";
 import Media from "./media";
 
-const tabsMenu = ["info", "room", "device", "member", "media"];
+const tabsMenu = ["info", "room", "device", "member", "floors"];
 
 export default function App(props) {
   const { auth } = React.useContext(Context);
@@ -85,11 +85,12 @@ export default function App(props) {
             <Tab key={d} label={d} />
           ))}
         </Tabs>
+        {console.log(tab)}
         {tab == "info" && <Info data={data?.get()} />}
         {tab == "room" && <Room />}
         {tab == "device" && <Device />}
         {tab == "member" && <Member />}
-        {tab == "media" && <Media />}
+        {tab == "floors" && <Media />}
       </UI.Stack>
     </UI.Col>
   );

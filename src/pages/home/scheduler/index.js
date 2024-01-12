@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react";
 import UI from "@gh/ui";
+import Form from "@gh/form";
 import Icon from "@gh/icon";
 import MainNav from "@/component/app/smart/mainNav";
 import MainHeader from "@/component/app/smart/mainHeader";
@@ -13,46 +14,61 @@ import h from "@gh/helper";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 
 export default function App() {
+  const [search, setsearch] = useState("");
   const data = useFetch({ url: "family/deviceschedule" });
   const [onedit, setonedit] = useState();
+
+  function onSearch(d) {
+    return d?.name?.toLowerCase()?.includes(search.toLowerCase());
+  }
 
   return (
     <UI.Col
       width="100%"
       sx={{
-        p: 1,
         pt: "calc(48px + 16px)",
         height: "calc(100% - 32px)",
       }}
+      spacing={2}
     >
-      <UI.Col
-        spacing={2}
-        overflow="auto"
-        sx={{
-          borderRadius: 3,
-          bgcolor: "smartSecondary.main",
-          px: 1,
-          pt: 2,
-          pb: 5,
-        }}
-      >
+      <UI.Row alignItems="center" spacing={2} justifyContent="space-between">
+        <Form.Text noLabel placeholder="search" value={search} onChange={(e) => setsearch(e.target.value)} />
         <Create hasSubmit={() => data?.reload()} onClose={setonedit} onedit={onedit} />
+      </UI.Row>
+      {data.get()?.filter(onSearch)?.length > 0 ? (
         <UI.Col
-          flexGrow={1}
           spacing={2}
           overflow="auto"
           sx={{
-            "::-webkit-scrollbar": {
-              width: "0px",
-              height: 0,
-            },
+            borderRadius: 3,
+            bgcolor: "smartSecondary.main",
+            p: 1,
           }}
         >
-          {data.get()?.map((d, ix) => (
-            <NotesCard key={ix} d={d} onedit={setonedit} />
-          ))}
+          <UI.Col
+            flexGrow={1}
+            spacing={2}
+            overflow="auto"
+            sx={{
+              "::-webkit-scrollbar": {
+                width: "0px",
+                height: 0,
+              },
+            }}
+          >
+            {data
+              .get()
+              ?.filter(onSearch)
+              .map((d, ix) => (
+                <NotesCard key={ix} d={d} onedit={setonedit} />
+              ))}
+          </UI.Col>
         </UI.Col>
-      </UI.Col>
+      ) : (
+        <UI.Text variant="body2" align="center" color="smart.text" pt={2}>
+          No Automation found
+        </UI.Text>
+      )}
     </UI.Col>
   );
 }

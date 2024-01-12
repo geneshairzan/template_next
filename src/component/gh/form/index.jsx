@@ -17,12 +17,18 @@ import InputImage from "./inputImage";
 import Days from "./inputDays";
 import Data from "./inputData";
 import Time from "./inputTime";
+import Access from "./inputAccess";
+import Status from "./inputStatus";
 import Label from "./label";
+import Select from "./inputSelect";
 import ProjectReference from "./project/ProjectReference";
 
 const Form = {
   Data,
+  Access,
+  Status,
   Text,
+  Select,
   Telp,
   Date,
   Year,

@@ -2,11 +2,30 @@ import { Prisma, PrismaClient } from "@prisma/client";
 import enc from "../encryption";
 import { getInfo } from "@/model";
 
-// import prisma from "./client";
-const prisma = new PrismaClient();
+import prisma from "./client";
+// const prisma = new PrismaClient();
 
 const extendPrisma = prisma.$extends({
+  query: {
+    $allModels: {
+      async findMany({ model, operation, args, query }) {
+        args.where = { ...args.where, deleted_at: null };
+        return query(args);
+      },
+    },
+
+    userRole: {
+      async findMany({ model, operation, args, query }) {
+        args.where = { ...args.where, name: { not: "super" } };
+        return query(args);
+      },
+    },
+  },
   model: {
+    async findMany({ model, operation, args, query }) {
+      return query(args);
+    },
+
     user: {
       async create(raw) {
         return await prisma.user.create({
@@ -97,7 +116,7 @@ async function findOrCreate(model, where = {}, create, update = {}) {
 
 async function get(model, where = {}) {
   try {
-    return await prisma[getschemaname(model)].findMany({
+    return await extendPrisma[getschemaname(model)].findMany({
       where: {
         ...where,
         deleted_at: null,
@@ -105,6 +124,7 @@ async function get(model, where = {}) {
       include: getInfo(model, "includes") || {},
     });
   } catch (error) {
+    console.log(error);
     return [];
   }
 }

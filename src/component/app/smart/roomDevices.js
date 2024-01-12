@@ -18,8 +18,9 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { glass } from "@/component/app/smart/data";
 import Device from "@/component/app/smart/device";
 import useFetch, { fetcher } from "@gh/helper/useFetch";
+import _ from "lodash";
 
-export default function MainNav({ data, roomState, refetch }) {
+export default function MainNav({ data, roomState, refetch, allList = false }) {
   const [onloading, setonloading] = useState();
   const [onDetail, setonDetail] = useState();
   const data_ha = useFetch({
@@ -42,7 +43,7 @@ export default function MainNav({ data, roomState, refetch }) {
   }, [roomState]);
 
   useEffect(() => {
-    setonloading();
+    data_ha?.get()?.length && setonloading();
   }, [data_ha?.get()]);
 
   function syncMap(d) {
@@ -83,6 +84,8 @@ export default function MainNav({ data, roomState, refetch }) {
     }
   }
 
+  if (!data_ha.get()?.length) return <UI.Loader />;
+
   return (
     <UI.Col
       sx={{
@@ -90,27 +93,30 @@ export default function MainNav({ data, roomState, refetch }) {
         left: 0,
         bottom: 0,
         bgcolor: "grey",
-        height: { xs: "50vh", md: "100%" },
+        height: { xs: allList ? "100%" : "50vh", md: "100%" },
         width: "100%",
         ...glass,
-        borderRadius: { xs: "24px 24px 0 0 ", md: 0 },
+        borderRadius: { xs: allList ? "" : "24px 24px 0 0", md: 0 },
       }}
       alignItems="center"
       width="100%"
     >
-      <UI.Col
-        sx={{
-          display: { xs: "flex", md: "none" },
-          t: 1,
-          width: 48,
-          bgcolor: "darkGrey",
-          height: 4,
-          margin: 0,
-          borderRadius: "4px",
-          position: "absolute",
-          top: 12,
-        }}
-      />
+      {!allList && (
+        <UI.Col
+          sx={{
+            display: { xs: "flex", md: "none" },
+            t: 1,
+            width: 48,
+            bgcolor: "darkGrey",
+            height: 4,
+            margin: 0,
+            borderRadius: "4px",
+            position: "absolute",
+            top: 12,
+          }}
+        />
+      )}
+
       <UI.Col
         pt={0}
         flexGrow={1}
@@ -136,9 +142,12 @@ export default function MainNav({ data, roomState, refetch }) {
               },
             }}
           >
-            <UI.Text p={1} variant="body1" color={"smart.text"}>
-              {data?.length} Devices
-            </UI.Text>
+            {!allList && (
+              <UI.Text p={1} variant="body1" color={"smart.text"}>
+                {data?.length} Devices
+              </UI.Text>
+            )}
+
             <UI.Col
               overflow="auto"
               height="100%"
@@ -149,12 +158,23 @@ export default function MainNav({ data, roomState, refetch }) {
                 },
               }}
             >
-              <RenderDevice
-                data={data.map(syncMap)}
-                roomState={roomState}
-                onClick={handleClick}
-                onloading={onloading}
-              />
+              {!allList && (
+                <RenderDevice
+                  data={data?.map(syncMap)}
+                  roomState={roomState}
+                  onClick={handleClick}
+                  onloading={onloading}
+                />
+              )}
+
+              {allList && (
+                <GropedRenderDevice
+                  data={data?.map(syncMap)}
+                  roomState={roomState}
+                  onClick={handleClick}
+                  onloading={onloading}
+                />
+              )}
             </UI.Col>
           </UI.Col>
         ) : (
@@ -164,6 +184,64 @@ export default function MainNav({ data, roomState, refetch }) {
         )}
       </UI.Col>
       {onDetail && <OnDetail data={onDetail} onClose={() => setonDetail()} onUpdate={handleUpdate} />}
+    </UI.Col>
+  );
+}
+
+function GropedRenderDevice({ data, roomState, onClick, onloading }) {
+  let buffer = _.chain(data)
+    .groupBy("room")
+    .map((value, key) => ({ room: key, data: value }))
+    .value();
+  return (
+    <UI.Col
+      sx={{
+        width: "100%",
+      }}
+      spacing={3}
+    >
+      <UI.Row alignItems="center" pt={3}>
+        <UI.IconButton>
+          <Icon.Back />
+        </UI.IconButton>
+        <UI.Text variant="body1">All Devices</UI.Text>
+      </UI.Row>
+      {buffer?.map((b, bix) => (
+        <UI.Col key={bix}>
+          <UI.Row px={2} alignItems="flex-end" spacing={1}>
+            <UI.Text variant="h6">{b.room}</UI.Text>
+            <UI.Text variant="body2" pb={"2px"}>
+              ({b?.data?.length} Devices)
+            </UI.Text>
+          </UI.Row>
+          <UI.Row
+            sx={{
+              width: "100%",
+              flexWrap: "wrap",
+            }}
+          >
+            {b.data.map((d, ix) => (
+              <UI.Col
+                key={ix}
+                sx={{
+                  width: { xs: "50%", md: "25%" },
+                }}
+              >
+                {d.type_id == 1 && (
+                  <Device.Switch
+                    D={d}
+                    roomState={roomState}
+                    onClick={(interval) => {
+                      !onloading && onClick(d, interval);
+                    }}
+                    onloading={onloading == d?.ha_entity_id}
+                  />
+                )}
+              </UI.Col>
+            ))}
+          </UI.Row>
+        </UI.Col>
+      ))}
     </UI.Col>
   );
 }
@@ -187,7 +265,10 @@ function RenderDevice({ data, roomState, onClick, onloading }) {
             <Device.Switch
               D={d}
               roomState={roomState}
-              onClick={(interval) => !onloading && onClick(d, interval)}
+              onClick={(interval) => {
+                console.log(d);
+                !onloading && onClick(d, interval);
+              }}
               onloading={onloading == d?.ha_entity_id}
             />
           )}

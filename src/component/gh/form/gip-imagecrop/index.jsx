@@ -69,9 +69,19 @@ export default function App({ result, btnText, refimg }) {
 
       {/* //-- CROPER IN MODAL */}
       <Modal open={modalOpen}>
-        <Stack width="100vw" height="100dvh" className="center" position="relative" bgcolor={"#000000"}>
-          <Box width="calc(100vw - 24px)" position="relative" height="56.25vw" maxHeight={600}>
+        <Stack
+          width="100vw"
+          height="100dvh"
+          position="relative"
+          alignItems={"center"}
+          justifyContent={"center"}
+          bgcolor={"#000000"}
+        >
+          <Box width="100%" position="relative" height="100dvh" maxWidth={1280}>
             <Cropper
+              zoomSpeed={0.1}
+              minZoom={0.5}
+              restrictPosition={false}
               image={croppedImage}
               crop={crop}
               zoom={zoom}
@@ -79,15 +89,20 @@ export default function App({ result, btnText, refimg }) {
               onCropChange={setCrop}
               onCropComplete={onCropComplete}
               onZoomChange={setZoom}
-              objectFit="horizontal-cover"
+              objectFit="contain"
+              style={{
+                backgroundColor: "none",
+              }}
             />
+            <Stack position={"absolute"} direction={"row"} spacing={2} bottom="10vh" width={"100%"} px={2}>
+              <Button onClick={() => setModalOpen(false)} variant="outlined" fullWidth color="error">
+                Cancel
+              </Button>
+              <Button onClick={showCroppedImage} variant="contained" fullWidth>
+                Crop
+              </Button>
+            </Stack>
           </Box>
-
-          <Stack position={"absolute"} bottom="10vh" width={"100%"} px={2}>
-            <Button onClick={showCroppedImage} variant="contained" fullWidth>
-              Crop
-            </Button>
-          </Stack>
         </Stack>
       </Modal>
     </Stack>

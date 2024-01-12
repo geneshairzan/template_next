@@ -1,7 +1,7 @@
 export const device = {
   idType: "string",
   // list: { deleteable: true, viewable: true },
-  // includes: { status: true, brand: true, category: true, location: true, subcategory: true },
+  includes: { access: true },
   // col: [
   //   { name: "name", label: "Name", w: 220 },
   //   { name: "desc", label: "Description", w: "auto" },

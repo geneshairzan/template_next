@@ -25,7 +25,6 @@ export default function App({ onLogged, onPasscode }) {
     },
     // validationSchema: validationSchema,
     onSubmit: async (values) => {
-      console.log(values);
       let res = await fetcher({
         url: `auth/signin`,
         method: "post",

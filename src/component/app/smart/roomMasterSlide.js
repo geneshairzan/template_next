@@ -73,9 +73,6 @@ export default function MasterSlide({ onRoomChange, data }) {
     if (data.state_value == 0) return "-";
     return data.state_value == 100 ? "M" : data.state_value;
   }
-  // useEffect(() => {
-  //   onRoomChange(room.v);
-  // }, [room.v]);
 
   return (
     <UI.Col
@@ -89,7 +86,6 @@ export default function MasterSlide({ onRoomChange, data }) {
       spacing={2}
     >
       <UI.Col
-        // onClick={room.toggle} // todo
         onClick={(e) => onRoomChange({ state: !data.state, state_value: data.state_value, action: "toggle" })}
         center
         sx={{

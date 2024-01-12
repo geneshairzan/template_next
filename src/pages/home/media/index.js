@@ -40,6 +40,8 @@ export default function App({ notes }) {
     ]
   );
 
+  if (!rooms.get()) return;
+
   return (
     <UI.Col
       width="100%"
@@ -57,24 +59,28 @@ export default function App({ notes }) {
           left: "-15%",
         }}
       >
+        <UI.Text variant="h5" align="center">
+          {rooms.get()[currentSlide]?.title}
+        </UI.Text>
+
         <div ref={sliderRef} className="keen-slider">
-          {rooms?.get()?.map((d) => (
-            <div className="keen-slider__slide">
-              <UI.Img
-                src={"media/" + d?.img}
-                alt=""
-                style={{
-                  width: "100%",
-                  height: "100%",
-                  objectFit: "contain",
-                  zIndex: 2,
-                }}
-              />
-            </div>
-          ))}
+          {rooms?.get()?.length &&
+            rooms?.get()?.map((d) => (
+              <div className="keen-slider__slide">
+                <UI.Img
+                  src={"media/" + d?.img}
+                  alt=""
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                    objectFit: "contain",
+                    zIndex: 2,
+                  }}
+                />
+              </div>
+            ))}
         </div>
         <UI.Col center spacing={1} pt={2}>
-          <UI.Text variant="h5">{assets[currentSlide]?.name}</UI.Text>
           {loaded && instanceRef.current && (
             <UI.Row center spacing={1}>
               {[...Array(instanceRef.current.track.details?.slides.length).keys()].map((idx) => (

@@ -60,7 +60,7 @@ export default function Main({ refdata }) {
         );
       }
       res?.data?.id
-        ? router.push(`/family/config?on=media`)
+        ? router.push(`/family/config?on=floors`)
         : formik.setErrors({ email: "someone registered with this email" });
     },
   });

@@ -21,7 +21,7 @@ const handler = async (r, res) => {
           id: r?.auth?.id,
           family_id: data.id,
           family_status: r?.body?.family_id ? 0 : 1,
-          role_id: 2,
+          role_id: r?.body?.family_id ? 3 : 1,
         });
         res.status(200).json(prisma.responseFilter(data));
       }

@@ -10,8 +10,11 @@ import RoomBg from "@/component/app/smart/roomBg";
 import RoomHeader from "@/component/app/smart/roomHeader";
 import Devices from "@/component/app/smart/roomDevices";
 import MasterSlide from "@/component/app/smart/roomMasterSlide";
+import Context from "@context/app";
 
 export default function ModelForm(props) {
+  const { auth } = React.useContext(Context);
+
   const { query } = useRouter();
   if (!query?.id) return;
   // const [data, setdata] = useState(rooms.find((d) => d.id == query?.id));
@@ -35,6 +38,14 @@ export default function ModelForm(props) {
     setroomState({ state: rooms?.get()?.state, state_value: rooms?.get()?.state_value || 0 });
   }, [rooms?.get()]);
 
+  function isAccessible(d) {
+    if (auth.user.role_id == 2) return true;
+    if (!rooms.get()?.owner_id) return true;
+    if (d.access_id == 1 && rooms.get()?.owner_id == auth.user.id) return true;
+    if (d.access_id == 2) return true;
+    return false;
+  }
+
   return (
     <UI.Col
       maxWidth={1920}
@@ -47,8 +58,8 @@ export default function ModelForm(props) {
       }}
     >
       <RoomBg src={"room/" + rooms.get()?.img} />
-      <RoomHeader data={rooms.get()} />
-      <Devices data={rooms.get()?.device} roomState={roomState} refetch={() => rooms.reload()} />
+      <RoomHeader data={rooms} isOwner={auth.user.role_id != 3 || rooms.get()?.owner_id == auth?.user?.id} onClose />
+      <Devices data={rooms.get()?.device?.filter(isAccessible)} roomState={roomState} refetch={() => rooms.reload()} />
       {rooms?.get() && <MasterSlide onRoomChange={handleRoomChange} data={roomState} />}
     </UI.Col>
   );

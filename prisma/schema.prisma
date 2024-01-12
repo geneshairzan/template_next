@@ -12,7 +12,7 @@ datasource db {
 
 model Status {
   id   Int    @id @default(autoincrement())
-  name String
+  name String @unique
 
   created_at DateTime  @default(now())
   updated_at DateTime  @default(now()) @updatedAt
@@ -20,6 +20,28 @@ model Status {
 
   User           User[]
   DeviceSchedule DeviceSchedule[]
+  Device         Device[]
+}
+
+model Access {
+  id     Int      @id @default(autoincrement())
+  name   String   @unique
+  Room   Room[]
+  Device Device[]
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
+}
+
+model UserRole {
+  id   Int    @id @default(autoincrement())
+  name String @unique
+  User User[]
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
 }
 
 model Family {
@@ -32,9 +54,10 @@ model Family {
   endpoint String?
   token    String?
 
-  created_at     DateTime         @default(now())
-  updated_at     DateTime         @default(now()) @updatedAt
-  deleted_at     DateTime?
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
+
   room           Room[]
   member         User[]
   // owner      User?     @relation(fields: [owner_id], references: [id])
@@ -63,7 +86,9 @@ model Room {
   name      String?
   desc      String?
   family_id String
+  owner_id  String?
   img       String?
+  access_id Int     @default(2)
 
   state       Int?
   state_value Int?
@@ -72,13 +97,16 @@ model Room {
   updated_at DateTime  @default(now()) @updatedAt
   deleted_at DateTime?
 
-  family Family   @relation(fields: [family_id], references: [id])
+  family Family  @relation(fields: [family_id], references: [id])
+  owner  User?   @relation(fields: [owner_id], references: [id])
+  access Access? @relation(fields: [access_id], references: [id])
+
   device Device[]
 }
 
 model DeviceType {
   id   Int    @id @default(autoincrement())
-  name String
+  name String @unique
 
   created_at DateTime  @default(now())
   updated_at DateTime  @default(now()) @updatedAt
@@ -93,6 +121,8 @@ model Device {
   room_id   String?
   family_id String?
   type_id   Int?
+  access_id Int     @default(2)
+  status_id Int     @default(1)
 
   ha_entity_id String?
   ha_name      String?
@@ -103,6 +133,8 @@ model Device {
   updated_at DateTime  @default(now()) @updatedAt
   deleted_at DateTime?
 
+  access Access?     @relation(fields: [access_id], references: [id])
+  status Status?     @relation(fields: [status_id], references: [id])
   room   Room?       @relation(fields: [room_id], references: [id])
   family Family?     @relation(fields: [family_id], references: [id])
   type   DeviceType? @relation(fields: [type_id], references: [id])
@@ -134,6 +166,7 @@ model Notes {
   body      String?
   author_id String?
   family_id String?
+  is_pinned Boolean @default(false)
 
   created_at DateTime  @default(now())
   updated_at DateTime  @default(now()) @updatedAt
@@ -141,12 +174,6 @@ model Notes {
 
   family Family? @relation(fields: [family_id], references: [id])
   author User?   @relation(fields: [author_id], references: [id])
-}
-
-model UserRole {
-  id   Int    @id @default(autoincrement())
-  name String
-  User User[]
 }
 
 model User {
@@ -171,6 +198,7 @@ model User {
   family         Family?          @relation(fields: [family_id], references: [id])
   Notes          Notes[]
   DeviceSchedule DeviceSchedule[]
+  Room           Room[]
 }
 
 model Log {

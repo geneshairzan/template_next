@@ -12,11 +12,6 @@ export default function App({ D, onClick, onloading, maxTreshold = 10 }) {
   const intervalRef = React.useRef(null);
   const [onPressed, setonPressed] = useState(false);
 
-  useEffect(() => {
-    console.log("interval:", interval);
-    console.log("onPressed:", onPressed);
-  });
-
   const startCountUp = () => {
     setinterval(0);
     setonPressed(true);
@@ -103,7 +98,7 @@ export default function App({ D, onClick, onloading, maxTreshold = 10 }) {
               // order: { xs: 1, md: 2 },
             }}
           >
-            {D.name || "Switch"}
+            {D.name || "Switch"} {D.access_id == 1 && "*"}
           </UI.Text>
           <UI.Text
             variant="body2"

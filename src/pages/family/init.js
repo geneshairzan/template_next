@@ -111,8 +111,9 @@ function NewOrg(params) {
   const formik = useFormik({
     initialValues: {
       name: "",
-      token: "",
-      endpoint: "",
+      token:
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI1MzVhN2E1NjI0M2I0MWNiYTk4ZjIzM2JlOGIxNmExYyIsImlhdCI6MTcwNDQ2Nzk4NiwiZXhwIjoyMDE5ODI3OTg2fQ.vP5gkNQqyu5aPkvd9GWGnvsJnQaVdAFiqRonw6U7nJo",
+      endpoint: "https://ha.genesha.dev",
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {

@@ -15,8 +15,9 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import { useRouter } from "next/router";
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { glass } from "@/component/app/smart/data";
+import RoomDetail from "./roomDetail";
 
-export default function MainNav({ data }) {
+export default function MainNav({ data, isOwner }) {
   const loc = useRouter();
   return (
     <UI.Row
@@ -48,22 +49,9 @@ export default function MainNav({ data }) {
           textTransform: "capitalize",
         }}
       >
-        {data?.name || data?.label}
-        {/* <UI.Text variant="h6" color="white"></UI.Text> */}
+        {data?.get()?.name}
       </UI.Button>
-      <UI.IconButton
-        sx={{
-          bgcolor: "grey",
-          ...glass,
-        }}
-      >
-        <MoreVertIcon
-          sx={{
-            color: "white",
-            fontSize: { xs: 24, md: 48 },
-          }}
-        />
-      </UI.IconButton>
+      {isOwner && <RoomDetail data={data} />}
     </UI.Row>
   );
 }

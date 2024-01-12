@@ -23,8 +23,8 @@ export default function AppMiddleware({ children }) {
         router.push("/family/init");
       } else {
         if (!auth?.user.family_status) router.push("/family/waiting");
-        if (auth?.user.role_id == 2) router.push("/family/config");
-        if (!router.asPath.includes("/home") && auth?.user.role_id == 3) router.push("/home");
+        if (auth?.user.role_id == 1) router.push("/family/config");
+        if (!router.asPath.includes("/home") && auth?.user.role_id > 1) router.push("/home");
       }
     } else {
       router.push("/");

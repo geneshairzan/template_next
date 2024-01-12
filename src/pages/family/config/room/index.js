@@ -24,6 +24,8 @@ export default function App(props) {
 
   let col = [
     { name: "name", label: "Name", w: "auto" },
+    { name: "owner", label: "owner", w: "auto" },
+    { name: "access", label: "Access", w: "auto" },
     // { name: "email", label: "Email", w: "280px", type: "elipsis" },
     // { name: "id", label: "Room Access", w: "auto" },
     // {

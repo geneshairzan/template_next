@@ -36,11 +36,7 @@ export async function getCroppedImg(imageSrc, pixelCrop, rotation = 0) {
   ctx.translate(-safeArea / 2, -safeArea / 2);
 
   // draw rotated image and store data.
-  ctx.drawImage(
-    image,
-    safeArea / 2 - image.width * 0.5,
-    safeArea / 2 - image.height * 0.5
-  );
+  ctx.drawImage(image, safeArea / 2 - image.width * 0.5, safeArea / 2 - image.height * 0.5);
   const data = ctx.getImageData(0, 0, safeArea, safeArea);
 
   // set canvas width to final desired crop size - this will clear existing context
@@ -60,11 +56,11 @@ export async function getCroppedImg(imageSrc, pixelCrop, rotation = 0) {
       // file.name = "fileName";
       // window.URL.revokeObjectURL(this.fileUrl);
       resolve(URL.createObjectURL(file));
-    }, "image/jpeg");
+    }, "image/png");
   });
 
   // get Base64 string
-  const dataurl = canvas.toDataURL("image/jpeg");
+  const dataurl = canvas.toDataURL("image/png");
   //  Base64 to- blob
   const blob = await fetch(dataurl).then((it) => it.blob());
 
