@@ -18,7 +18,7 @@ import { getInfo } from "@/model";
 import _ from "lodash";
 
 export default function Main({ refdata }) {
-  const { app } = useContext(Context);
+  const { app, auth } = useContext(Context);
   const router = useRouter();
   const modelInfo = getInfo(router.query.model);
   const [err, seterr] = useState("");
@@ -33,7 +33,7 @@ export default function Main({ refdata }) {
           method: "post",
           data: {
             ..._.omit(payload, ["new_img", "device", "access", "owner"]),
-            owner_id: payload.owner_id || null,
+            owner_id: payload.owner_id || auth?.user.id,
           },
         },
         {
