@@ -144,7 +144,7 @@ export default function MainNav({ pages, activepage, setactivepage, forecast }) 
           <InfoCard D={d} key={activeGrup + "_" + ix} />
         ))}
       </UI.Col>
-      <CCTV />
+      {/* <CCTV /> */}
     </UI.Stack>
   );
 }
