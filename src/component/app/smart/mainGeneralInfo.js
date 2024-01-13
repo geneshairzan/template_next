@@ -21,7 +21,7 @@ import BoltIcon from "@mui/icons-material/Bolt";
 import DeviceHubIcon from "@mui/icons-material/DeviceHub";
 import useFetch, { fetcher } from "@gh/helper/useFetch";
 
-export default function MainNav({ pages, activepage, setactivepage, forecast }) {
+export default function MainNav({ pages, activepage, setactivepage, forecast, cctv }) {
   const grupList = [0, 1];
   const [activeGrup, setactiveGrup] = useState(0);
 
@@ -144,30 +144,21 @@ export default function MainNav({ pages, activepage, setactivepage, forecast }) 
           <InfoCard D={d} key={activeGrup + "_" + ix} />
         ))}
       </UI.Col>
-      {/* <CCTV /> */}
+      {cctv && <CCTV cctv={cctv} />}
     </UI.Stack>
   );
 }
 
-function CCTV(props) {
-  const [cctvStreamUrlx, setCCTVStreamUrl] = useState("");
+function CCTV({ cctv }) {
+  if (!cctv) return "no steam";
 
-  async function loader(params) {
-    // let res = await fetcher({ url: "https://ha.genesha.dev/api/camera_proxy/camera.security_camera" });
-    let res = await fetch("https://ha.genesha.dev/api/camera_proxy/camera.security_camera");
-    console.log(res);
-    // setCCTVStreamUrl(res?.data);
-  }
+  let a =
+    "/api/camera_proxy/camera.security_camera?token=a5c301b313bb4d827ac333e5294aa8810ddd21c80f793d96f542217eade90288";
 
-  useEffect(() => {
-    loader();
-  }, []);
-
-  const cctvStreamUrl =
-    "https://ha.genesha.dev/api/camera_proxy/camera.security_camera?token=d06740b5683327da7b6af2e440d1d01a374ead9c3ad49a20c2adcccb688d3aa8";
   return (
     <div>
-      <iframe src={cctvStreamUrlx} width="640" height="480" frameBorder="0" allowFullScreen></iframe>
+      <iframe src={`https://ha.genesha.dev/${a}`} width="640" height="480" allowFullScreen />
+      {/* <iframe src={cctv} width="640" height="480" allowFullScreen s /> */}
     </div>
   );
 }

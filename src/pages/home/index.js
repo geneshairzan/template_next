@@ -5,12 +5,23 @@ import MainHeader from "@/component/app/smart/mainHeader";
 import MainGeneralInfo from "@/component/app/smart/mainGeneralInfo";
 import RoomCards from "@/component/app/smart/roomCards";
 import { rooms, pages } from "@/component/app/smart/data";
-import useFetch from "@gh/helper/useFetch";
+import useFetch, { fetcher } from "@gh/helper/useFetch";
 
 import Dashboard from "./dashboard";
 import Notes from "./notes";
 import Media from "./media";
 import Scheduler from "./scheduler";
+import axios from "axios";
+
+export async function getStaticProps() {
+  const res = await axios.get("https://ha.genesha.dev/api/camera_proxy/camera.security_camera", {
+    headers: {
+      Authorization:
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI1MzVhN2E1NjI0M2I0MWNiYTk4ZjIzM2JlOGIxNmExYyIsImlhdCI6MTcwNDQ2Nzk4NiwiZXhwIjoyMDE5ODI3OTg2fQ.vP5gkNQqyu5aPkvd9GWGnvsJnQaVdAFiqRonw6U7nJo",
+    },
+  });
+  return { props: { cctv: res?.data } };
+}
 
 export default function App(props) {
   // const room = useFetch({ url: "family/room" });
@@ -51,7 +62,7 @@ export default function App(props) {
             height: { xs: "100%", md: "100%" },
           }}
         >
-          {activepage == 0 && <Dashboard forecast={forecast.get()} />}
+          {activepage == 0 && <Dashboard forecast={forecast.get()} cctv={props?.cctv} />}
           {activepage == 1 && <Notes notes={notes} />}
           {activepage == 2 && <Media />}
           {activepage == 3 && <Scheduler />}

@@ -9,7 +9,7 @@ import useFetch from "@gh/helper/useFetch";
 import Context from "@context/app";
 import { useRouter } from "next/router";
 
-export default function App({ forecast }) {
+export default function App({ forecast, cctv }) {
   const { auth } = React.useContext(Context);
   const rooms = useFetch({ url: "family/room" });
   const loc = useRouter();
@@ -38,7 +38,7 @@ export default function App({ forecast }) {
       }}
       spacing={2}
     >
-      <MainGeneralInfo forecast={forecast} />
+      <MainGeneralInfo forecast={forecast} cctv={cctv} />
       <UI.Col
         spacing={2}
         sx={{
