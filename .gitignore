@@ -46,4 +46,4 @@ prisma/migrations/**
 storage/upload
 
 **/api/dev/**
-**/pages/dev/**
+**/pages/**/dev/**
