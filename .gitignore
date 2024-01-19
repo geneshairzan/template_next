@@ -44,3 +44,5 @@ certificates
 prisma/migrations/**
 .env.development
 storage/upload
+
+**/api/dev/**
