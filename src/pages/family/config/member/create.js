@@ -38,9 +38,15 @@ export default function Main({ refdata }) {
         }
       );
 
-      res?.data?.id
-        ? router.push(`/family/config?on=member`)
-        : formik.setErrors({ email: "someone registered with this email" });
+      if (res?.data?.id) {
+        app.set("snack", {
+          open: true,
+          msg: `Member ${payload?.name} added`,
+        });
+        router.push(`/family/config?on=member`);
+      } else {
+        formik.setErrors({ email: "someone registered with this email" });
+      }
     },
   });
 

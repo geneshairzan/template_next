@@ -27,22 +27,21 @@ export default function Main({ refdata }) {
     initialValues: refdata ? refdata : {},
     validationSchema: modelInfo?.validationSchema || null,
     onSubmit: async (payload) => {
-      let res = await fetcher(
-        {
-          url: `family/room`,
-          method: "post",
-          data: {
-            ..._.omit(payload, ["new_img", "device", "access", "owner"]),
-            owner_id: payload.owner_id || auth?.user.id,
-          },
+      let res = await fetcher({
+        url: `family/room`,
+        method: "post",
+        data: {
+          ..._.omit(payload, ["new_img", "device", "access", "owner"]),
+          owner_id: payload.owner_id || auth?.user.id,
         },
-        {
-          type: "success",
-          message: "Form Submitted",
-        }
-      );
+      });
 
       if (res?.data?.id) {
+        app.set("snack", {
+          open: true,
+          msg: `Room ${payload?.name} added`,
+        });
+
         let up = await fetcher(
           {
             multipart: true,
@@ -68,6 +67,13 @@ export default function Main({ refdata }) {
     },
   });
 
+  function handleSnack() {
+    app.set("snack", {
+      open: true,
+      msg: "room added",
+    });
+  }
+
   return (
     <UI.Col
       width="100%"
@@ -79,6 +85,7 @@ export default function Main({ refdata }) {
       alignItems="center"
       pt="10vh"
     >
+      <button onClick={handleSnack}>test snackk</button>
       <UI.Col width="100%" maxWidth="960px" spacing={2}>
         <UI.Row alignItems="center" spacing={1}>
           <UI.IconButton onClick={() => router.back()}>

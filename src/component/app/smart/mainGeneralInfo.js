@@ -144,22 +144,7 @@ export default function MainNav({ pages, activepage, setactivepage, forecast, cc
           <InfoCard D={d} key={activeGrup + "_" + ix} />
         ))}
       </UI.Col>
-      {cctv && <CCTV cctv={cctv} />}
     </UI.Stack>
-  );
-}
-
-function CCTV({ cctv }) {
-  if (!cctv) return "no steam";
-
-  let a =
-    "/api/camera_proxy/camera.security_camera?token=a5c301b313bb4d827ac333e5294aa8810ddd21c80f793d96f542217eade90288";
-
-  return (
-    <div>
-      <iframe src={`https://ha.genesha.dev/${a}`} width="640" height="480" allowFullScreen />
-      {/* <iframe src={cctv} width="640" height="480" allowFullScreen s /> */}
-    </div>
   );
 }
 

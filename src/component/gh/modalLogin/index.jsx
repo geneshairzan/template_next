@@ -97,12 +97,12 @@ export function AuthForm({ sx, ...props }) {
   }, [value]);
 
   return (
-    <UI.Col center p={2} width="80vw" maxWidth={640}>
+    <UI.Col center width="100%" p={2} maxWidth={480}>
       <UI.Col
         sx={{
           width: "100%",
-          maxWidth: "400px",
-          bgcolor: "white",
+          bgcolor: "red",
+
           pt: 2,
           pb: 5,
           px: 2,

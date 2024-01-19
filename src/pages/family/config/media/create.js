@@ -40,28 +40,29 @@ export default function Main({ refdata }) {
       );
 
       if (res?.data?.id && payload?.new_img) {
-        let up = await fetcher(
-          {
-            multipart: true,
-            url: `upload`,
-            method: "post",
-            data: {
-              new_img: payload?.new_img,
-              pid: res?.data?.id,
-              name: res?.data?.id,
-              storage: "media",
-              model: "media",
-            },
+        let up = await fetcher({
+          multipart: true,
+          url: `upload`,
+          method: "post",
+          data: {
+            new_img: payload?.new_img,
+            pid: res?.data?.id,
+            name: res?.data?.id,
+            storage: "media",
+            model: "media",
           },
-          {
-            type: "success",
-            message: "Form Submitted",
-          }
-        );
+        });
       }
-      res?.data?.id
-        ? router.push(`/family/config?on=floors`)
-        : formik.setErrors({ email: "someone registered with this email" });
+
+      if (res?.data?.id) {
+        app.set("snack", {
+          open: true,
+          msg: `Floor ${payload?.title} added`,
+        });
+        router.push(`/family/config?on=floors`);
+      } else {
+        formik.setErrors({ email: "someone registered with this email" });
+      }
     },
   });
 

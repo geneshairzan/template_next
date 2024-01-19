@@ -42,7 +42,7 @@ export const fetcher = async ({ saltY = accY, multipart = false, htoken, ...para
       },
     });
   } catch (error) {
-    return error?.response.data || error?.code;
+    return error?.response?.data || error?.code;
   }
 };
 
@@ -99,9 +99,10 @@ export default function useFetcher(params) {
     setdata(data || []);
   }
 
-  async function reload(pre) {
+  async function reload(callback) {
     setdata([]);
-    prefetch(params);
+    await prefetch(params);
+    callback && app.set("snack", callback);
   }
 
   useEffect(() => {

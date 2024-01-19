@@ -42,11 +42,14 @@ export default function App(props) {
       url: `family/room/${morestate.id}`,
       method: "delete",
     });
-    res?.data && data.reload();
+    if (res?.data) {
+      data.reload({
+        open: true,
+        msg: `Room deleted`,
+      });
+    }
     setmorestate();
   }
-
-  if (!data.get()) return;
 
   return (
     <Stack flexGrow={1} overflow="auto" spacing={2}>

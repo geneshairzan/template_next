@@ -189,6 +189,7 @@ export default function MainNav({ data, roomState, refetch, allList = false }) {
 }
 
 function GropedRenderDevice({ data, roomState, onClick, onloading }) {
+  const loc = useRouter();
   let buffer = _.chain(data)
     .groupBy("room")
     .map((value, key) => ({ room: key, data: value }))
@@ -201,7 +202,7 @@ function GropedRenderDevice({ data, roomState, onClick, onloading }) {
       spacing={3}
     >
       <UI.Row alignItems="center" pt={3}>
-        <UI.IconButton>
+        <UI.IconButton onClick={() => loc.push("/home")}>
           <Icon.Back />
         </UI.IconButton>
         <UI.Text variant="body1">All Devices</UI.Text>

@@ -9,6 +9,7 @@ import ThemeProvider from "@context/theme";
 import AppMiddleware from "@/component/middleware/client";
 import { useRouter } from "next/router";
 import UI from "@gh/ui";
+import { Snackbar, Alert } from "@mui/material";
 
 export default function MyApp({ Component, pageProps }) {
   const loc = useRouter();
@@ -34,6 +35,16 @@ export default function MyApp({ Component, pageProps }) {
             // px={{ xs: 1.5, md: 5 }}
           >
             <Component {...pageProps} key={loc?.asPath} />
+            <Snackbar
+              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
+              open={app?.get("snack")?.open}
+              autoHideDuration={3000}
+              onClose={app?.closeSnack}
+            >
+              <Alert onClose={app?.closeSnack} color="pwhite" variant="filled" sx={{ width: "100%" }}>
+                {app?.get("snack")?.msg}
+              </Alert>
+            </Snackbar>
           </UI.Col>
         </AppMiddleware>
       </ThemeProvider>

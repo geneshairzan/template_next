@@ -3,20 +3,24 @@ import { useState, useEffect } from "react";
 export default function useAuth() {
   const [data, setdata] = useState({ isLoading: false });
 
-  async function get(target) {
+  function get(target) {
     return data[target];
   }
 
-  async function set(target, value) {
+  function set(target, value) {
     setdata({ ...data, [target]: value });
   }
 
-  async function setOnLoading() {
+  function setOnLoading() {
     setdata({ ...data, isLoading: true });
   }
 
-  async function setOffLoading() {
+  function setOffLoading() {
     setdata({ ...data, isLoading: false });
+  }
+
+  function closeSnack() {
+    setdata({ ...data, snack: null });
   }
 
   return {
@@ -25,5 +29,6 @@ export default function useAuth() {
     get,
     setOnLoading,
     setOffLoading,
+    closeSnack,
   };
 }

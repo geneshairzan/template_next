@@ -23,7 +23,7 @@ export default function AppMiddleware({ children }) {
         router.push("/family/init");
       } else {
         if (!auth?.user.family_status) router.push("/family/waiting");
-        if (auth?.user.role_id == 1) router.push("/family/config");
+        if (!router.asPath.includes("/family/config") && auth?.user.role_id == 1) router.push("/family/config");
         if (!router.asPath.includes("/home") && auth?.user.role_id > 1) router.push("/home");
       }
     } else {
@@ -40,11 +40,11 @@ export default function AppMiddleware({ children }) {
       router.asPath.includes("/home") ||
       router.asPath.includes("/family") ||
       router.asPath.includes("/p/")
-    )
+    ) {
       return true;
+    }
     return false;
   }
-
   if (!isAllowed()) return <P404 />;
   if (!auth?.user?.id) return <PAuth />;
   return <>{children}</>;

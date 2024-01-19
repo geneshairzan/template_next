@@ -11,17 +11,8 @@ import Dashboard from "./dashboard";
 import Notes from "./notes";
 import Media from "./media";
 import Scheduler from "./scheduler";
+import Video from "./video";
 import axios from "axios";
-
-export async function getStaticProps() {
-  const res = await axios.get("https://ha.genesha.dev/api/camera_proxy/camera.security_camera", {
-    headers: {
-      Authorization:
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiI1MzVhN2E1NjI0M2I0MWNiYTk4ZjIzM2JlOGIxNmExYyIsImlhdCI6MTcwNDQ2Nzk4NiwiZXhwIjoyMDE5ODI3OTg2fQ.vP5gkNQqyu5aPkvd9GWGnvsJnQaVdAFiqRonw6U7nJo",
-    },
-  });
-  return { props: { cctv: res?.data } };
-}
 
 export default function App(props) {
   // const room = useFetch({ url: "family/room" });
@@ -30,7 +21,7 @@ export default function App(props) {
 
   useEffect(() => {
     const interval = setInterval(() => {
-      log.reload();
+      // log.reload();
     }, 10000);
     return () => clearInterval(interval);
   }, []);
@@ -67,7 +58,6 @@ export default function App(props) {
           {activepage == 2 && <Media />}
           {activepage == 3 && <Scheduler />}
         </UI.Col>
-
         <MainNav pages={pages} activepage={activepage} setactivepage={setactivepage} />
       </UI.Col>
     </UI.Col>
