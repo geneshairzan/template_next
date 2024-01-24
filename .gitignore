@@ -43,7 +43,7 @@ certificates
 .react-email
 prisma/migrations/**
 .env.development
-storage/upload/**
+# storage/upload/**
 
 **/api/dev/**
 **/pages/**/dev/**
