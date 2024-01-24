@@ -18,20 +18,7 @@ model Status {
   updated_at DateTime  @default(now()) @updatedAt
   deleted_at DateTime?
 
-  User           User[]
-  DeviceSchedule DeviceSchedule[]
-  Device         Device[]
-}
-
-model Access {
-  id     Int      @id @default(autoincrement())
-  name   String   @unique
-  Room   Room[]
-  Device Device[]
-
-  created_at DateTime  @default(now())
-  updated_at DateTime  @default(now()) @updatedAt
-  deleted_at DateTime?
+  User User[]
 }
 
 model UserRole {
@@ -42,138 +29,6 @@ model UserRole {
   created_at DateTime  @default(now())
   updated_at DateTime  @default(now()) @updatedAt
   deleted_at DateTime?
-}
-
-model Family {
-  id String @id @default(cuid())
-
-  name     String
-  desc     String?
-  owner_id String?
-
-  endpoint String?
-  token    String?
-
-  created_at DateTime  @default(now())
-  updated_at DateTime  @default(now()) @updatedAt
-  deleted_at DateTime?
-
-  room           Room[]
-  member         User[]
-  // owner      User?     @relation(fields: [owner_id], references: [id])
-  Device         Device[]
-  Notes          Notes[]
-  DeviceSchedule DeviceSchedule[]
-  FamilyMedia    Media[]
-  Log            Log[]
-}
-
-model Media {
-  id        Int     @id @default(autoincrement())
-  title     String
-  img       String?
-  family_id String
-
-  created_at DateTime  @default(now())
-  updated_at DateTime  @default(now()) @updatedAt
-  deleted_at DateTime?
-
-  family Family @relation(fields: [family_id], references: [id])
-}
-
-model Room {
-  id        String  @id @default(cuid())
-  name      String?
-  desc      String?
-  family_id String
-  owner_id  String?
-  img       String?
-  access_id Int     @default(2)
-
-  state       Int?
-  state_value Int?
-
-  created_at DateTime  @default(now())
-  updated_at DateTime  @default(now()) @updatedAt
-  deleted_at DateTime?
-
-  family Family  @relation(fields: [family_id], references: [id])
-  owner  User?   @relation(fields: [owner_id], references: [id])
-  access Access? @relation(fields: [access_id], references: [id])
-
-  device Device[]
-}
-
-model DeviceType {
-  id   Int    @id @default(autoincrement())
-  name String @unique
-
-  created_at DateTime  @default(now())
-  updated_at DateTime  @default(now()) @updatedAt
-  deleted_at DateTime?
-  Device     Device[]
-}
-
-model Device {
-  id        String  @id @default(cuid())
-  name      String
-  desc      String?
-  room_id   String?
-  family_id String?
-  type_id   Int?
-  access_id Int     @default(2)
-  status_id Int     @default(1)
-
-  ha_entity_id String?
-  ha_name      String?
-
-  link_to_room Boolean @default(false)
-
-  created_at DateTime  @default(now())
-  updated_at DateTime  @default(now()) @updatedAt
-  deleted_at DateTime?
-
-  access Access?     @relation(fields: [access_id], references: [id])
-  status Status?     @relation(fields: [status_id], references: [id])
-  room   Room?       @relation(fields: [room_id], references: [id])
-  family Family?     @relation(fields: [family_id], references: [id])
-  type   DeviceType? @relation(fields: [type_id], references: [id])
-}
-
-model DeviceSchedule {
-  id        String  @id @default(cuid())
-  name      String
-  author_id String?
-  family_id String?
-  status_id Int?
-
-  trigger  Json?
-  action   Json?
-  last_run DateTime?
-
-  created_at DateTime  @default(now())
-  updated_at DateTime  @default(now()) @updatedAt
-  deleted_at DateTime?
-
-  author User?   @relation(fields: [author_id], references: [id])
-  family Family? @relation(fields: [family_id], references: [id])
-  status Status? @relation(fields: [status_id], references: [id])
-}
-
-model Notes {
-  id        String  @id @default(cuid())
-  title     String
-  body      String?
-  author_id String?
-  family_id String?
-  is_pinned Boolean @default(false)
-
-  created_at DateTime  @default(now())
-  updated_at DateTime  @default(now()) @updatedAt
-  deleted_at DateTime?
-
-  family Family? @relation(fields: [family_id], references: [id])
-  author User?   @relation(fields: [author_id], references: [id])
 }
 
 model User {
@@ -193,26 +48,6 @@ model User {
   updated_at DateTime  @default(now()) @updatedAt
   deleted_at DateTime?
 
-  role           UserRole?        @relation(fields: [role_id], references: [id])
-  status         Status           @relation(fields: [status_id], references: [id])
-  family         Family?          @relation(fields: [family_id], references: [id])
-  Notes          Notes[]
-  DeviceSchedule DeviceSchedule[]
-  Room           Room[]
-}
-
-model Log {
-  id        String  @id @default(cuid())
-  user      String?
-  family_id String?
-
-  title   String
-  body    String? @db.Text
-  is_read Boolean @default(false)
-
-  created_at DateTime  @default(now())
-  updated_at DateTime  @default(now()) @updatedAt
-  deleted_at DateTime?
-
-  family Family? @relation(fields: [family_id], references: [id])
+  role   UserRole? @relation(fields: [role_id], references: [id])
+  status Status    @relation(fields: [status_id], references: [id])
 }
