@@ -1,17 +1,5 @@
 import { user } from "./user";
-import { product } from "./product";
-import { project } from "./project";
-import { projectfeedback } from "./projectfeedback";
-import { projectreference } from "./projectreference";
-import { subcategory } from "./subcategory";
-import { projecttask } from "./projecttask";
 import { status } from "./status";
-import { family } from "./family";
-import { device } from "./device";
-import { room } from "./room";
-import { notes } from "./notes";
-import { deviceschedule } from "./deviceschedule";
-import { media } from "./media";
 
 const default_col = [
   { name: "name", label: "Name", w: 220 },
@@ -41,20 +29,8 @@ function getDefault(target) {
 
 export function getInfo(model, target) {
   const lib = {
-    user,
-    product,
-    project,
-    projectreference,
-    subcategory,
-    projectfeedback,
-    projecttask,
     status,
-    family,
-    device,
-    room,
-    notes,
-    deviceschedule,
-    media,
+    user,
   };
 
   return target ? lib?.[model]?.[target] || getDefault(target) : lib?.[model];
