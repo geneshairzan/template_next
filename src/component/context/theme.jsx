@@ -75,7 +75,7 @@ export default function CustomStyles({ isDark, ...props }) {
 
   const themeSetup = createTheme({
     palette: {
-      mode: isDark ? "dark" : "light",
+      // mode: isDark ? "dark" : "light",
       ...color,
     },
     typography: {

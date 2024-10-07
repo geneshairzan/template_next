@@ -18,34 +18,11 @@ export default function AppMiddleware({ children }) {
   const { auth } = React.useContext(Context);
 
   useEffect(() => {
-    if (auth?.user?.id) {
-      if (!auth?.user?.family_id) {
-        router.push("/family/init");
-      } else {
-        if (!auth?.user.family_status) router.push("/family/waiting");
-        if (!router.asPath.includes("/family/config") && auth?.user.role_id == 1) router.push("/family/config");
-        if (!router.asPath.includes("/home") && auth?.user.role_id > 1) router.push("/home");
-      }
-    } else {
-      router.push("/");
+    if (auth?.user?.id && router.asPath.includes("/auth")) {
+      router.push("/home");
     }
   }, [auth?.user]);
 
-  function isAllowed(params) {
-    if (
-      router.pathname == "/" ||
-      allowedModel.includes(router.asPath) ||
-      // allowedModel.map((d) => d.replaceAll("/", "")).includes(router?.query?.model) ||
-      allowedModel.map((d) => d.replaceAll("/", "")).includes(router.asPath.split("/")[1]) ||
-      router.asPath.includes("/home") ||
-      router.asPath.includes("/family") ||
-      router.asPath.includes("/p/")
-    ) {
-      return true;
-    }
-    return false;
-  }
-  if (!isAllowed()) return <P404 />;
-  if (!auth?.user?.id) return <PAuth />;
+  if (!auth?.user?.id && !router.asPath.includes("/p")) return <PAuth />;
   return <>{children}</>;
 }

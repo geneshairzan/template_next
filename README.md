@@ -15,6 +15,10 @@ preparation :
 1. seed data with `node ./prisma/seed.js`
 1. run dev with : `npm run dev`
 
+web socket dec :
+
+- `npm run socket`
+
 production deployment
 
 1. build `npm run buld`

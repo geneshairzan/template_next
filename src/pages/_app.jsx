@@ -26,14 +26,7 @@ export default function MyApp({ Component, pageProps }) {
     >
       <ThemeProvider isDark={auth?.user?.id}>
         <AppMiddleware>
-          <UI.Col
-            height={"100dvh"}
-            overflow={"hidden"}
-            width={"100vw"}
-            bgcolor="smart.dark"
-            center
-            // px={{ xs: 1.5, md: 5 }}
-          >
+          <UI.Col height={"100dvh"} overflow={"hidden"} width={"100vw"}>
             <Component {...pageProps} key={loc?.asPath} />
             <Snackbar
               anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
