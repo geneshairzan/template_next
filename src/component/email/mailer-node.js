@@ -1,31 +1,15 @@
 import nodemailer from "nodemailer";
 
 // Replace with your SMTP credentials
-// const smtpOptions = {
-//   host: process.env.SMTP_HOST || "sandbox.smtp.mailtrap.io",
-//   port: parseInt(process.env.SMTP_PORT || "2525"),
-//   secure: false,
-//   auth: {
-//     user: process.env.SMTP_USER || "47e15db2010ce6",
-//     pass: process.env.SMTP_PASSWORD || "72b04f12b60241",
-//   },
-// };
-
 const smtpOptions = {
-  // pool: true,
-  host: "mail.mygank.com",
-  port: 465,
-  secure: false,
-  // requireTLS: true,
-  ignoreTLS: true,
+  host: process.env.NEXT_PUBLIC_SMTP_HOST,
+  port: parseInt(process.env.NEXT_PUBLIC_SMTP_PORT),
   auth: {
-    user: "gip@mygank.com",
-    pass: "Jan@8BL*j$y,",
+    user: process.env.NEXT_PUBLIC_SMTP_USERNAME,
+    pass: process.env.NEXT_PUBLIC_SMTP_PWD,
   },
-  // tls: {
-  //   // ciphers: "SSLv3",
-  //   rejectUnauthorized: false,
-  // },
+  logger: Boolean(process.env.NEXT_PUBLIC_SMTP_LOG),
+  connectionTimeout: 5000,
 };
 
 export const sendEmail = async (data) => {
@@ -34,12 +18,15 @@ export const sendEmail = async (data) => {
   });
 
   transporter.verify((err, success) => {
-    if (err) console.error(err);
-    console.log("Your config is correct");
+    // if (err) {
+    //   console.error("SMTP connection error:", err);
+    // } else {
+    //   console.log("SMTP is ready to send messages.");
+    // }
   });
 
   return await transporter.sendMail({
-    from: "gip@mygank.com",
+    from: process.env.NEXT_PUBLIC_SMTP_FROM,
     ...data,
   });
 };

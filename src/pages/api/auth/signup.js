@@ -27,28 +27,16 @@ export default async function handler(r, res) {
       {}
     );
 
-    await resend.emails.send({
-      from: "noreply@genesha.dev",
+    await sendEmail({
       to: r.body.email,
       subject: `Welcome to ${process.env.APP_NAME}`,
-      react: (
-        <EmailTemplate
-          code={passcode}
-          msg="In order to verified your email address  please enter code below in Application"
-        />
+      html: render(
+        EmailTemplate({
+          msg: "In order to verified your email address,\n please enter code below in Application.\n",
+          code: passcode,
+        })
       ),
     });
-
-    // await sendEmail({
-    //   to: r.body.email,
-    //   subject: `Welcome to ${process.env.APP_NAME}`,
-    //   html: render(
-    //     EmailTemplate({
-    //       msg: "In order to verified your email address,\n please enter code below in Application.\n",
-    //       code: passcode,
-    //     })
-    //   ),
-    // });
 
     return res.status(200).json({ message: "User successfully registered", next: "passcode" });
   }
