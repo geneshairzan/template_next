@@ -38,7 +38,7 @@ next-env.d.ts
 certificates
 
 .env
-.env**
+
 .next
 .react-email
 prisma/migrations/**
