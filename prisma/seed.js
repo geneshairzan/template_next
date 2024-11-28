@@ -23,9 +23,8 @@ let role = [
   { name: "master", id: 2 },
   { name: "member", id: 3 },
 ];
-let access = ["private", "public"];
+
 let status = ["active", "inactive"];
-let devicetype = ["switch"];
 
 async function main() {
   await prisma.userRole.createMany({
@@ -35,18 +34,8 @@ async function main() {
 
   // await prisma.$queryRaw`ALTER TABLE userrole AUTO_INCREMENT = 4`;
 
-  await prisma.access.createMany({
-    data: [...access.map((d) => ({ name: d }))],
-    skipDuplicates: true,
-  });
-
   await prisma.status.createMany({
     data: [...status.map((d) => ({ name: d }))],
-    skipDuplicates: true,
-  });
-
-  await prisma.deviceType.createMany({
-    data: [...devicetype.map((d) => ({ name: d }))],
     skipDuplicates: true,
   });
 

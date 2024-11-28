@@ -50,4 +50,30 @@ model User {
 
   role   UserRole? @relation(fields: [role_id], references: [id])
   status Status    @relation(fields: [status_id], references: [id])
+  Result Result[]
+}
+
+model Soal {
+  id              Int    @id @default(autoincrement())
+  questions       String
+  answers_options Json
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
+  Result     Result[]
+}
+
+model Result {
+  id      Int    @id @default(autoincrement())
+  user_id String
+  soal_id Int
+  score   Int
+
+  user User? @relation(fields: [user_id], references: [id])
+  soal Soal? @relation(fields: [soal_id], references: [id])
+
+  created_at DateTime  @default(now())
+  updated_at DateTime  @default(now()) @updatedAt
+  deleted_at DateTime?
 }
