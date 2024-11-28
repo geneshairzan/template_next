@@ -24,3 +24,5 @@ production deployment
 1. register pm2 on startup : `pm2 startup`
 1. save pm2 settings : `pm2 save`
 1. by default application will run in port 7007 or as per define in `ecosystem.config.js`
+
+- ediitt
