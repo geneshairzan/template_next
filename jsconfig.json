@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"],
+      "@gh/*": ["./src/component/gh/*"],
+      "@context": ["./src/component/context/index.js"],
+      "@context/*": ["./src/component/context/*"],
+      "@storage/*": ["./storage/*"],
+      "@model/*": ["./src/model/*"]
+    }
+  }
+}
