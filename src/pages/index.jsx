@@ -1,4 +1,3 @@
-// import Homepage from "./home";
-import Homepage from "./homepage";
+import Homepage from "./home";
 
 export default Homepage;

@@ -40,7 +40,18 @@ function CustomLogin({ onLogged }) {
 
   return (
     <>
-      <UI.Button startIcon={<Icon.Google />} variant="outlined" onClick={login}>
+      <UI.Button
+        startIcon={
+          <img
+            src="https://lh3.googleusercontent.com/COxitqgJr1sJnIDe8-jiKhxDx1FrYbtRHKJ9z_hELisAlapwE9LUPh6fcXIfb5vwpbMl4xl9H9TRFPc5NOO8Sb3VSgIBrfRYvW6cUA"
+            style={{
+              height: 18,
+            }}
+          />
+        }
+        variant="outlined"
+        onClick={login}
+      >
         Sign in with google
       </UI.Button>
     </>
