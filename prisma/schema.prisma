@@ -36,10 +36,11 @@ model User {
   email     String? @unique
   name      String?
   password  String?
-  address   String?
   token     String?
   role_id   Int?    @default(3)
   status_id Int     @default(1)
+
+  metadata Json?
 
   created_at DateTime  @default(now())
   updated_at DateTime  @default(now()) @updatedAt
