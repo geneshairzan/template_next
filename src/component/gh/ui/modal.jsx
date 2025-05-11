@@ -13,14 +13,17 @@ export default function BasicModal(props) {
         height: "100dvh",
         display: "flex",
         width: "100vw",
+        bgcolor: "rgba(0,0,0,.1)",
       }}
     >
       <Stack
         sx={{
           width: "100%",
+          height: "100%",
           p: { xs: 1, md: 2 },
           alignItems: "center",
           justifyContent: "center",
+          border: "none",
         }}
       >
         {props.children}

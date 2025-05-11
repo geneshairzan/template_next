@@ -14,7 +14,7 @@ import UI from "@gh/ui";
 import { Snackbar, Alert } from "@mui/material";
 
 export default function MyApp({ Component, pageProps }) {
-  const loc = useRouter();
+  const r = useRouter();
   const auth = useauth();
   const app = useapp();
 
@@ -24,23 +24,17 @@ export default function MyApp({ Component, pageProps }) {
       value={{
         auth,
         app,
+        r,
       }}
     >
       <ThemeProvider isDark={auth?.user?.id}>
         <AppMiddleware>
-          <UI.Col height={"100dvh"} overflow={"hidden"} width={"100vw"}>
-            <Component {...pageProps} key={loc?.asPath} />
-            <Snackbar
-              anchorOrigin={{ vertical: "bottom", horizontal: "right" }}
-              open={app?.get("snack")?.open}
-              autoHideDuration={3000}
-              onClose={app?.closeSnack}
-            >
-              <Alert onClose={app?.closeSnack} color="pwhite" variant="filled" sx={{ width: "100%" }}>
-                {app?.get("snack")?.msg}
-              </Alert>
-            </Snackbar>
-          </UI.Col>
+          <Component {...pageProps} key={r?.asPath} />
+          <Snackbar anchorOrigin={{ vertical: "bottom", horizontal: "right" }} open={app?.get("snack")?.open} autoHideDuration={3000} onClose={app?.closeSnack}>
+            <Alert onClose={app?.closeSnack} color="pwhite" variant="filled" sx={{ width: "100%" }}>
+              {app?.get("snack")?.msg}
+            </Alert>
+          </Snackbar>
         </AppMiddleware>
       </ThemeProvider>
     </Context.Provider>

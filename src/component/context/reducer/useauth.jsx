@@ -33,6 +33,7 @@ export default function useAuth() {
   }
 
   return {
+    id: data?.id,
     user: data,
     signin,
     signout,

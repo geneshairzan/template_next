@@ -12,6 +12,7 @@ import IconButton from "./iconButton";
 // import Avatar from "./avatar";
 import Img from "./img";
 import Button from "./button";
+import Icon from "./icon";
 // import Share from "./share";
 
 import DTSearch from "./datatables/search";
@@ -32,6 +33,7 @@ const UI = {
   Span,
   Button,
   IconButton,
+  Icon,
   Loader,
   Modal,
   Accordion,

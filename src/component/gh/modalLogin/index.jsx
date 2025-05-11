@@ -7,7 +7,7 @@ import { Tabs, Tab, Menu, MenuItem, Drawer, IconButton } from "@mui/material";
 
 import Login from "./_login";
 import Register from "./_register";
-import MenuList from "@/component/app/_menuRenderer";
+import MenuList from "@/component/app/_OLD/_menuRenderer";
 
 export default function App({ grey = false, auth, extraMenu }) {
   const { app } = React.useContext(Context);

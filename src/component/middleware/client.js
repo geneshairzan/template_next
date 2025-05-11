@@ -1,28 +1,68 @@
-import React, { useState, useEffect } from "react";
-
+import React, { useEffect } from "react";
 import { useRouter } from "next/router";
-import { redirect } from "next/navigation";
 import P404 from "../../pages/404";
 import PAuth from "../../pages/auth";
-import { nav, extra } from "@/component/app/_nav";
+// import { nav, extra } from "@/component/app/_OLD/_nav";
 import Context from "@context";
-
-function navReducer(a, b) {
-  let tmp = b.path ? [b.path] : b.child.reduce(navReducer, []);
-  return [...a, ...tmp];
-}
+import MainLayout from "../layout";
+import { navReducer } from "./client";
+import { redirect } from "next/navigation";
 
 export default function AppMiddleware({ children }) {
-  const router = useRouter();
-  const allowedModel = [...nav, ...extra].reduce(navReducer, []);
+  const r = useRouter();
   const { auth } = React.useContext(Context);
 
-  useEffect(() => {
-    if (auth?.user?.id && router.asPath.includes("/auth")) {
-      router.push("/home");
-    }
-  }, [auth?.user]);
+  let publicurl = ["/", "/privacypolicy", "/tnc", "/tos", "/about", "/download"];
 
-  if (!auth?.user?.id && !router.asPath.includes("/p")) return <PAuth />;
-  return <>{children}</>;
+  function allowed() {
+    if (publicurl.includes(r?.asPath)) return true;
+
+    // if (r?.asPath.includes("super") && !auth?.user?.id) return false;
+    // if (!publicurl.includes(r?.asPath) && !auth?.user?.id)return false
+    // if (publicurl.includes(r?.asPath)) return true;
+    // if (publicurl.includes(r?.asPath)) return true;
+    // if (r?.asPath.includes("/download")) return true;
+    // if (r?.asPath.includes("/faq")) return true;
+    // if (r?.asPath.includes("/faq")) return true;
+    // if (r?.asPath == "/account/delete") return true;
+    // if (r?.pathname == "/") return true;
+    // if (r?.pathname == "/wa") return true;
+    // if (auth?.user?.id) return true;
+    // if (r?.asPath.includes("/dev")) return true;
+
+    return false;
+  }
+
+  function isPublic(params) {
+    if (!r.asPath.includes("/u/") && !r.asPath.includes("/s/")) {
+      return true;
+    }
+    return false;
+  }
+
+  function isPrivateUser(params) {
+    if (r.asPath.includes("/u/") && auth.user.role_id == 104) {
+      return true;
+    }
+    return false;
+  }
+
+  function isPrivateSuper(params) {
+    if (!r.asPath.includes("/s/") && auth.user.role_id == 1) {
+      return true;
+    }
+    return false;
+  }
+
+  useEffect(() => {
+    if (!allowed() && !r.asPath.includes("/u/") && auth.user.role_id == 104) {
+      console.log("redirecting to dashboard");
+      r.push("/u/dashboard");
+    }
+  }, [r.asPath]);
+
+  if (isPublic()) return <>{children}</>;
+  if (isPrivateUser()) return <MainLayout>{children}</MainLayout>;
+  if (isPrivateSuper()) return <>{children}</>;
+  return <PAuth />;
 }

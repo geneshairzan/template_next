@@ -2,9 +2,20 @@ import React from "react";
 import UI from "@gh/ui";
 import Context from "@context";
 import Header from "./header";
+import Menu, { MenuDrawer } from "./mainMenu";
+import useSwitch from "@gh/useSwitch";
+import { useMediaQuery } from "@mui/material";
 
 export default function Layout(props) {
-  const { app } = React.useContext(Context);
+  const isMobile = useMediaQuery((theme) => theme.breakpoints.down("md")); // Adjust breakpoint as needed
+  const { app, r } = React.useContext(Context);
+  const menuopen = useSwitch(isMobile ? false : true);
+
+  function withMenu(params) {
+    if (r.asPath.includes("/project/")) return false;
+    if (r.asPath.includes("/print/")) return false;
+    return true;
+  }
 
   return (
     <UI.Col
@@ -22,26 +33,33 @@ export default function Layout(props) {
         bgcolor: "#fafafa",
       }}
     >
-      <Header />
       <UI.Col
         sx={{
-          maxWidth: { xs: "100vw", md: "1280px" },
-          width: "100%",
-          py: 3,
-          px: { xs: 2, md: 0 },
-          zIndex: 99,
+          width: "100dvw",
           height: "100dvh",
           overflow: "auto",
-          mt: 5,
         }}
       >
-        {props.children}
+        <UI.Row
+          sx={{
+            flex: 1,
+            flexGrow: 1,
+            maxHeight: "100dvh",
+          }}
+        >
+          {withMenu() && <MenuDrawer open={menuopen} />}
+          <UI.Col
+            sx={{
+              flex: 1,
+              overflow: "auto",
+            }}
+          >
+            {props.children}
+          </UI.Col>
+        </UI.Row>
       </UI.Col>
 
-      {app?.isLoading == 1 && <UI.Loader modal={true} />}
-      {app?.fetcherCallback != null && (
-        <UI.FetcherCallback type={app?.fetcherCallback.type} message={app?.fetcherCallback.message} />
-      )}
+      {app?.fetcherCallback != null && <UI.FetcherCallback type={app?.fetcherCallback.type} message={app?.fetcherCallback.message} />}
     </UI.Col>
   );
 }

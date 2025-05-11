@@ -5,7 +5,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 export default function CustomStyles({ isDark, ...props }) {
   const color = {
     primary: {
-      main: "#005c4b",
+      main: "#1c4670",
       contrastText: "#fff",
     },
 
