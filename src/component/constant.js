@@ -4,26 +4,28 @@ export const userMenu = [
   },
   {
     label: "Dashboard",
-    path: "#",
+    path: "/u/dashboard",
+    icon: "dashboard",
   },
+
   {
-    label: "Plan",
-    path: "#",
-  },
-  {
-    label: "Subscription",
-    path: "#",
+    label: "Plan & Subscription",
+    path: "/u/subscription",
+    icon: "table",
   },
   {
     label: "Api Key",
-    path: "#",
+    path: "/u/apikey",
+    icon: "key",
   },
   {
     label: "Documentation",
-    path: "#",
+    path: "/u/documentation",
+    icon: "description",
   },
   {
     label: "Sandbox",
-    path: "#",
+    path: "/u/sandbox",
+    icon: "science",
   },
 ];

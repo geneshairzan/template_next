@@ -4,7 +4,7 @@ export default function App(props) {
   return (
     <UI.Col p={2}>
       <UI.Text variant="h2" color="primary">
-        User Dashboard
+        User APIKey
       </UI.Text>
     </UI.Col>
   );

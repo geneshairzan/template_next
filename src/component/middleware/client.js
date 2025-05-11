@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { useRouter } from "next/router";
 import P404 from "../../pages/404";
 import PAuth from "../../pages/auth";
-// import { nav, extra } from "@/component/app/_OLD/_nav";
 import Context from "@context";
 import MainLayout from "../layout";
 import { navReducer } from "./client";

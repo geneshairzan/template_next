@@ -7,7 +7,6 @@ import { Tabs, Tab, Menu, MenuItem, Drawer, IconButton } from "@mui/material";
 
 import Login from "./_login";
 import Register from "./_register";
-import MenuList from "@/component/app/_OLD/_menuRenderer";
 
 export default function App({ grey = false, auth, extraMenu }) {
   const { app } = React.useContext(Context);
@@ -57,7 +56,6 @@ export default function App({ grey = false, auth, extraMenu }) {
               </UI.Col>
             </UI.Row>
           </UI.Col>
-          <MenuList onClick={handleClose} />
         </UI.Col>
       </Drawer>
       <UI.Modal open={modalOpen || app.forcelogin ? true : false} onClose={() => !onPasscode && setmodalOpen(false)}>

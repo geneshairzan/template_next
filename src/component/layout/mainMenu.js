@@ -85,7 +85,7 @@ function MainList() {
     <UI.Col flex={1} py={2} px={1} gap={0.5}>
       {userMenu.map((d) =>
         d.path ? (
-          <MenuItem label={d.label} path={d.path} icon="circle" />
+          <MenuItem label={d.label} path={d.path} icon={d?.icon || "circle"} />
         ) : (
           <UI.Text variant="body1" bold px={1}>
             {d.label}
@@ -143,24 +143,22 @@ export function MenuItem({ label, path, onClick, refactive, icon }) {
   return (
     <UI.Row
       sx={{
-        height: 24,
-        py: 2,
+        height: 32,
         px: 1,
         my: "1px",
         borderRadius: 2,
         gap: 1.5,
-        bgcolor: isActive ? "primary.main" : "unset",
+        alignItems: "center",
         "&:hover": {
           opacity: !isActive && !r.asPath == path && 0.2,
           cursor: "pointer",
           bgcolor: !isActive && "lightgrey",
         },
       }}
-      alignItems="center"
       onClick={() => (onClick ? onClick() : r.push(path))}
     >
-      {icon && <UI.Icon name={icon} color={isActive ? "white" : "rgba(0, 0, 0, 0.7)"} size={20} />}
-      <UI.Text variant="body1" color={isActive ? "white" : "black"}>
+      {icon && <UI.Icon name={icon} color={isActive ? "primary.main" : "rgba(0, 0, 0, 0.7)"} size={20} />}
+      <UI.Text variant="body1" color={isActive ? "primary.main" : "black"}>
         {label}
       </UI.Text>
     </UI.Row>
