@@ -3,12 +3,11 @@ import useSwitch from "@gh/useSwitch";
 
 import UI from "@gh/ui";
 import Form from "@gh/form";
-import { mainMenu } from "@/component/constant";
 import Context from "@context";
 import access from "@/component/access";
 import UserInfo from "./_userInfo";
 import { Drawer, useMediaQuery, useTheme } from "@mui/material";
-import { userMenu } from "@/component/constant";
+import { userMenu, adminMenu } from "@/component/constant";
 import useFetch from "@gh/helper/useFetch";
 
 export function MenuDrawer({ open, onProject = false, onChange, active }) {
@@ -83,15 +82,26 @@ function MainList() {
 
   return (
     <UI.Col flex={1} py={2} px={1} gap={0.5}>
-      {userMenu.map((d) =>
-        d.path ? (
-          <MenuItem label={d.label} path={d.path} icon={d?.icon || "circle"} />
-        ) : (
-          <UI.Text variant="body1" bold px={1}>
-            {d.label}
-          </UI.Text>
-        )
-      )}
+      {access.isUser(auth?.user?.role_id) &&
+        userMenu.map((d) =>
+          d.path ? (
+            <MenuItem label={d.label} path={d.path} icon={d?.icon || "circle"} />
+          ) : (
+            <UI.Text variant="body1" bold px={1}>
+              {d.label}
+            </UI.Text>
+          )
+        )}
+      {access.isAdmin(auth?.user?.role_id) &&
+        adminMenu.map((d) =>
+          d.path ? (
+            <MenuItem label={d.label} path={d.path} icon={d?.icon || "circle"} />
+          ) : (
+            <UI.Text variant="body1" bold px={1}>
+              {d.label}
+            </UI.Text>
+          )
+        )}
     </UI.Col>
   );
 }

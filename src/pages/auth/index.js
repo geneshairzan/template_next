@@ -1,10 +1,23 @@
-import React from "react";
+import React, { useEffect } from "react";
+
 import UI from "@gh/ui";
 import { AuthForm } from "@gh/modalLogin";
 import Link from "next/link";
 import Context from "@/component/context";
 
 export default function Pages(props) {
+  const { auth, r } = React.useContext(Context);
+
+  useEffect(() => {
+    if (auth?.id) {
+      if (auth?.user.role_id == 1) {
+        r.push("/s/dashboard");
+      } else if (auth?.user.role_id == 104) {
+        r.push("/u/dashboard");
+      }
+    }
+  }, [auth?.id]);
+
   return (
     <UI.Col overflow="auto" center height="100dvh" width="100vw" bgcolor="#2c2c2c">
       <UI.Col

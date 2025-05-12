@@ -29,3 +29,30 @@ export const userMenu = [
     icon: "science",
   },
 ];
+
+export const adminMenu = [
+  {
+    label: "Administration",
+  },
+  {
+    label: "Dashboard",
+    path: "/s/dashboard",
+    icon: "dashboard",
+  },
+
+  {
+    label: "Plan & Subscription",
+    path: "#",
+    icon: "table",
+  },
+  {
+    label: "Users",
+    path: "/s/users",
+    icon: "person",
+  },
+  {
+    label: "Documentation",
+    path: "#",
+    icon: "description",
+  },
+];

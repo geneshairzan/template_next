@@ -18,6 +18,7 @@ export default function App({ onLogged, onPasscode }) {
   const [err, seterr] = useState();
   const { auth, app } = React.useContext(Context);
   const [onForget, setonForget] = useState(false);
+
   const formik = useFormik({
     initialValues: {
       email: "",
@@ -63,13 +64,7 @@ export default function App({ onLogged, onPasscode }) {
         </UI.Text>
       </UI.Col>
       <Form.Text label="email" name="email" value={formik.values.email} onChange={formik.handleChange} />
-      <Form.Text
-        label="password"
-        type="password"
-        name="password"
-        value={formik.values.password}
-        onChange={formik.handleChange}
-      />
+      <Form.Text label="password" type="password" name="password" value={formik.values.password} onChange={formik.handleChange} />
 
       <UI.Row justifyContent="space-between">
         <UI.Text

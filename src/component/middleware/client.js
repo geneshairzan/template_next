@@ -40,21 +40,21 @@ export default function AppMiddleware({ children }) {
   }
 
   function isPrivateUser(params) {
-    if (r.asPath.includes("/u/") && auth.user.role_id == 104) {
+    if (r.asPath.includes("/u/") && auth?.user?.role_id == 104) {
       return true;
     }
     return false;
   }
 
   function isPrivateSuper(params) {
-    if (!r.asPath.includes("/s/") && auth.user.role_id == 1) {
+    if (r.asPath.includes("/s/") && auth?.user?.role_id == 1) {
       return true;
     }
     return false;
   }
 
   useEffect(() => {
-    if (!allowed() && !r.asPath.includes("/u/") && auth.user.role_id == 104) {
+    if (!allowed() && !r.asPath.includes("/u/") && auth?.user?.role_id == 104) {
       console.log("redirecting to dashboard");
       r.push("/u/dashboard");
     }
@@ -62,6 +62,6 @@ export default function AppMiddleware({ children }) {
 
   if (isPublic()) return <>{children}</>;
   if (isPrivateUser()) return <MainLayout>{children}</MainLayout>;
-  if (isPrivateSuper()) return <>{children}</>;
+  if (isPrivateSuper()) return <MainLayout>{children}</MainLayout>;
   return <PAuth />;
 }

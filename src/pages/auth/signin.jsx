@@ -1,5 +1,4 @@
 import UI from "@gh/ui";
+import Signin from "./index";
 
-export default function App(props) {
-  return <UI.Stack>this is the signin page</UI.Stack>;
-}
+export default Signin;
