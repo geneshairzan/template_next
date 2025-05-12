@@ -1,5 +1,6 @@
 import { user } from "./user";
 import { status } from "./status";
+import { moesif_usermetric } from "./moesif_usermetric";
 
 const default_col = [
   { name: "name", label: "Name", w: 220 },
@@ -31,6 +32,7 @@ export function getInfo(model, target) {
   const lib = {
     status,
     user,
+    moesif_usermetric,
   };
 
   return target ? lib?.[model]?.[target] || getDefault(target) : lib?.[model];

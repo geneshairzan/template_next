@@ -11,11 +11,18 @@ export default function IconButton({ size = 24, color = "grey", name = "star", i
         fontSize: size,
         "&:hover": {
           opacity: 0.8,
+          cursor: "pointer",
         },
         ...iconStyle,
       }}
     >
-      <Icon>{name}</Icon>
+      <Icon
+        style={{
+          fontSize: size,
+        }}
+      >
+        {name}
+      </Icon>
     </Stack>
   );
 }

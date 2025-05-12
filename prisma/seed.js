@@ -28,7 +28,7 @@ let access = ["private", "public"];
 let status = ["active", "inactive"];
 
 async function main() {
-  await prisma.userRole.createMany({
+  await prisma.Role.createMany({
     data: role,
     skipDuplicates: true,
   });
@@ -38,7 +38,7 @@ async function main() {
   //   skipDuplicates: true,
   // });
 
-  await prisma.status.createMany({
+  await prisma.Status.createMany({
     data: [...status.map((d) => ({ name: d }))],
     skipDuplicates: true,
   });

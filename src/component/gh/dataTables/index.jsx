@@ -15,24 +15,8 @@ import NorthIcon from "@mui/icons-material/North";
 import PrevIcon from "@mui/icons-material/KeyboardArrowLeftRounded";
 import NextIcon from "@mui/icons-material/KeyboardArrowRightRounded";
 import Pagination from "@mui/material/Pagination";
-
-const refconfig = {
-  firstColWidth: 300,
-  rowHeight: 40,
-  minCellWidth: 200,
-  bgcolor: "#fafafa",
-  bgcoloreven: "#e2eff5",
-};
-
-const config = {
-  firstColWidth: 300,
-  rowHeight: 40,
-  minCellWidth: 200,
-  bgcolor: "",
-  bgcoloreven: "",
-  bgcolorodd: "",
-  bordercolor: "#4f4f4f",
-};
+import { useTheme } from "@mui/material/styles";
+import { tableConfig as config } from "@/component/constant";
 
 export default function Datatables({
   name,
@@ -42,7 +26,7 @@ export default function Datatables({
   NewElementConfig,
   title,
   refetch,
-  clickedRow = () => {},
+  onRowClicked = () => {},
   handleselectedRow = () => {},
   tableSx,
   clickedPagination = () => {},
@@ -63,23 +47,17 @@ export default function Datatables({
       <UI.Text variant="h4" color="primary.dark">
         {title}
       </UI.Text>
-      <UI.Stack direction={"row"} justifyContent={"space-between"}>
-        <UI.Stack direction={"row"} spacing={2} alignItems={"flex-start"}>
-          {!props.disableSearch && <UI.Datatables.DTSearch value={setsearch} />}
+      <UI.Row spaced>
+        <UI.Row spacing={2} alignItems={"flex-start"}>
+          {!props.disableSearch && <UI.Datatables.DTSearch value={search} onChange={setsearch} />}
           {props.extraFilter}
-          {props.FilterEle && (
-            <UI.Datatables.DTFilter
-              FilterEle={props.FilterEle}
-              filter={props.filter}
-              onFilterChange={props.onFilterChange}
-            />
-          )}
-        </UI.Stack>
-        <UI.Row spacing={1} alignItems={"flex-start"}>
+          {props.FilterEle && <UI.Datatables.DTFilter FilterEle={props.FilterEle} filter={props.filter} onFilterChange={props.onFilterChange} />}
+        </UI.Row>
+        <UI.Row width="auto" flex={0} spacing={1} alignItems={"flex-start"}>
           {props.extraEl && props.extraEl}
           {NewElement && <NewElement refetch={refetch} {...NewElementConfig} />}
         </UI.Row>
-      </UI.Stack>
+      </UI.Row>
       {data && (
         <RenderDetail
           data={data
@@ -91,7 +69,7 @@ export default function Datatables({
           onorder={(v) => setorder(v)}
           refetch={refetch}
           model={props.model}
-          clickedRow={clickedRow}
+          onRowClicked={onRowClicked}
           clickedArrow={props.clickedArrow}
           clickedEdit={props.clickedEdit}
           clickedMore={props.clickedMore}
@@ -102,23 +80,21 @@ export default function Datatables({
         />
       )}
       {/* {pagination && <RenderPagination links={pagination} clickedPagination={clickedPagination} />} */}
-      {data && pagination && (
+      {/* {data && pagination && (
         <Pagination
-          count={Math.ceil(
-            data.filter((d) => UI.Datatables.search(d, search)).sort((a, b) => UI.Datatables.order(a, b, order))
-              ?.length / pagination.perpage
-          )}
+          count={Math.ceil(data.filter((d) => UI.Datatables.search(d, search)).sort((a, b) => UI.Datatables.order(a, b, order))?.length / pagination.perpage)}
           variant="outlined"
           shape="rounded"
           page={activePage}
           onChange={(e, v) => setactivePage(v)}
         />
-      )}
+      )} */}
     </UI.Stack>
   );
 }
 
-function RenderDetail({ data, col, order, onorder, model, refetch, clickedRow, ...props }) {
+function RenderDetail({ data, col, order, onorder, model, refetch, onRowClicked, ...props }) {
+  let theme = useTheme();
   const [defaultcheck, setdefaultcheck] = useState(false);
   const [selected, setselected] = useState([]);
 
@@ -161,27 +137,29 @@ function RenderDetail({ data, col, order, onorder, model, refetch, clickedRow, .
   }, [selected]);
 
   return (
-    <UI.Stack id="app-container" flexGrow={1} overflow={"auto"} position="relative" height={"100%"}>
+    <UI.Stack flexGrow={1} overflow={"auto"} position="relative" height={"100%"}>
       <div style={{ minWidth: "200px", width: "100%" }}>
         {/* HEADER RENDER */}
         <UI.Row
-          height={42}
-          position="relative"
+          height={48}
+          // position="relative"
           sx={{
             display: "inline-flex",
             position: "sticky",
             top: 0,
-            zIndex: 999,
+            zIndex: 99,
             // flexGrow: 1,
             minWidth: "100%",
-            bgcolor: config?.bgcolor,
+            bgcolor: config?.bgcolorhead,
+            color: config?.colorhead,
+            // bgcolor: "red",
           }}
         >
           {col.map((dx, ix) => (
             <UI.Stack
               key={ix}
               borderTop="1px solid"
-              borderBottom="1px solid"
+              borderBottom="2px solid"
               borderColor={config.bordercolor}
               flexShrink={0}
               minWidth={dx.w == "auto" && config.minCellWidth}
@@ -189,6 +167,7 @@ function RenderDetail({ data, col, order, onorder, model, refetch, clickedRow, .
               zIndex={102}
               direction="row"
               sx={{
+                bgcolor: config?.bgcolorhead,
                 position: dx.freeze ? "sticky" : "relative",
                 zIndex: dx.freeze ? 100 : 99,
                 left: ix > 0 && dx.freeze ? getActionwidth() + 2 + col[ix - 1].w : 0,
@@ -197,27 +176,15 @@ function RenderDetail({ data, col, order, onorder, model, refetch, clickedRow, .
             >
               {ix == 0 && (
                 <UI.Row minWidth={getActionwidth()}>
-                  {props.rowSelectable && (
-                    <Form.Checkbox onChange={handleCheckboxAll} checked={selected.length == data.length} />
-                  )}
+                  {props.rowSelectable && <Form.Checkbox onChange={handleCheckboxAll} checked={selected.length == data.length} />}
                 </UI.Row>
               )}
               <Header d={dx} order={order} onorder={onorder} />
-              {props.toggledVisibilty &&
-                col.findLast((d) => (d?.freeze ? d.freeze == true : false))?.name == dx.name && (
-                  <UI.Col
-                    position="absolute"
-                    right={-32}
-                    top={8}
-                    bgcolor="secondary.main"
-                    height={24}
-                    width={24}
-                    center
-                    onClick={props.onToggledVisibilty}
-                  >
-                    <UI.Icons.VisibilityToggle />
-                  </UI.Col>
-                )}
+              {props.toggledVisibilty && col.findLast((d) => (d?.freeze ? d.freeze == true : false))?.name == dx.name && (
+                <UI.Col position="absolute" right={-32} top={8} bgcolor="secondary.main" height={24} width={24} center onClick={props.onToggledVisibilty}>
+                  <UI.Icons.VisibilityToggle />
+                </UI.Col>
+              )}
             </UI.Stack>
           ))}
         </UI.Row>
@@ -230,10 +197,12 @@ function RenderDetail({ data, col, order, onorder, model, refetch, clickedRow, .
               minWidth: "100%",
               borderBottom: "1px solid",
               borderColor: config.bordercolor,
-              backgroundColor: ix % 2 == 0 ? config?.bgcoloreven : config?.bgcolorodd,
+              // backgroundColor: ix % 2 == 0 ? config?.bgcoloreven : config?.bgcolorodd,
               display: "inline-flex",
-              "& :hover": {
+              zIndex: 88,
+              "&:hover": {
                 cursor: "pointer",
+                bgcolor: "rgba(0,0,0,.01)",
               },
             }}
           >
@@ -241,11 +210,7 @@ function RenderDetail({ data, col, order, onorder, model, refetch, clickedRow, .
               <UI.Stack
                 key={dix}
                 borderColor={
-                  col.findLast((dxx) => (dxx?.freeze ? dxx.freeze == true : false))?.name == dx.name
-                    ? "grey.c"
-                    : ix % 2 == 0
-                    ? config?.bgcoloreven
-                    : ""
+                  col.findLast((dxx) => (dxx?.freeze ? dxx.freeze == true : false))?.name == dx.name ? "grey.c" : ix % 2 == 0 ? config?.bgcoloreven : ""
                 }
                 height={config.rowHeight}
                 py={"2px"}
@@ -253,7 +218,7 @@ function RenderDetail({ data, col, order, onorder, model, refetch, clickedRow, .
                 flexShrink={0}
                 flexGrow={dx.w == "auto" ? 1 : 0}
                 sx={{
-                  backgroundColor: ix % 2 == 0 ? config.bgcoloreven : "",
+                  backgroundColor: ix % 2 == 0 ? config.bgcoloreven : config.bgcolorodd,
                   position: dx.freeze ? "sticky" : "relative",
                   zIndex: dx.freeze ? 200 : 99,
                   left: dix > 0 && dx.freeze ? getActionwidth() + getActionwidthExtra() + col[dix - 1]?.w || 0 : 0,
@@ -265,20 +230,13 @@ function RenderDetail({ data, col, order, onorder, model, refetch, clickedRow, .
                 {dix == 0 && (
                   <UI.Row spacing={0} alignItems="center">
                     <UI.Col width={39}>
-                      {props.rowSelectable && (
-                        <Form.Checkbox
-                          checked={selected.find((dtx) => dtx.id == d.id)}
-                          onChange={(v) => handleSelected(v, d)}
-                        />
-                      )}
+                      {props.rowSelectable && <Form.Checkbox checked={selected.find((dtx) => dtx.id == d.id)} onChange={(v) => handleSelected(v, d)} />}
                     </UI.Col>
 
                     <UI.Row spacing={1}>
                       {props.clickedEdit && <EditAction onClick={() => props.clickedEdit(d.id)} />}
                       {props.clickedMore && <ViewAction onClick={(e) => props.clickedMore(d.id, e)} />}
-                      {props.clickedArrow && (
-                        <ArrowAction onClick={(p) => props.clickedArrow(d.id, p)} p={d.priority} />
-                      )}
+                      {props.clickedArrow && <ArrowAction onClick={(p) => props.clickedArrow(d.id, p)} p={d.priority} />}
                     </UI.Row>
                   </UI.Row>
                 )}
@@ -290,21 +248,8 @@ function RenderDetail({ data, col, order, onorder, model, refetch, clickedRow, .
                   alignItems="center"
                 >
                   {dx.type != "approval" && (
-                    <UI.Row
-                      onClick={() => clickedRow(d.id)}
-                      flexGrow={1}
-                      height="100%"
-                      px={2}
-                      justifyContent={dx.align}
-                      alignItems="center"
-                    >
-                      <RenderChild
-                        value={d[dx.name]}
-                        type={dx.type || dx.format}
-                        width={dx.w || config.minCellWidth}
-                        El={dx?.El}
-                        row={d}
-                      />
+                    <UI.Row onClick={() => onRowClicked(d.id)} flexGrow={1} height="100%" px={2} justifyContent={dx.align} alignItems="center">
+                      <RenderChild value={d[dx.name]} type={dx.type || dx.format} width={dx.w || config.minCellWidth} El={dx?.El} row={d} />
                     </UI.Row>
                   )}
                 </UI.Row>
@@ -486,13 +431,7 @@ function RenderPagination({ links, clickedPagination }) {
                 backgroundColor: l.active && "grey !important",
               }}
             >
-              {l.label.includes("Prev") ? (
-                <PrevIcon />
-              ) : l.label.includes("Next") ? (
-                <NextIcon />
-              ) : (
-                <UI.Text>{l.label}</UI.Text>
-              )}
+              {l.label.includes("Prev") ? <PrevIcon /> : l.label.includes("Next") ? <NextIcon /> : <UI.Text>{l.label}</UI.Text>}
             </UI.IconButton>
           ))}
       </UI.Row>

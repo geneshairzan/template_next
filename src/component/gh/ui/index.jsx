@@ -4,7 +4,7 @@ import Col from "./col";
 import Text, { Elipsis, TextOverflow } from "./typography";
 import { Span } from "./typography";
 import Loader from "./apploader";
-import Modal from "./modal";
+import Modal, { ModalContainer } from "./modal";
 import Divider from "./divider";
 import Accordion from "./accordion";
 import Collapse from "./collapse";
@@ -36,6 +36,7 @@ const UI = {
   Icon,
   Loader,
   Modal,
+  ModalContainer,
   Accordion,
   Collapse,
   Img,

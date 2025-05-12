@@ -56,3 +56,16 @@ export const adminMenu = [
     icon: "description",
   },
 ];
+
+export const tableConfig = {
+  firstColWidth: 300,
+  rowHeight: 42,
+  minCellWidth: 100,
+  bgcolor: "",
+  bgcoloreven: "#fff",
+  bgcolorodd: "#e8ebf3",
+  bgcolorsummary: "rgba(57, 85, 163, .1)",
+  bordercolor: "rgba(0,0,0, .1)",
+  bgcolorhead: "rgba(57, 85, 163, 1)",
+  colorhead: "white",
+};

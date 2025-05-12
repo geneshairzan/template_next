@@ -1,4 +1,7 @@
 import { Modal, Stack } from "@mui/material";
+import Text from "./typography";
+import Icon from "./icon";
+import IconButton from "./iconButton";
 
 export default function BasicModal(props) {
   return (
@@ -29,5 +32,35 @@ export default function BasicModal(props) {
         {props.children}
       </Stack>
     </Modal>
+  );
+}
+
+export function ModalContainer(props) {
+  return (
+    <Stack
+      sx={{
+        bgcolor: "white",
+        borderRadius: 2,
+        width: "60%",
+        height: "60%",
+        p: 2,
+        ...props.sx,
+      }}
+    >
+      <Stack
+        sx={{
+          flexDirection: "row",
+          justifyContent: "space-between",
+          alignItems: "center",
+          width: "100%",
+        }}
+      >
+        <Text variant="h6" bold>
+          {props.title}
+        </Text>
+        <IconButton name="close" onClick={props.onClose} />
+      </Stack>
+      {props.children}
+    </Stack>
   );
 }
