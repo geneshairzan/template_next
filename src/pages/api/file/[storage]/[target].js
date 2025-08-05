@@ -6,42 +6,25 @@ import authMiddleware from "@/component/middleware/server/auth";
 import FormData from "form-data";
 // import { Formidable } from "formidable";
 import formidable from "formidable";
+import { promises as fs } from "fs";
 
-const fs = require("fs");
+// const fs = require("fs");
 const path = require("path");
 var _ = require("lodash");
 
 const handler = async (r, res) => {
   const q = r.query;
 
-  if (!q.target) return res.status(400).send("bad request");
+  if (!q.target || !q.storage) return res.status(400).send("bad request");
 
   let filePath = path.resolve(`storage/upload/${q.storage}/${q.target}`);
-  //   let file = fs.readFile(filePath);
-  //   if (!file) {
-  //     res.status(500).end("Error reading file");
-  //     return;
-  //   }
 
-  //   // Set appropriate headers for the response
-  //   res.setHeader("Content-Type", "application/octet-stream"); // Set the MIME type for the blob
-  //   res.setHeader("Content-Disposition", 'attachment; filename="example.pdf"'); // Set filename for download
-
-  //   // Send the file data as a blob in the response
-  //   res.status(200).send("data");
-
-  fs.readFile(filePath, (err, data) => {
-    if (err) {
-      // console.log(err);
-      return res.status(500).end("Error reading file");
-    }
-    // Set appropriate headers for the response
-    // res.setHeader("Content-Type", "application/octet-stream"); // Set the MIME type for the blob
-    // res.setHeader("Content-Disposition", 'attachment; filename="example.pdf"'); // Set filename for download
-
-    // Send the file data as a blob in the response
+  try {
+    const data = await fs.readFile(filePath);
     return res.status(200).send(data);
-  });
+  } catch (error) {
+    return res.status(500).end("Error reading file");
+  }
 };
 
 export default handler;
