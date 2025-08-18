@@ -28,7 +28,6 @@
     "@yudiel/react-qr-scanner": "^2.3.1",
     "axios": "^1.9.0",
     "bcrypt": "^6.0.0",
-    "dayjs": "^1.11.13",
     "express": "^5.1.0",
     "formidable": "^3.5.4",
     "formik": "^2.4.6",
